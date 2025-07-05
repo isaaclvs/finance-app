@@ -35,3 +35,6 @@
 
 FINANCE_APP_37SIGNALS_PATTERNS.md
 CLAUDE.md
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
