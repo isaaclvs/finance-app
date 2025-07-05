@@ -1,0 +1,315 @@
+Title,Description,Priority,Status,Assignee,Labels
+"Inicializar projeto Rails 8","Criar novo projeto Rails 8 com Tailwind CSS e PostgreSQL
+
+**Comandos:**
+```bash
+rails new finance_app --css=tailwind --database=postgresql
+cd finance_app
+git init && git add . && git commit -m 'Initial commit'
+```
+
+**Acceptance Criteria:**
+- [ ] Projeto Rails 8 criado
+- [ ] Tailwind CSS configurado
+- [ ] PostgreSQL como database
+- [ ] Repositório GitHub inicializado",1,Backlog,,"setup,rails8,backend,cycle:setup-foundation"
+"Configurar autenticação com Devise","Implementar sistema de login/logout para usuários
+
+**Tasks:**
+- Instalar gem Devise
+- Gerar model User
+- Customizar views com Tailwind
+- Configurar proteção de rotas
+
+**Acceptance Criteria:**
+- [ ] Gem Devise instalada
+- [ ] Model User gerado
+- [ ] Views de login/register estilizadas
+- [ ] Proteção de rotas implementada",1,Backlog,,"auth,backend,devise,cycle:setup-foundation"
+"Setup Docker + Docker Compose","Containerizar aplicação para desenvolvimento
+
+**Arquivos necessários:**
+- Dockerfile
+- docker-compose.yml
+- entrypoint.sh
+
+**Acceptance Criteria:**
+- [ ] Dockerfile criado
+- [ ] docker-compose.yml configurado
+- [ ] entrypoint.sh funcional
+- [ ] App rodando via docker-compose up",2,Backlog,,"docker,setup,devops,cycle:setup-foundation"
+"Criar model Category","Model para categorizar transações financeiras
+
+**Fields:**
+- name:string
+- color:string
+- user:references
+
+**Acceptance Criteria:**
+- [ ] Migration criada
+- [ ] Model com validações
+- [ ] Seeds com categorias padrão
+- [ ] Associação has_many :transactions",1,Backlog,,"backend,model,database,cycle:core-models"
+"Criar model Transaction","Model principal para receitas e despesas
+
+**Fields:**
+- amount:decimal
+- transaction_type:string (income/expense)
+- date:date
+- description:text
+- user:references
+- category:references
+
+**Acceptance Criteria:**
+- [ ] Migration criada
+- [ ] Validações e scopes
+- [ ] Belongs_to user e category
+- [ ] Enum para transaction_type",1,Backlog,,"backend,model,database,cycle:core-models"
+"CRUD de Categories","Interface para gerenciar categorias
+
+**Features:**
+- Listagem de categorias
+- Formulário de criação/edição
+- Color picker
+- Validação frontend
+
+**Acceptance Criteria:**
+- [ ] Controller + routes
+- [ ] Views index/show/new/edit
+- [ ] Formulários estilizados
+- [ ] Color picker para cores",2,Backlog,,"frontend,crud,ui,cycle:core-models"
+"CRUD de Transactions","Interface para receitas e despesas
+
+**Features:**
+- Listagem paginada
+- Formulário com select de categoria
+- Filtros básicos
+- Responsividade mobile
+
+**Acceptance Criteria:**
+- [ ] Controller com filtros
+- [ ] Views responsivas
+- [ ] Formulário com select de categoria
+- [ ] Listagem paginada",1,Backlog,,"frontend,crud,ui,cycle:core-models"
+"Configurar Hotwire (Turbo + Stimulus)","Setup para features reativas sem JavaScript complexo
+
+**Components:**
+- Turbo Rails
+- Stimulus controllers
+- Turbo Frames
+- Navigation optimization
+
+**Acceptance Criteria:**
+- [ ] Turbo Rails configurado
+- [ ] Stimulus controllers básicos
+- [ ] Turbo Frames implementados
+- [ ] Navegação sem refresh",1,Backlog,,"hotwire,frontend,setup,cycle:hotwire-realtime"
+"Saldo em tempo real com Turbo Streams","Atualização automática do saldo total após mudanças
+
+**Features:**
+- Helper para calcular saldo
+- Broadcast após CRUD transactions
+- Componente reativo
+- Animações suaves
+
+**Acceptance Criteria:**
+- [ ] Helper para calcular saldo
+- [ ] Turbo Stream após criar/editar transação
+- [ ] Componente de saldo atualizado
+- [ ] Animações de transição",1,Backlog,,"hotwire,turbo-streams,real-time,cycle:hotwire-realtime"
+"Filtros dinâmicos com Stimulus","Filtrar transações sem reload da página
+
+**Filters:**
+- Por data (range)
+- Por tipo (income/expense)
+- Por categoria
+- Por texto (description)
+
+**Acceptance Criteria:**
+- [ ] Controller Stimulus para filtros
+- [ ] Filtros por data, tipo, categoria
+- [ ] URL state management
+- [ ] Debounce em campos de texto",2,Backlog,,"hotwire,stimulus,filters,cycle:hotwire-realtime"
+"Adição instantânea via Turbo Frame","Modal/form inline para nova transação
+
+**Features:**
+- Modal responsivo
+- Formulário embarcado
+- Validação em tempo real
+- UX otimizada
+
+**Acceptance Criteria:**
+- [ ] Modal responsivo
+- [ ] Turbo Frame para formulário
+- [ ] Validação em tempo real
+- [ ] Fechamento automático",2,Backlog,,"hotwire,turbo-frame,ux,cycle:hotwire-realtime"
+"Dashboard principal","Página inicial com resumo financeiro
+
+**Components:**
+- Cards de saldo
+- Resumo mensal/anual
+- Últimas transações
+- Layout responsivo
+
+**Acceptance Criteria:**
+- [ ] Layout de cards responsivo
+- [ ] Saldo atual destacado
+- [ ] Resumo mensal/anual
+- [ ] Últimas transações",1,Backlog,,"dashboard,ui,frontend,cycle:dashboard-charts"
+"Integrar Chartkick + gráficos","Visualizações de dados financeiros
+
+**Charts:**
+- Receitas vs Despesas (bar chart)
+- Gastos por categoria (pie chart)
+- Evolução temporal (line chart)
+- Mobile responsive
+
+**Acceptance Criteria:**
+- [ ] Gem Chartkick instalada
+- [ ] Gráfico de receitas vs despesas
+- [ ] Gráfico por categoria
+- [ ] Gráfico de evolução temporal
+- [ ] Responsividade mobile",1,Backlog,,"charts,chartkick,frontend,cycle:dashboard-charts"
+"Gráficos dinâmicos com Hotwire","Atualização de gráficos via filtros sem reload
+
+**Features:**
+- Filtros afetam charts
+- Loading states
+- Animações suaves
+- Performance otimizada
+
+**Acceptance Criteria:**
+- [ ] Filtros afetam gráficos
+- [ ] Turbo Frames nos charts
+- [ ] Loading states
+- [ ] Animações suaves",2,Backlog,,"charts,hotwire,interactive,cycle:dashboard-charts"
+"Otimizar Docker para produção","Multi-stage build e otimizações de segurança
+
+**Optimizations:**
+- Multi-stage Dockerfile
+- Environment variables
+- Health checks
+- Security headers
+
+**Acceptance Criteria:**
+- [ ] Multi-stage Dockerfile
+- [ ] Variáveis de ambiente
+- [ ] Health checks
+- [ ] Security headers",2,Backlog,,"docker,production,devops,cycle:production-deploy"
+"Setup Kamal 2 (Rails 8)","Deploy com nova ferramenta nativa do Rails 8
+
+**Configuration:**
+- deploy.yml setup
+- Secrets management
+- Database setup
+- SSL certificates
+
+**Acceptance Criteria:**
+- [ ] Kamal configurado
+- [ ] Deploy.yml setup
+- [ ] Secrets management
+- [ ] Deploy automatizado",1,Backlog,,"kamal,deploy,rails8,cycle:production-deploy"
+"Deploy em produção","App rodando em cloud provider (Render/Fly.io)
+
+**Setup:**
+- Database em produção
+- SSL configurado
+- Domínio customizado
+- Monitoring básico
+
+**Acceptance Criteria:**
+- [ ] Database em produção
+- [ ] SSL configurado
+- [ ] Domínio customizado
+- [ ] Monitoring básico",1,Backlog,,"deploy,production,cloud,cycle:production-deploy"
+"Setup RSpec + FactoryBot","Configurar ambiente de testes robusto
+
+**Tools:**
+- RSpec Rails
+- FactoryBot
+- Database Cleaner
+- SimpleCov (coverage)
+
+**Acceptance Criteria:**
+- [ ] RSpec configurado
+- [ ] FactoryBot setup
+- [ ] Database cleaner
+- [ ] Coverage report",2,Backlog,,"testing,rspec,setup,cycle:testing-polish"
+"Testes de models","Coverage completo dos models principais
+
+**Models to test:**
+- User model
+- Transaction model
+- Category model
+- Validações e scopes
+
+**Acceptance Criteria:**
+- [ ] User model tested
+- [ ] Transaction model tested
+- [ ] Category model tested
+- [ ] Validações e scopes",2,Backlog,,"testing,models,unit,cycle:testing-polish"
+"Testes de features (Capybara)","Testes end-to-end das funcionalidades principais
+
+**Feature tests:**
+- Login/logout flow
+- CRUD transactions
+- Dashboard interactions
+- Mobile responsiveness
+
+**Acceptance Criteria:**
+- [ ] Login/logout flow
+- [ ] CRUD transactions
+- [ ] Dashboard interactions
+- [ ] Responsive behavior",2,Backlog,,"testing,capybara,e2e,cycle:testing-polish"
+"Modo escuro","Toggle entre tema claro e escuro
+
+**Implementation:**
+- CSS variables para cores
+- Toggle Stimulus controller
+- Persistência localStorage
+- Transições suaves
+
+**Acceptance Criteria:**
+- [ ] CSS variables para cores
+- [ ] Toggle Stimulus controller
+- [ ] Persistência no localStorage
+- [ ] Transições suaves",3,Backlog,,"ui,theme,enhancement,cycle:extra-features"
+"Exportação CSV/PDF","Export de dados financeiros em múltiplos formatos
+
+**Features:**
+- CSV export com filtros
+- PDF report profissional
+- Download direto
+- Formatação customizada
+
+**Acceptance Criteria:**
+- [ ] Export CSV com filtros
+- [ ] PDF report gerado
+- [ ] Download direto
+- [ ] Formatação profissional",3,Backlog,,"export,csv,pdf,enhancement,cycle:extra-features"
+"Sistema de metas","Definir e acompanhar objetivos financeiros
+
+**Features:**
+- Model Goal
+- CRUD de metas
+- Progress tracking
+- Notifications
+
+**Acceptance Criteria:**
+- [ ] Model Goal criado
+- [ ] CRUD de metas
+- [ ] Progress tracking
+- [ ] Notificações por email",3,Backlog,,"goals,enhancement,backend,cycle:extra-features"
+"Background jobs com Solid Queue","Jobs para notificações e relatórios usando Rails 8
+
+**Jobs:**
+- Email notifications
+- Report generation
+- Data cleanup
+- Scheduling
+
+**Acceptance Criteria:**
+- [ ] Solid Queue configurado
+- [ ] Jobs de notificação
+- [ ] Scheduling de relatórios
+- [ ] Monitoring de jobs",3,Backlog,,"jobs,solid-queue,rails8,cycle:extra-features"
