@@ -1,0 +1,52 @@
+# syntax=docker/dockerfile:1
+FROM ruby:3.3.6-slim
+
+# Install dependencies
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    git \
+    libpq-dev \
+    libvips \
+    pkg-config \
+    curl \
+    postgresql-client \
+    nodejs \
+    npm && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Set working directory
+WORKDIR /rails
+
+# Set development environment
+ENV RAILS_ENV="development" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT=""
+
+# Install foreman for running Procfile.dev
+RUN gem install foreman
+
+# Copy Gemfile and install gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# Copy package.json if exists
+COPY package.json* ./
+
+# Copy the rest of the application
+COPY . .
+
+# Create and set permissions for necessary directories
+RUN mkdir -p tmp/pids tmp/cache tmp/sockets log && \
+    chmod -R 755 tmp log
+
+# Expose port
+EXPOSE 3000
+
+# Use custom entrypoint
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
+# Start the development server
+CMD ["./bin/dev"]
