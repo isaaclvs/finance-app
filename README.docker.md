@@ -13,7 +13,7 @@
 
 2. **Access the application:**
    - Rails app: http://localhost:3000
-   - PostgreSQL: localhost:5432
+   - PostgreSQL: localhost:5433 (mapped to 5432 inside container)
 
 ## Common Commands
 
@@ -47,7 +47,7 @@ docker compose exec web bash
 
 The PostgreSQL database runs in a separate container:
 - Host: db (within Docker network)
-- Port: 5432
+- Port: 5432 (internal) / 5433 (external)
 - User: postgres
 - Password: postgres
 - Database: finance_app_development
