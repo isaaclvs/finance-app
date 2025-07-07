@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # Authenticated routes
   authenticate :user do
     resources :categories
+    resources :transactions
   end
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
