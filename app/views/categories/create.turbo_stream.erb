@@ -1,0 +1,51 @@
+<%= turbo_stream.prepend "categories" do %>
+  <tbody>
+    <%= turbo_frame_tag dom_id(@category) do %>
+      <tr>
+        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+          <%= @category.name %>
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          <div class="flex items-center">
+            <div class="h-6 w-6 rounded-full border border-gray-300" 
+                 style="background-color: <%= @category.color %>"></div>
+            <span class="ml-2 text-xs text-gray-500"><%= @category.color %></span>
+          </div>
+        </td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          0
+        </td>
+        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+          <%= link_to "Edit", edit_category_path(@category), 
+              class: "text-indigo-600 hover:text-indigo-900",
+              data: { turbo_frame: "modal" } %>
+          <%= link_to "Delete", category_path(@category), 
+              class: "ml-4 text-red-600 hover:text-red-900",
+              data: { 
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+              } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+<% end %>
+
+<%= turbo_stream.update "modal", "" %>
+
+<%= turbo_stream.prepend "flash" do %>
+  <div class="rounded-md bg-green-50 p-4 mb-4">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 0 .993.993 0 000 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <p class="text-sm font-medium text-green-800">
+          Category was successfully created.
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>

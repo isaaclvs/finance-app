@@ -1,0 +1,70 @@
+<%= form_with(model: category, local: false) do |form| %>
+  <% if category.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4 mb-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            There were <%= pluralize(category.errors.count, "error") %> with your submission
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% category.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <div>
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= form.text_field :name, 
+            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+            placeholder: "e.g. Food, Transport, Salary" %>
+      </div>
+    </div>
+
+    <div>
+      <%= form.label :color, class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <div class="flex items-center space-x-3">
+          <%= form.color_field :color, 
+              class: "h-10 w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500",
+              data: { 
+                controller: "color-picker",
+                action: "change->color-picker#updatePreview"
+              } %>
+          <div class="flex-1">
+            <%= form.text_field :color, 
+                class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                placeholder: "#FF5733",
+                data: { 
+                  color_picker_target: "hexInput",
+                  action: "input->color-picker#updateColor"
+                } %>
+          </div>
+          <div class="h-10 w-10 rounded-md border border-gray-300" 
+               data-color-picker-target="preview"
+               style="background-color: <%= category.color || '#6B7280' %>"></div>
+        </div>
+      </div>
+      <p class="mt-2 text-sm text-gray-500">Choose a color to identify this category</p>
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-end space-x-3">
+    <%= link_to "Cancel", categories_path, 
+        class: "rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
+        data: { controller: "modal", action: "click->modal#close" } %>
+    <%= form.submit class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+  </div>
+<% end %>

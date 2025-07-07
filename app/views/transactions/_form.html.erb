@@ -1,0 +1,114 @@
+<%= form_with(model: transaction, local: false) do |form| %>
+  <% if transaction.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4 mb-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            There were <%= pluralize(transaction.errors.count, "error") %> with your submission
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% transaction.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="space-y-6">
+    <fieldset>
+      <legend class="text-sm font-medium text-gray-700">Transaction Type</legend>
+      <div class="mt-2 grid grid-cols-2 gap-3">
+        <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
+          <%= form.radio_button :transaction_type, "income", 
+              class: "sr-only",
+              data: { action: "change->transaction-form#updateAmountColor" } %>
+          <span class="flex flex-1">
+            <span class="flex flex-col">
+              <span class="block text-sm font-medium text-gray-900">Income</span>
+              <span class="mt-1 flex items-center text-sm text-gray-500">Money coming in</span>
+            </span>
+          </span>
+          <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 11.414l3.293 3.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
+        </label>
+        
+        <label class="relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none">
+          <%= form.radio_button :transaction_type, "expense", 
+              class: "sr-only",
+              data: { action: "change->transaction-form#updateAmountColor" } %>
+          <span class="flex flex-1">
+            <span class="flex flex-col">
+              <span class="block text-sm font-medium text-gray-900">Expense</span>
+              <span class="mt-1 flex items-center text-sm text-gray-500">Money going out</span>
+            </span>
+          </span>
+          <svg class="h-5 w-5 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 11.414l3.293 3.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
+        </label>
+      </div>
+    </fieldset>
+    
+    <div>
+      <%= form.label :amount, class: "block text-sm font-medium text-gray-700" %>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <span class="text-gray-500 sm:text-sm">$</span>
+        </div>
+        <%= form.number_field :amount, 
+            step: 0.01,
+            min: 0.01,
+            class: "block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+            placeholder: "0.00",
+            data: { transaction_form_target: "amountInput" } %>
+      </div>
+    </div>
+    
+    <div>
+      <%= form.label :date, class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= form.date_field :date, 
+            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+      </div>
+    </div>
+    
+    <div>
+      <%= form.label :category_id, "Category", class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= form.select :category_id,
+            options_for_select(@categories.map { |c| [c.name, c.id, { "data-color" => c.color }] }, transaction.category_id),
+            { prompt: "Select a category" },
+            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+      </div>
+    </div>
+    
+    <div>
+      <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= form.text_area :description, 
+            rows: 3,
+            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+            placeholder: "Optional notes about this transaction" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-end space-x-3">
+    <%= link_to "Cancel", transactions_path, 
+        class: "rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
+        data: { controller: "modal", action: "click->modal#close" } %>
+    <%= form.submit class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+  </div>
+<% end %>
