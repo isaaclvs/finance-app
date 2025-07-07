@@ -22,4 +22,7 @@ if Rails.env.development?
   puts "\nSeeding completed!"
   puts "Demo user credentials: demo@example.com / password123"
   puts "Total categories created: #{demo_user.categories.count}"
+  
+  # Load transaction seeds
+  load Rails.root.join('db/seeds/transactions.rb')
 end
