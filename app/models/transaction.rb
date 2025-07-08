@@ -49,6 +49,6 @@ class Transaction < ApplicationRecord
   
   def formatted_amount
     sign = income? ? "+" : "-"
-    "#{sign}0{'%.2f' % amount}"
+    "#{sign}$#{'%.2f' % amount}"
   end
 end
