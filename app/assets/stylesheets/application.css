@@ -8,3 +8,185 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+/* Theme transitions */
+.transition-theme {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Force class-based dark mode with subtle colors */
+.dark .dark\:bg-gray-700 {
+  background-color: rgb(229 231 235); /* gray-200 */
+}
+
+.dark .dark\:bg-gray-800 {
+  background-color: rgb(243 244 246); /* gray-100 */
+}
+
+.dark .dark\:bg-gray-900 {
+  background-color: rgb(249 250 251); /* gray-50 */
+}
+
+/* Override body background for dark mode - subtle gray */
+.dark {
+  background-color: rgb(249 250 251) !important; /* gray-50 */
+  color: rgb(31 41 55) !important; /* gray-800 */
+}
+
+.dark .dark\:text-white {
+  color: rgb(17 24 39); /* gray-900 */
+}
+
+.dark .dark\:text-gray-300 {
+  color: rgb(75 85 99); /* gray-600 */
+}
+
+.dark .dark\:text-gray-400 {
+  color: rgb(107 114 128); /* gray-500 */
+}
+
+.dark .dark\:border-gray-600 {
+  border-color: rgb(229 231 235); /* gray-200 */
+}
+
+.dark .dark\:border-gray-700 {
+  border-color: rgb(209 213 219); /* gray-300 */
+}
+
+.dark .dark\:hover\:bg-gray-600:hover {
+  background-color: rgb(229 231 235); /* gray-200 */
+}
+
+.dark .dark\:hover\:bg-gray-700:hover {
+  background-color: rgb(243 244 246); /* gray-100 */
+}
+
+.dark .dark\:hover\:text-white:hover {
+  color: rgb(17 24 39); /* gray-900 */
+}
+
+/* Keep accent colors vibrant */
+.dark .dark\:bg-indigo-500 {
+  background-color: rgb(99 102 241);
+}
+
+.dark .dark\:hover\:bg-indigo-600:hover {
+  background-color: rgb(79 70 229);
+}
+
+.dark .dark\:text-indigo-400 {
+  color: rgb(99 102 241); /* Keep indigo bright */
+}
+
+.dark .dark\:hover\:text-indigo-300:hover {
+  color: rgb(79 70 229);
+}
+
+.dark .dark\:text-red-400 {
+  color: rgb(239 68 68); /* red-500 */
+}
+
+.dark .dark\:hover\:text-red-300:hover {
+  color: rgb(220 38 38); /* red-600 */
+}
+
+.dark .dark\:text-green-400 {
+  color: rgb(34 197 94); /* green-500 */
+}
+
+.dark .dark\:bg-red-900\/20 {
+  background-color: rgb(254 226 226); /* red-100 */
+}
+
+.dark .dark\:text-red-200 {
+  color: rgb(220 38 38); /* red-600 */
+}
+
+.dark .dark\:text-red-300 {
+  color: rgb(239 68 68); /* red-500 */
+}
+
+.dark .dark\:text-green-200 {
+  color: rgb(34 197 94); /* green-500 */
+}
+
+.dark .dark\:bg-green-900 {
+  background-color: rgb(220 252 231); /* green-100 */
+}
+
+.dark .dark\:bg-red-900 {
+  background-color: rgb(254 226 226); /* red-100 */
+}
+
+.dark .dark\:border-green-600 {
+  border-color: rgb(134 239 172); /* green-300 */
+}
+
+.dark .dark\:border-red-600 {
+  border-color: rgb(252 165 165); /* red-300 */
+}
+
+.dark .dark\:bg-opacity-90 {
+  background-color: rgb(249 250 251 / 0.9);
+}
+
+.dark .dark\:focus\:ring-offset-gray-800:focus {
+  --tw-ring-offset-color: rgb(243 244 246); /* gray-100 */
+}
+
+.dark .dark\:divide-gray-700 > * + * {
+  border-color: rgb(229 231 235); /* gray-200 */
+}
+
+.dark .dark\:ring-gray-700 {
+  --tw-ring-color: rgb(209 213 219); /* gray-300 */
+}
+
+/* Additional dark mode overrides for subtle theme */
+.dark body {
+  background-color: rgb(249 250 251) !important; /* gray-50 */
+}
+
+.dark .bg-white {
+  background-color: rgb(255 255 255) !important; /* Keep white */
+}
+
+.dark .text-gray-900 {
+  color: rgb(17 24 39) !important; /* gray-900 */
+}
+
+.dark .text-gray-700 {
+  color: rgb(55 65 81) !important; /* gray-700 */
+}
+
+.dark .text-gray-500 {
+  color: rgb(107 114 128) !important; /* gray-500 */
+}
+
+.dark .border-gray-300 {
+  border-color: rgb(209 213 219) !important; /* gray-300 */
+}
+
+.dark .border-gray-200 {
+  border-color: rgb(229 231 235) !important; /* gray-200 */
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: rgb(249 250 251) !important; /* gray-50 */
+  color: rgb(17 24 39) !important; /* gray-900 */
+  border-color: rgb(209 213 219) !important; /* gray-300 */
+}
+
+.dark .shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Navigation bar in dark mode */
+.dark nav {
+  background-color: rgb(243 244 246) !important; /* gray-100 */
+  border-bottom-color: rgb(229 231 235) !important; /* gray-200 */
+}
