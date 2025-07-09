@@ -15,4 +15,14 @@ class TurboDeviseController < ApplicationController
 
   self.responder = Responder
   respond_to :html, :turbo_stream
+  
+  protected
+  
+  def respond_with(resource, _opts = {})
+    if resource.persisted?
+      redirect_to after_sign_in_path_for(resource)
+    else
+      super
+    end
+  end
 end
