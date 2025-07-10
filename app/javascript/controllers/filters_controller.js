@@ -1,17 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "dateInputs" ]
+  static targets = ["dateInputs"]
   
-  submit() {
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => {
-      this.element.requestSubmit()
-    }, 300)
+  submit(event) {
+    // Submit the form when any filter changes
+    this.element.requestSubmit()
   }
   
   toggleDateInputs(event) {
-    if (event.target.value === "custom") {
+    // Show/hide custom date inputs based on period selection
+    const periodValue = event.target.value
+    
+    if (periodValue === "custom") {
       this.dateInputsTarget.classList.remove("hidden")
     } else {
       this.dateInputsTarget.classList.add("hidden")
