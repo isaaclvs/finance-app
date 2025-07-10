@@ -7,6 +7,7 @@ class TransactionsController < ApplicationController
     
     @transactions = @transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
     @transactions = @transactions.by_category(params[:category_id]) if params[:category_id].present?
+    @transactions = @transactions.search_description(params[:search]) if params[:search].present?
     
     if params[:period].present?
       case params[:period]
