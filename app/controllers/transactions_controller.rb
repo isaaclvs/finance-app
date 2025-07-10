@@ -27,11 +27,7 @@ class TransactionsController < ApplicationController
     
     @categories = Current.user.categories.ordered
     
-    @totals = {
-      income: Current.user.transactions.income.sum(:amount),
-      expense: Current.user.transactions.expense.sum(:amount),
-      balance: Current.user.transactions.balance
-    }
+    @totals = Current.user.balance_data
   end
   
   def show
@@ -50,7 +46,12 @@ class TransactionsController < ApplicationController
     
     if @transaction.save
       respond_to do |format|
-        format.turbo_stream
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.prepend("transactions_list", partial: "transactions/transaction", locals: { transaction: @transaction }),
+            turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
+          ]
+        end
         format.html { redirect_to transactions_path, notice: "Transaction was successfully created." }
       end
     else
@@ -62,7 +63,12 @@ class TransactionsController < ApplicationController
   def update
     if @transaction.update(transaction_params)
       respond_to do |format|
-        format.turbo_stream
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace(dom_id(@transaction), partial: "transactions/transaction", locals: { transaction: @transaction }),
+            turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
+          ]
+        end
         format.html { redirect_to transactions_path, notice: "Transaction was successfully updated." }
       end
     else
@@ -75,7 +81,12 @@ class TransactionsController < ApplicationController
     @transaction.destroy
     
     respond_to do |format|
-      format.turbo_stream
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.remove(dom_id(@transaction)),
+          turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
+        ]
+      end
       format.html { redirect_to transactions_path, notice: "Transaction was successfully deleted." }
     end
   end

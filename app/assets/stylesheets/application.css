@@ -1,14 +1,3 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
-
 /* Theme transitions */
 .transition-theme {
   transition-property: background-color, border-color, color, fill, stroke;
@@ -189,4 +178,32 @@
 .dark nav {
   background-color: rgb(243 244 246) !important; /* gray-100 */
   border-bottom-color: rgb(229 231 235) !important; /* gray-200 */
+}
+
+@layer components {
+  .balance-amount {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .balance-updated {
+    transform: scale(1.05);
+    /* Light mode: subtle green glow */
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+    filter: brightness(1.1);
+  }
+  
+  /* Dark mode: adapted to your subtle theme */
+  .dark .balance-updated {
+    /* Softer glow that works with your light backgrounds */
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    /* Less brightness since dark mode uses lighter backgrounds */
+    filter: brightness(1.05);
+  }
+  
+  /* Enhanced transitions matching your theme */
+  .balance-amount {
+    transition-property: transform, box-shadow, filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
 }

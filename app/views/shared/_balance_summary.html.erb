@@ -1,0 +1,25 @@
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-3" data-controller="balance">
+  <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6 transition-all duration-300 hover:shadow-md">
+    <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total Income</dt>
+    <dd class="mt-1 text-2xl font-semibold tracking-tight text-green-600 dark:text-green-400 balance-amount transition-colors duration-300" 
+        data-balance-target="amount">
+      $<%= number_with_precision(user.total_income, precision: 2) %>
+    </dd>
+  </div>
+  
+  <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6 transition-all duration-300 hover:shadow-md">
+    <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total Expenses</dt>
+    <dd class="mt-1 text-2xl font-semibold tracking-tight text-red-600 dark:text-red-400 balance-amount transition-colors duration-300" 
+        data-balance-target="amount">
+      $<%= number_with_precision(user.total_expenses, precision: 2) %>
+    </dd>
+  </div>
+  
+  <div class="overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 py-5 shadow sm:p-6 transition-all duration-300 hover:shadow-md">
+    <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Balance</dt>
+    <dd class="mt-1 text-2xl font-semibold tracking-tight balance-amount <%= user.balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %> transition-colors duration-300" 
+        data-balance-target="amount">
+      $<%= number_with_precision(user.balance, precision: 2) %>
+    </dd>
+  </div>
+</div>
