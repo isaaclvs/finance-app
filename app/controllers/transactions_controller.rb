@@ -1,4 +1,6 @@
 class TransactionsController < ApplicationController
+  include ActionView::RecordIdentifier
+  
   before_action :set_transaction, only: %i[ show edit update destroy ]
   before_action :load_categories, only: %i[ new edit create update ]
   
@@ -47,12 +49,7 @@ class TransactionsController < ApplicationController
     
     if @transaction.save
       respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.prepend("transactions_list", partial: "transactions/transaction", locals: { transaction: @transaction }),
-            turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
-          ]
-        end
+        format.turbo_stream
         format.html { redirect_to transactions_path, notice: "Transaction was successfully created." }
       end
     else
@@ -64,12 +61,7 @@ class TransactionsController < ApplicationController
   def update
     if @transaction.update(transaction_params)
       respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.replace(dom_id(@transaction), partial: "transactions/transaction", locals: { transaction: @transaction }),
-            turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
-          ]
-        end
+        format.turbo_stream
         format.html { redirect_to transactions_path, notice: "Transaction was successfully updated." }
       end
     else
@@ -85,6 +77,7 @@ class TransactionsController < ApplicationController
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.remove(dom_id(@transaction)),
+          turbo_stream.remove("#{dom_id(@transaction)}_mobile"),
           turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
         ]
       end

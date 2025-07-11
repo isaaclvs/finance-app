@@ -1,38 +1,28 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["amountInput", "form", "submitButton"]
-  static values = { 
-    minAmount: Number,
-    maxAmount: Number 
-  }
+  static targets = ["nameInput", "colorInput", "submitButton"]
   
   connect() {
-    this.updateAmountColor()
     this.#setupValidation()
-    this.minAmountValue = this.minAmountValue || 0.01
-    this.maxAmountValue = this.maxAmountValue || 999999.99
   }
   
-  updateAmountColor() {
-    const selectedType = this.element.querySelector('input[name="transaction[transaction_type]"]:checked')
+  validateName(event) {
+    const field = event.target
+    const isValid = field.value.trim().length >= 2
     
-    if (selectedType) {
-      if (selectedType.value === "income") {
-        this.amountInputTarget.classList.remove("text-red-600", "dark:text-red-400")
-        this.amountInputTarget.classList.add("text-green-600", "dark:text-green-400")
-      } else {
-        this.amountInputTarget.classList.remove("text-green-600", "dark:text-green-400")
-        this.amountInputTarget.classList.add("text-red-600", "dark:text-red-400")
-      }
-    }
+    this.#toggleFieldValidation(field, isValid)
+    this.#updateSubmitButton()
+    
+    return isValid
   }
   
-  validateAmount() {
-    const amount = parseFloat(this.amountInputTarget.value)
-    const isValid = !isNaN(amount) && amount >= this.minAmountValue && amount <= this.maxAmountValue
+  validateColor(event) {
+    const field = event.target
+    const colorPattern = /^#[0-9A-F]{6}$/i
+    const isValid = colorPattern.test(field.value)
     
-    this.#toggleFieldValidation(this.amountInputTarget, isValid)
+    this.#toggleFieldValidation(field, isValid)
     this.#updateSubmitButton()
     
     return isValid
@@ -55,9 +45,14 @@ export default class extends Controller {
       field.addEventListener('input', this.#clearValidationState.bind(this))
     })
     
-    if (this.hasAmountInputTarget) {
-      this.amountInputTarget.addEventListener('input', this.validateAmount.bind(this))
-      this.amountInputTarget.addEventListener('blur', this.validateAmount.bind(this))
+    if (this.hasNameInputTarget) {
+      this.nameInputTarget.addEventListener('input', this.validateName.bind(this))
+      this.nameInputTarget.addEventListener('blur', this.validateName.bind(this))
+    }
+    
+    if (this.hasColorInputTarget) {
+      this.colorInputTarget.addEventListener('input', this.validateColor.bind(this))
+      this.colorInputTarget.addEventListener('blur', this.validateColor.bind(this))
     }
   }
   
@@ -103,10 +98,11 @@ export default class extends Controller {
     const requiredFields = this.element.querySelectorAll('[required]')
     const allFieldsValid = Array.from(requiredFields).every(field => field.value.trim() !== "")
     
-    if (this.hasAmountInputTarget) {
-      const amount = parseFloat(this.amountInputTarget.value)
-      const amountValid = !isNaN(amount) && amount >= this.minAmountValue && amount <= this.maxAmountValue
-      return allFieldsValid && amountValid
+    // Validate color format if present
+    if (this.hasColorInputTarget) {
+      const colorPattern = /^#[0-9A-F]{6}$/i
+      const colorValid = colorPattern.test(this.colorInputTarget.value)
+      return allFieldsValid && colorValid
     }
     
     return allFieldsValid
