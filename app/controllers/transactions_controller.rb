@@ -1,4 +1,6 @@
 class TransactionsController < ApplicationController
+  include ActionView::RecordIdentifier
+  
   before_action :set_transaction, only: %i[ show edit update destroy ]
   before_action :load_categories, only: %i[ new edit create update ]
   
@@ -7,6 +9,7 @@ class TransactionsController < ApplicationController
     
     @transactions = @transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
     @transactions = @transactions.by_category(params[:category_id]) if params[:category_id].present?
+    @transactions = @transactions.search_description(params[:search]) if params[:search].present?
     
     if params[:period].present?
       case params[:period]
@@ -27,11 +30,7 @@ class TransactionsController < ApplicationController
     
     @categories = Current.user.categories.ordered
     
-    @totals = {
-      income: Current.user.transactions.income.sum(:amount),
-      expense: Current.user.transactions.expense.sum(:amount),
-      balance: Current.user.transactions.balance
-    }
+    @totals = Current.user.balance_data
   end
   
   def show
@@ -75,7 +74,13 @@ class TransactionsController < ApplicationController
     @transaction.destroy
     
     respond_to do |format|
-      format.turbo_stream
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.remove(dom_id(@transaction)),
+          turbo_stream.remove("#{dom_id(@transaction)}_mobile"),
+          turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
+        ]
+      end
       format.html { redirect_to transactions_path, notice: "Transaction was successfully deleted." }
     end
   end

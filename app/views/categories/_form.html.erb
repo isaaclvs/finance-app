@@ -1,4 +1,4 @@
-<%= form_with(model: category, local: false) do |form| %>
+<%= form_with(model: category, local: false, data: { turbo_frame: "_top" }) do |form| %>
   <% if category.errors.any? %>
     <div class="rounded-md bg-red-50 dark:bg-red-900/20 p-4 mb-4">
       <div class="flex">
@@ -28,27 +28,30 @@
       <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
       <div class="mt-1">
         <%= form.text_field :name, 
-            class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-            placeholder: "e.g. Food, Transport, Salary" %>
+            required: true,
+            class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200",
+            placeholder: "e.g. Food, Transport, Salary",
+            data: { category_form_target: "nameInput" } %>
       </div>
     </div>
 
     <div>
       <%= form.label :color, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
       <div class="mt-1">
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-3" data-controller="color-picker">
           <%= form.color_field :color, 
               class: "h-10 w-20 rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500",
               data: { 
-                controller: "color-picker",
                 action: "change->color-picker#updatePreview"
               } %>
           <div class="flex-1">
             <%= form.text_field :color, 
-                class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                required: true,
+                class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200",
                 placeholder: "#FF5733",
                 data: { 
                   color_picker_target: "hexInput",
+                  category_form_target: "colorInput",
                   action: "input->color-picker#updateColor"
                 } %>
           </div>
@@ -65,6 +68,7 @@
     <%= link_to "Cancel", categories_path, 
         class: "rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800",
         data: { controller: "modal", action: "click->modal#close" } %>
-    <%= form.submit class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800" %>
+    <%= form.submit class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200", 
+        data: { category_form_target: "submitButton" } %>
   </div>
 <% end %>

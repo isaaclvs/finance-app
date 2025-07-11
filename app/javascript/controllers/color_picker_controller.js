@@ -11,11 +11,19 @@ export default class extends Controller {
     const hex = event.target.value
     if (this.#isValidHex(hex)) {
       this.element.querySelector('input[type="color"]').value = hex
-      this.updatePreview()
+      this.#updatePreviewOnly()
     }
   }
   
   updatePreview() {
+    const colorInput = this.element.querySelector('input[type="color"]')
+    const hexValue = colorInput.value
+    
+    this.hexInputTarget.value = hexValue.toUpperCase()
+    this.previewTarget.style.backgroundColor = hexValue
+  }
+  
+  #updatePreviewOnly() {
     const colorInput = this.element.querySelector('input[type="color"]')
     const hexValue = colorInput.value
     

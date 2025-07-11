@@ -28,6 +28,7 @@ class Transaction < ApplicationRecord
   scope :by_year, ->(year) { where(date: Date.new(year).beginning_of_year..Date.new(year).end_of_year) }
   scope :by_category, ->(category_id) { where(category_id: category_id) }
   scope :by_date_range, ->(start_date, end_date) { where(date: start_date..end_date) }
+  scope :search_description, ->(term) { where("description ILIKE ?", "%#{term}%") if term.present? }
   
   # Class methods
   def self.total_by_type(type)
