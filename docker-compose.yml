@@ -19,7 +19,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: bash -c "rm -f tmp/pids/server.pid && ./bin/dev"
     volumes:
       - .:/rails
       - bundle_cache:/usr/local/bundle
