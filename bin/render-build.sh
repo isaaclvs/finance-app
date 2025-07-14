@@ -24,4 +24,8 @@ bundle exec rails assets:clean
 echo "Building TailwindCSS..."
 bundle exec rails tailwindcss:build
 
+# Run database migrations
+echo "Running database migrations..."
+bundle exec rails db:migrate
+
 echo "Build completed successfully!"
