@@ -86,7 +86,7 @@ Rails.application.configure do
   # Disable automatic database roles and shard swapping
   config.active_record.writing_role = :primary
   config.active_record.reading_role = :primary
-  
+
   # Disable automatic shard swapping that causes connection issues
   config.active_record.shard_selector = { lock: true }
   config.active_record.shard_resolver = ->(request) { :default }
