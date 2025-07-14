@@ -82,10 +82,14 @@ Rails.application.configure do
   # Enable serving static files for Render
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
-  # Use DATABASE_URL environment variable
-  config.active_record.database_selector = { delay: 2.seconds }
-  config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
-  config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+  # Rails 8 database configuration for single database deployment
+  # Disable automatic database roles and shard swapping
+  config.active_record.writing_role = :primary
+  config.active_record.reading_role = :primary
+  
+  # Disable automatic shard swapping that causes connection issues
+  config.active_record.shard_selector = { lock: true }
+  config.active_record.shard_resolver = ->(request) { :default }
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [

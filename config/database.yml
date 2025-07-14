@@ -81,5 +81,16 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  primary: &primary_production
+    <<: *default
+    url: <%= ENV['DATABASE_URL'] %>
+    # Rails 8 database roles configuration for single database
+    # Force both reading and writing to use the same connection
+    database_tasks: true
+  
+  # Override Rails 8 automatic database roles
+  # Both reading and writing roles point to the same primary database
+  reading:
+    <<: *primary_production
+  writing:
+    <<: *primary_production
