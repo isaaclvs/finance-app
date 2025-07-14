@@ -1,16 +1,16 @@
 class TransactionsController < ApplicationController
   include ActionView::RecordIdentifier
-  
+
   before_action :set_transaction, only: %i[ show edit update destroy ]
   before_action :load_categories, only: %i[ new edit create update ]
-  
+
   def index
     @transactions = Current.user.transactions.includes(:category)
-    
+
     @transactions = @transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
     @transactions = @transactions.by_category(params[:category_id]) if params[:category_id].present?
     @transactions = @transactions.search_description(params[:search]) if params[:search].present?
-    
+
     if params[:period].present?
       case params[:period]
       when "today"
@@ -25,28 +25,28 @@ class TransactionsController < ApplicationController
         end
       end
     end
-    
+
     @transactions = @transactions.ordered.page(params[:page]).per(20)
-    
+
     @categories = Current.user.categories.ordered
-    
+
     @totals = Current.user.balance_data
   end
-  
+
   def show
   end
-  
+
   def new
     @transaction = Current.user.transactions.build
     @transaction.date = Date.current
   end
-  
+
   def edit
   end
-  
+
   def create
     @transaction = Current.user.transactions.build(transaction_params)
-    
+
     if @transaction.save
       respond_to do |format|
         format.turbo_stream
@@ -57,7 +57,7 @@ class TransactionsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   def update
     if @transaction.update(transaction_params)
       respond_to do |format|
@@ -69,10 +69,10 @@ class TransactionsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
     @transaction.destroy
-    
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
@@ -84,16 +84,16 @@ class TransactionsController < ApplicationController
       format.html { redirect_to transactions_path, notice: "Transaction was successfully deleted." }
     end
   end
-  
+
   private
     def set_transaction
       @transaction = Current.user.transactions.find(params[:id])
     end
-    
+
     def transaction_params
       params.require(:transaction).permit(:amount, :transaction_type, :date, :description, :category_id)
     end
-    
+
     def load_categories
       @categories = Current.user.categories.ordered
     end

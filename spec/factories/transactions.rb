@@ -6,11 +6,11 @@ FactoryBot.define do
     description { Faker::Lorem.sentence }
     association :user
     association :category
-    
+
     trait :income do
       transaction_type { "income" }
     end
-    
+
     trait :expense do
       transaction_type { "expense" }
     end

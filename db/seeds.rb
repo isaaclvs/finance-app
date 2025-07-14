@@ -8,9 +8,9 @@ if Rails.env.development?
   demo_user = User.find_or_create_by!(email: "demo@example.com") do |user|
     user.password = "password123"
   end
-  
+
   puts "Demo user created: #{demo_user.email}"
-  
+
   # Create default categories with colors
   Category::DEFAULT_COLORS.each do |name, color|
     category = demo_user.categories.find_or_create_by!(name: name) do |cat|
@@ -18,11 +18,11 @@ if Rails.env.development?
     end
     puts "Category created: #{category.name} (#{category.color})"
   end
-  
+
   puts "\nSeeding completed!"
   puts "Demo user credentials: demo@example.com / password123"
   puts "Total categories created: #{demo_user.categories.count}"
-  
+
   # Load transaction seeds
   load Rails.root.join('db/seeds/transactions.rb')
 end
