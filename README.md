@@ -1,6 +1,8 @@
 # Finance App
 
-A modern personal finance management application built with Ruby on Rails 8, following 37signals patterns and conventions.
+> A modern personal finance management application built with Ruby on Rails 8, following 37signals patterns and conventions.
+
+🌐 **Live Site**: [Personal Finance Tracker](https://finance-app-irov.onrender.com/)
 
 ## Screenshots & Demo
 
