@@ -80,8 +80,8 @@ Rails.application.configure do
 
   # Render.com specific configurations
   # Enable serving static files for Render
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
-  
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+
   # Use DATABASE_URL environment variable
   config.active_record.database_selector = { delay: 2.seconds }
   config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver

@@ -44,10 +44,10 @@ pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
 if ENV["RENDER"]
   # Use the number of workers specified in WEB_CONCURRENCY (default: 1)
   workers ENV.fetch("WEB_CONCURRENCY", 1)
-  
+
   # Preload app for better memory usage with multiple workers
   preload_app! if ENV.fetch("WEB_CONCURRENCY", 1).to_i > 1
-  
+
   # Worker timeout for free tier
   worker_timeout 25
 end
