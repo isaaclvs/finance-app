@@ -11,7 +11,7 @@ class TurboDeviseController < ApplicationController
         begin
           redirect_to navigation_location
         rescue NoMethodError => e
-          if e.message.include?('users_url')
+          if e.message.include?("users_url")
             controller.redirect_to controller.new_user_session_path
           else
             raise e
@@ -27,7 +27,7 @@ class TurboDeviseController < ApplicationController
         begin
           super
         rescue NoMethodError => e
-          if e.message.include?('users_url')
+          if e.message.include?("users_url")
             controller.redirect_to controller.new_user_session_path
           else
             raise e
@@ -46,14 +46,14 @@ class TurboDeviseController < ApplicationController
     if resource.persisted?
       redirect_to after_sign_in_path_for(resource)
     else
-      if resource.errors.empty? && controller_name == 'sessions' && action_name == 'create'
+      if resource.errors.empty? && controller_name == "sessions" && action_name == "create"
         flash.now[:alert] = "Invalid email or password."
       end
       begin
         super
       rescue NoMethodError => e
-        if e.message.include?('users_url')
-          render 'new', status: :unprocessable_entity, formats: [:html]
+        if e.message.include?("users_url")
+          render "new", status: :unprocessable_entity, formats: [ :html ]
         else
           raise e
         end
