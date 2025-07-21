@@ -8,13 +8,13 @@
         
         <div class="mb-5">
           <%= f.label :email, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email",
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "name@example.com",
               class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
         </div>
 
         <div class="mb-5">
           <%= f.label :password, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= f.password_field :password, autocomplete: "new-password",
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Create a password",
               class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
           <% if @minimum_password_length %>
             <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">(<%= @minimum_password_length %> characters minimum)</p>
@@ -23,7 +23,7 @@
 
         <div class="mb-5">
           <%= f.label :password_confirmation, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= f.password_field :password_confirmation, autocomplete: "new-password",
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm your password",
               class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
         </div>
 
