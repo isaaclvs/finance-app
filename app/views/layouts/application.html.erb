@@ -42,12 +42,12 @@
                 <h1 class="text-xl font-semibold text-gray-900 dark:text-white">Finance App</h1>
               </div>
               <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                <%= link_to "Dashboard", dashboard_path, 
-                    class: "inline-flex items-center border-b-2 #{current_page?(dashboard_path) ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'} px-1 pt-1 text-sm font-medium transition-theme" %>
                 <%= link_to "Transactions", transactions_path, 
                     class: "inline-flex items-center border-b-2 #{current_page?(transactions_path) ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'} px-1 pt-1 text-sm font-medium transition-theme" %>
                 <%= link_to "Categories", categories_path,
                     class: "inline-flex items-center border-b-2 #{current_page?(categories_path) ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'} px-1 pt-1 text-sm font-medium transition-theme" %>
+                <%= link_to "Dashboard", dashboard_path, 
+                    class: "inline-flex items-center border-b-2 #{current_page?(dashboard_path) ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'} px-1 pt-1 text-sm font-medium transition-theme" %>
               </div>
             </div>
             <div class="flex items-center space-x-4 sm:hidden">
@@ -84,12 +84,12 @@
         <!-- Mobile menu -->
         <div class="sm:hidden" data-mobile-menu-target="menu" style="display: none;">
           <div class="space-y-1 pb-3 pt-2">
-            <%= link_to "Dashboard", dashboard_path,
-                class: "#{current_page?(dashboard_path) ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'} block border-l-4 py-2 pl-3 pr-4 text-base font-medium transition-theme" %>
             <%= link_to "Transactions", transactions_path,
                 class: "#{current_page?(transactions_path) ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'} block border-l-4 py-2 pl-3 pr-4 text-base font-medium transition-theme" %>
             <%= link_to "Categories", categories_path,
                 class: "#{current_page?(categories_path) ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'} block border-l-4 py-2 pl-3 pr-4 text-base font-medium transition-theme" %>
+            <%= link_to "Dashboard", dashboard_path,
+                class: "#{current_page?(dashboard_path) ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'} block border-l-4 py-2 pl-3 pr-4 text-base font-medium transition-theme" %>
           </div>
           <div class="border-t border-gray-200 dark:border-gray-700 pb-3 pt-4">
             <div class="flex items-center px-4">
