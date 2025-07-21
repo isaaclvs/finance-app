@@ -1,0 +1,76 @@
+<div class="w-full max-w-4xl mx-auto px-4">
+  <header class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+  </header>
+
+  <div id="balance_summary" class="mb-8">
+    <%= render "shared/balance_summary", user: @user %>
+  </div>
+
+  <div class="space-y-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Income vs Expenses</h2>
+      <%= bar_chart @income_vs_expenses_data, 
+          colors: ["#10b981", "#ef4444"],
+          suffix: "$",
+          height: "200px" %>
+    </div>
+
+    <% if @expenses_by_category_data.any? %>
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Expenses by Category</h2>
+        <%= pie_chart @expenses_by_category_data,
+            suffix: "$",
+            height: "200px" %>
+      </div>
+    <% end %>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Evolution</h2>
+      <%= line_chart @monthly_evolution_data,
+          colors: ["#10b981", "#ef4444"],
+          suffix: "$",
+          height: "250px" %>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Transactions</h2>
+        <%= link_to "View all", transactions_path, 
+            class: "text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200" %>
+      </div>
+      
+      <% if @recent_transactions.any? %>
+        <div class="space-y-3">
+          <% @recent_transactions.each do |transaction| %>
+            <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+              <div class="flex items-center space-x-3">
+                <span class="h-3 w-3 rounded-full" style="background-color: <%= transaction.category_color %>"></span>
+                <div>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">
+                    <%= transaction.description %>
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <%= transaction.category_name %> • <%= transaction.date.strftime("%b %d") %>
+                  </p>
+                </div>
+              </div>
+              <span class="text-sm font-medium <%= transaction.income? ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %>">
+                <%= transaction.income? ? '+' : '-' %>$<%= number_with_precision(transaction.amount, precision: 2) %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8">
+          <p class="text-gray-500 dark:text-gray-400 mb-4">No transactions yet</p>
+          <%= link_to "Add your first transaction", new_transaction_path, 
+              class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600",
+              data: { turbo_frame: "modal" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= turbo_frame_tag "modal" %>

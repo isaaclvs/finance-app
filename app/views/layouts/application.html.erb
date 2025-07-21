@@ -34,7 +34,7 @@
 
   <body class="bg-white dark:bg-gray-900 transition-theme">
     <% if user_signed_in? %>
-      <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-theme">
+      <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-theme" data-controller="mobile-menu">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="flex h-16 justify-between">
             <div class="flex">
@@ -46,9 +46,19 @@
                     class: "inline-flex items-center border-b-2 #{current_page?(transactions_path) ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'} px-1 pt-1 text-sm font-medium transition-theme" %>
                 <%= link_to "Categories", categories_path,
                     class: "inline-flex items-center border-b-2 #{current_page?(categories_path) ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'} px-1 pt-1 text-sm font-medium transition-theme" %>
+                <%= link_to "Dashboard", dashboard_path, 
+                    class: "inline-flex items-center border-b-2 #{current_page?(dashboard_path) ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white'} px-1 pt-1 text-sm font-medium transition-theme" %>
               </div>
             </div>
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4 sm:hidden">
+              <!-- Mobile menu button -->
+              <button type="button" data-action="click->mobile-menu#toggle" class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-white">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+              </button>
+            </div>
+            <div class="hidden sm:flex items-center space-x-4">
               <!-- Theme Toggle -->
               <button type="button"
                       data-action="click->theme#toggle"
@@ -67,6 +77,27 @@
               
               <%= button_to "Sign out", destroy_user_session_path, method: :delete,
                   class: "text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" %>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="sm:hidden" data-mobile-menu-target="menu" style="display: none;">
+          <div class="space-y-1 pb-3 pt-2">
+            <%= link_to "Transactions", transactions_path,
+                class: "#{current_page?(transactions_path) ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'} block border-l-4 py-2 pl-3 pr-4 text-base font-medium transition-theme" %>
+            <%= link_to "Categories", categories_path,
+                class: "#{current_page?(categories_path) ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'} block border-l-4 py-2 pl-3 pr-4 text-base font-medium transition-theme" %>
+            <%= link_to "Dashboard", dashboard_path,
+                class: "#{current_page?(dashboard_path) ? 'border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200' : 'border-transparent text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'} block border-l-4 py-2 pl-3 pr-4 text-base font-medium transition-theme" %>
+          </div>
+          <div class="border-t border-gray-200 dark:border-gray-700 pb-3 pt-4">
+            <div class="flex items-center px-4">
+              <div class="text-base font-medium text-gray-800 dark:text-white"><%= current_user.email %></div>
+            </div>
+            <div class="mt-3 space-y-1">
+              <%= button_to "Sign out", destroy_user_session_path, method: :delete,
+                  class: "block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white w-full text-left" %>
             </div>
           </div>
         </div>

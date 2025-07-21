@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   # Authenticated routes
   authenticate :user do
+    get "dashboard", to: "dashboard#index"
     resources :categories
     resources :transactions
   end

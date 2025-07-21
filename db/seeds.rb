@@ -9,6 +9,11 @@ if Rails.env.development?
     user.password = "password123"
   end
 
+  # Ensure password is always set correctly
+  unless demo_user.valid_password?("password123")
+    demo_user.update!(password: "password123")
+  end
+
   puts "Demo user created: #{demo_user.email}"
 
   # Create default categories with colors
