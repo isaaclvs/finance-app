@@ -8,6 +8,11 @@ if Rails.env.development?
   demo_user = User.find_or_create_by!(email: "demo@example.com") do |user|
     user.password = "password123"
   end
+  
+  # Ensure password is always set correctly
+  unless demo_user.valid_password?("password123")
+    demo_user.update!(password: "password123")
+  end
 
   puts "Demo user created: #{demo_user.email}"
 
