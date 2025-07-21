@@ -1,0 +1,26 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Income vs Expenses</h2>
+    <%= bar_chart @income_vs_expenses_data, 
+        colors: ["#10b981", "#ef4444"],
+        suffix: "$",
+        height: "200px" %>
+  </div>
+
+  <% if @expenses_by_category_data.any? %>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Expenses by Category</h2>
+      <%= pie_chart @expenses_by_category_data,
+          suffix: "$",
+          height: "200px" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+  <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Evolution</h2>
+  <%= line_chart @monthly_evolution_data,
+      colors: ["#10b981", "#ef4444"],
+      suffix: "$",
+      height: "250px" %>
+</div>

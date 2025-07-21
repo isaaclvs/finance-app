@@ -4,7 +4,7 @@
       <div class="sm:flex-auto">
         <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">Transactions</h1>
         <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-          Manage your income and expenses
+          Simple transaction listing and management
         </p>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -13,96 +13,59 @@
             data: { turbo_frame: "modal" } %>
       </div>
     </div>
-    
-    <div id="balance_summary" class="mt-8">
-      <%= render "shared/balance_summary", user: Current.user %>
-    </div>
 
-    <%= turbo_frame_tag "transactions_filters" do %>
-      <%= form_with url: transactions_path, method: :get, 
-          data: { 
-            controller: "filters",
-            turbo_frame: "transactions_list", 
-            turbo_action: "advance" 
-          } do |f| %>
-        <div class="mt-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-          <div class="px-4 py-5 sm:p-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">Filters</h3>
-            
-            <!-- Search field - full width on top -->
-            <div class="mt-5">
-              <%= f.label :search, "Search Description", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-              <%= f.text_field :search, 
-                  placeholder: "Search transactions...",
-                  value: params[:search],
-                  class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                  data: { action: "input->filters#submit" } %>
-            </div>
-            
-            <!-- Other filters in grid -->
-            <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div>
-                <%= f.label :transaction_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-                <%= f.select :transaction_type, 
-                    options_for_select([["All", ""], ["Income", "income"], ["Expense", "expense"]], params[:transaction_type]),
-                    {},
-                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                    data: { action: "change->filters#submit" } %>
+    <!-- Recent Transactions Section -->
+    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Transactions</h2>
+        <%= link_to "View Dashboard", dashboard_path, 
+            class: "text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200" %>
+      </div>
+      
+      <% if @recent_transactions.any? %>
+        <div class="space-y-3">
+          <% @recent_transactions.each do |transaction| %>
+            <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+              <div class="flex items-center space-x-3">
+                <span class="h-3 w-3 rounded-full" style="background-color: <%= transaction.category_color %>"></span>
+                <div>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">
+                    <%= transaction.description %>
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <%= transaction.category_name %> • <%= transaction.date.strftime("%b %d") %>
+                  </p>
+                </div>
               </div>
-              
-              <div>
-                <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-                <%= f.select :category_id,
-                    options_for_select([["All Categories", ""]] + @categories.map { |c| [c.name, c.id] }, params[:category_id]),
-                    {},
-                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                    data: { action: "change->filters#submit" } %>
-              </div>
-              
-              <div>
-                <%= f.label :period, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-                <%= f.select :period,
-                    options_for_select([
-                      ["All time", ""],
-                      ["Today", "today"],
-                      ["This week", "week"],
-                      ["This month", "month"],
-                      ["Custom range", "custom"]
-                    ], params[:period]),
-                    {},
-                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                    data: { action: "change->filters#toggleDateInputs change->filters#submit" } %>
-              </div>
-              
-              <div class="flex items-end">
-                <%= link_to "Clear filters", "#",
-                  class: "inline-flex items-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800",
-                  data: { action: "click->filters#clearForm" } %>
+              <div class="flex items-center space-x-3">
+                <span class="text-sm font-medium <%= transaction.income? ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %>">
+                  <%= transaction.income? ? '+' : '-' %>$<%= number_with_precision(transaction.amount, precision: 2) %>
+                </span>
+                <div class="flex space-x-2">
+                  <%= link_to "Edit", edit_transaction_path(transaction), 
+                      class: "text-xs text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300",
+                      data: { turbo_frame: "modal" } %>
+                  <%= link_to "Delete", transaction_path(transaction), 
+                      class: "text-xs text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300",
+                      data: { 
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure?"
+                      } %>
+                </div>
               </div>
             </div>
-            
-            <!-- Custom date inputs -->
-            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 <%= 'hidden' unless params[:period] == 'custom' %>" data-filters-target="dateInputs">
-              <div>
-                <%= f.label :start_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-                <%= f.date_field :start_date, 
-                    value: params[:start_date],
-                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                    data: { action: "change->filters#submit" } %>
-              </div>
-              <div>
-                <%= f.label :end_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
-                <%= f.date_field :end_date,
-                    value: params[:end_date],
-                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                    data: { action: "change->filters#submit" } %>
-              </div>
-            </div>
-          </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8">
+          <p class="text-gray-500 dark:text-gray-400 mb-4">No transactions yet</p>
+          <%= link_to "Add your first transaction", new_transaction_path, 
+              class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600",
+              data: { turbo_frame: "modal" } %>
         </div>
       <% end %>
-    <% end %>
-    
+    </div>
+
     <%= turbo_frame_tag "transactions_list" do %>
       <div class="mt-8 flow-root">
         <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">

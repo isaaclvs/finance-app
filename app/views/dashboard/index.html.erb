@@ -1,75 +1,248 @@
-<div class="w-full max-w-4xl mx-auto px-4">
-  <header class="mb-8">
-    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-  </header>
-
-  <div id="balance_summary" class="mb-8">
-    <%= render "shared/balance_summary", user: @user %>
-  </div>
-
-  <div class="space-y-6">
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Income vs Expenses</h2>
-      <%= bar_chart @income_vs_expenses_data, 
-          colors: ["#10b981", "#ef4444"],
-          suffix: "$",
-          height: "200px" %>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-4xl">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">Dashboard</h1>
+        <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+          Financial overview and transaction management
+        </p>
+      </div>
+      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <%= link_to "New transaction", new_transaction_path, 
+            class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto",
+            data: { turbo_frame: "modal" } %>
+      </div>
+    </div>
+    
+    <div id="balance_summary" class="mt-8">
+      <%= render "shared/balance_summary", user: @user %>
     </div>
 
-    <% if @expenses_by_category_data.any? %>
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Expenses by Category</h2>
-        <%= pie_chart @expenses_by_category_data,
-            suffix: "$",
-            height: "200px" %>
-      </div>
-    <% end %>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Evolution</h2>
-      <%= line_chart @monthly_evolution_data,
-          colors: ["#10b981", "#ef4444"],
-          suffix: "$",
-          height: "250px" %>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Transactions</h2>
-        <%= link_to "View all", transactions_path, 
-            class: "text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200" %>
-      </div>
-      
-      <% if @recent_transactions.any? %>
-        <div class="space-y-3">
-          <% @recent_transactions.each do |transaction| %>
-            <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
-              <div class="flex items-center space-x-3">
-                <span class="h-3 w-3 rounded-full" style="background-color: <%= transaction.category_color %>"></span>
-                <div>
-                  <p class="text-sm font-medium text-gray-900 dark:text-white">
-                    <%= transaction.description %>
-                  </p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">
-                    <%= transaction.category_name %> • <%= transaction.date.strftime("%b %d") %>
-                  </p>
-                </div>
-              </div>
-              <span class="text-sm font-medium <%= transaction.income? ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %>">
-                <%= transaction.income? ? '+' : '-' %>$<%= number_with_precision(transaction.amount, precision: 2) %>
-              </span>
+    <!-- Filters Section -->
+    <%= turbo_frame_tag "dashboard_filters" do %>
+      <%= form_with url: dashboard_path, method: :get, 
+          data: { 
+            controller: "filters",
+            turbo_frame: "dashboard_content", 
+            turbo_action: "advance" 
+          } do |f| %>
+        <div class="mt-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">Filters</h3>
+            
+            <!-- Search field - full width on top -->
+            <div class="mt-5">
+              <%= f.label :search, "Search Description", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+              <%= f.text_field :search, 
+                  placeholder: "Search transactions...",
+                  value: params[:search],
+                  class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                  data: { action: "input->filters#submit" } %>
             </div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="text-center py-8">
-          <p class="text-gray-500 dark:text-gray-400 mb-4">No transactions yet</p>
-          <%= link_to "Add your first transaction", new_transaction_path, 
-              class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600",
-              data: { turbo_frame: "modal" } %>
+            
+            <!-- Other filters in grid -->
+            <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <%= f.label :transaction_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :transaction_type, 
+                    options_for_select([["All", ""], ["Income", "income"], ["Expense", "expense"]], params[:transaction_type]),
+                    {},
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#submit" } %>
+              </div>
+              
+              <div>
+                <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :category_id,
+                    options_for_select([["All Categories", ""]] + @categories.map { |c| [c.name, c.id] }, params[:category_id]),
+                    {},
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#submit" } %>
+              </div>
+              
+              <div>
+                <%= f.label :period, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :period,
+                    options_for_select([
+                      ["All time", ""],
+                      ["Today", "today"],
+                      ["This week", "week"],
+                      ["This month", "month"],
+                      ["Custom range", "custom"]
+                    ], params[:period]),
+                    {},
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#toggleDateInputs change->filters#submit" } %>
+              </div>
+              
+              <div class="flex items-end">
+                <%= link_to "Clear filters", "#",
+                  class: "inline-flex items-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800",
+                  data: { action: "click->filters#clearForm" } %>
+              </div>
+            </div>
+            
+            <!-- Custom date inputs -->
+            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 <%= 'hidden' unless params[:period] == 'custom' %>" data-filters-target="dateInputs">
+              <div>
+                <%= f.label :start_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.date_field :start_date, 
+                    value: params[:start_date],
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#submit" } %>
+              </div>
+              <div>
+                <%= f.label :end_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.date_field :end_date,
+                    value: params[:end_date],
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#submit" } %>
+              </div>
+            </div>
+          </div>
         </div>
       <% end %>
-    </div>
+    <% end %>
+
+    <%= turbo_frame_tag "dashboard_content" do %>
+      <div class="space-y-6 mt-8">
+        <!-- Charts Section -->
+        <%= turbo_frame_tag "dashboard_charts" do %>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Income vs Expenses</h2>
+              <%= bar_chart @income_vs_expenses_data, 
+                  colors: ["#10b981", "#ef4444"],
+                  suffix: "$",
+                  height: "200px" %>
+            </div>
+
+            <% if @expenses_by_category_data.any? %>
+              <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Expenses by Category</h2>
+                <%= pie_chart @expenses_by_category_data,
+                    suffix: "$",
+                    height: "200px" %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Evolution</h2>
+            <%= line_chart @monthly_evolution_data,
+                colors: ["#10b981", "#ef4444"],
+                suffix: "$",
+                height: "250px" %>
+          </div>
+        <% end %>
+
+        <!-- Transactions Table Section -->
+        <%= turbo_frame_tag "dashboard_transactions" do %>
+          <div class="mt-8 flow-root">
+            <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 dark:ring-gray-700 md:rounded-lg">
+                  <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700 hidden sm:table">
+                    <thead class="bg-gray-50 dark:bg-gray-800">
+                      <tr>
+                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
+                          Date
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                          Description
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                          Category
+                        </th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                          Amount
+                        </th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                          <span class="sr-only">Actions</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900" id="transactions-container">
+                      <% @transactions.each do |transaction| %>
+                        <tr id="<%= dom_id(transaction) %>">
+                          <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 dark:text-white sm:pl-6">
+                            <%= transaction.date.strftime("%b %d, %Y") %>
+                          </td>
+                          <td class="px-3 py-4 text-sm text-gray-900 dark:text-white">
+                            <%= transaction.description %>
+                          </td>
+                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                            <span class="inline-flex items-center">
+                              <span class="h-3 w-3 rounded-full mr-2" style="background-color: <%= transaction.category_color %>"></span>
+                              <%= transaction.category_name %>
+                            </span>
+                          </td>
+                          <td class="whitespace-nowrap px-3 py-4 text-sm font-medium <%= transaction.income? ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %>">
+                            <%= transaction.income? ? '+' : '-' %>$<%= number_with_precision(transaction.amount, precision: 2) %>
+                          </td>
+                          <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <%= link_to "Edit", edit_transaction_path(transaction), 
+                                class: "text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300",
+                                data: { turbo_frame: "modal" } %>
+                            <%= link_to "Delete", transaction_path(transaction), 
+                                class: "ml-4 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300",
+                                data: { 
+                                  turbo_method: :delete,
+                                  turbo_confirm: "Are you sure?"
+                                } %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                  
+                  <div class="sm:hidden" id="transactions-mobile">
+                    <% @transactions.each do |transaction| %>
+                      <div id="<%= dom_id(transaction) %>_mobile" class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-4">
+                        <div class="flex items-center justify-between">
+                          <div class="flex-1">
+                            <div class="flex items-center justify-between">
+                              <p class="text-sm font-medium text-gray-900 dark:text-white"><%= transaction.description %></p>
+                              <p class="text-sm font-medium <%= transaction.income? ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %>">
+                                <%= transaction.income? ? '+' : '-' %>$<%= number_with_precision(transaction.amount, precision: 2) %>
+                              </p>
+                            </div>
+                            <div class="mt-1 flex items-center justify-between">
+                              <p class="text-xs text-gray-500 dark:text-gray-400"><%= transaction.date.strftime("%b %d, %Y") %></p>
+                              <span class="inline-flex items-center text-xs text-gray-500 dark:text-gray-400">
+                                <span class="h-2 w-2 rounded-full mr-1" style="background-color: <%= transaction.category_color %>"></span>
+                                <%= transaction.category_name %>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-2 flex space-x-3 text-xs">
+                          <%= link_to "Edit", edit_transaction_path(transaction), 
+                              class: "text-indigo-600 dark:text-indigo-400",
+                              data: { turbo_frame: "modal" } %>
+                          <%= link_to "Delete", transaction_path(transaction), 
+                              class: "text-red-600 dark:text-red-400",
+                              data: { 
+                                turbo_method: :delete,
+                                turbo_confirm: "Are you sure?"
+                              } %>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                
+                <% if @transactions.respond_to?(:total_pages) && @transactions.total_pages > 1 %>
+                  <div class="mt-4">
+                    <%= paginate @transactions %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
 

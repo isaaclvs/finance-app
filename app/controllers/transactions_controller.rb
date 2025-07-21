@@ -5,6 +5,7 @@ class TransactionsController < ApplicationController
   before_action :load_categories, only: %i[ new edit create update ]
 
   def index
+    @recent_transactions = Current.user.transactions.includes(:category).ordered.limit(10)
     @transactions = Current.user.transactions.includes(:category)
 
     @transactions = @transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
