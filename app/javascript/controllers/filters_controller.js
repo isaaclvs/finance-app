@@ -4,8 +4,25 @@ export default class extends Controller {
   static targets = ["dateInputs", "form"]
   
   submit(event) {
+    // Show loading state
+    this.showLoading()
+    
     // Submit the form when any filter changes
     this.element.requestSubmit()
+  }
+  
+  showLoading() {
+    // Add loading state to turbo frame targets
+    const chartsFrame = document.getElementById("dashboard_charts")
+    const transactionsFrame = document.getElementById("dashboard_transactions")
+    
+    if (chartsFrame) {
+      chartsFrame.innerHTML = '<div class="flex items-center justify-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 dark:border-indigo-400"></div><span class="ml-3 text-sm text-gray-600 dark:text-gray-400">Updating charts...</span></div>'
+    }
+    
+    if (transactionsFrame) {
+      transactionsFrame.innerHTML = '<div class="flex items-center justify-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 dark:border-indigo-400"></div><span class="ml-3 text-sm text-gray-600 dark:text-gray-400">Loading transactions...</span></div>'
+    }
   }
   
   toggleDateInputs(event) {
@@ -21,6 +38,9 @@ export default class extends Controller {
   
   clearForm(event) {
     event.preventDefault()
+    
+    // Show loading state
+    this.showLoading()
     
     // Reset all form fields to their default state
     this.element.reset()
@@ -44,7 +64,9 @@ export default class extends Controller {
     })
     
     // Hide custom date inputs
-    this.dateInputsTarget.classList.add("hidden")
+    if (this.hasDateInputsTarget) {
+      this.dateInputsTarget.classList.add("hidden")
+    }
     
     // Submit the clean form
     this.element.requestSubmit()
