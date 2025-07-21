@@ -28,4 +28,28 @@ class User < ApplicationRecord
       balance: balance
     }
   end
+
+  def monthly_income(month = Date.current)
+    transactions.income.by_month(month).sum(:amount)
+  end
+
+  def monthly_expenses(month = Date.current)
+    transactions.expense.by_month(month).sum(:amount)
+  end
+
+  def monthly_balance(month = Date.current)
+    monthly_income(month) - monthly_expenses(month)
+  end
+
+  def yearly_income(year = Date.current.year)
+    transactions.income.where(date: Date.new(year).beginning_of_year..Date.new(year).end_of_year).sum(:amount)
+  end
+
+  def yearly_expenses(year = Date.current.year)
+    transactions.expense.where(date: Date.new(year).beginning_of_year..Date.new(year).end_of_year).sum(:amount)
+  end
+
+  def yearly_balance(year = Date.current.year)
+    yearly_income(year) - yearly_expenses(year)
+  end
 end
