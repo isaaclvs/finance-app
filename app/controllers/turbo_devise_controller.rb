@@ -8,7 +8,31 @@ class TurboDeviseController < ApplicationController
       elsif has_errors? && default_action
         render rendering_options.merge(formats: :html, status: :unprocessable_entity)
       else
-        redirect_to navigation_location
+        begin
+          redirect_to navigation_location
+        rescue NoMethodError => e
+          if e.message.include?("users_url")
+            controller.redirect_to controller.new_user_session_path
+          else
+            raise e
+          end
+        end
+      end
+    end
+
+    def to_html
+      if has_errors? && default_action
+        render rendering_options.merge(status: :unprocessable_entity)
+      else
+        begin
+          super
+        rescue NoMethodError => e
+          if e.message.include?("users_url")
+            controller.redirect_to controller.new_user_session_path
+          else
+            raise e
+          end
+        end
       end
     end
   end
@@ -22,7 +46,18 @@ class TurboDeviseController < ApplicationController
     if resource.persisted?
       redirect_to after_sign_in_path_for(resource)
     else
-      super
+      if resource.errors.empty? && controller_name == "sessions" && action_name == "create"
+        flash.now[:alert] = "Invalid email or password."
+      end
+      begin
+        super
+      rescue NoMethodError => e
+        if e.message.include?("users_url")
+          render "new", status: :unprocessable_entity, formats: [ :html ]
+        else
+          raise e
+        end
+      end
     end
   end
 end
