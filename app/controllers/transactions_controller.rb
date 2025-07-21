@@ -6,32 +6,6 @@ class TransactionsController < ApplicationController
 
   def index
     @recent_transactions = Current.user.transactions.includes(:category).ordered.limit(10)
-    @transactions = Current.user.transactions.includes(:category)
-
-    @transactions = @transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
-    @transactions = @transactions.by_category(params[:category_id]) if params[:category_id].present?
-    @transactions = @transactions.search_description(params[:search]) if params[:search].present?
-
-    if params[:period].present?
-      case params[:period]
-      when "today"
-        @transactions = @transactions.where(date: Date.current)
-      when "week"
-        @transactions = @transactions.where(date: Date.current.beginning_of_week..Date.current.end_of_week)
-      when "month"
-        @transactions = @transactions.by_month(Date.current)
-      when "custom"
-        if params[:start_date].present? && params[:end_date].present?
-          @transactions = @transactions.by_date_range(params[:start_date], params[:end_date])
-        end
-      end
-    end
-
-    @transactions = @transactions.ordered.page(params[:page]).per(20)
-
-    @categories = Current.user.categories.ordered
-
-    @totals = Current.user.balance_data
   end
 
   def show
