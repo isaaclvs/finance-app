@@ -1,0 +1,7 @@
+<%= turbo_stream.prepend "goals_grid" do %>
+  <%= turbo_frame_tag dom_id(@goal), class: "h-full" do %>
+    <%= render "goal_card", goal: @goal %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "goal_modal", "" %>

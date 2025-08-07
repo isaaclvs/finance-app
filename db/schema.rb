@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_07_151427) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_06_101500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_151427) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "name"], name: "index_categories_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.decimal "target_amount", precision: 10, scale: 2, null: false
+    t.decimal "current_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.date "target_date", null: false
+    t.string "goal_type", null: false
+    t.string "status", default: "active", null: false
+    t.bigint "user_id", null: false
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_goals_on_category_id"
+    t.index ["user_id", "goal_type"], name: "index_goals_on_user_id_and_goal_type"
+    t.index ["user_id", "status"], name: "index_goals_on_user_id_and_status"
+    t.index ["user_id", "target_date"], name: "index_goals_on_user_id_and_target_date"
+    t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -53,6 +72,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_151427) do
   end
 
   add_foreign_key "categories", "users"
+  add_foreign_key "goals", "categories"
+  add_foreign_key "goals", "users"
   add_foreign_key "transactions", "categories"
   add_foreign_key "transactions", "users"
 end

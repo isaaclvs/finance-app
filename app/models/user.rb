@@ -7,6 +7,7 @@ class User < ApplicationRecord
   # Associations
   has_many :categories, dependent: :destroy
   has_many :transactions, dependent: :destroy
+  has_many :goals, dependent: :destroy
 
   # Balance calculation methods
   def total_income

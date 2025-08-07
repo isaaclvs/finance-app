@@ -1,0 +1,133 @@
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
+  <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-600">
+    <div class="flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Goals Overview</h2>
+      <%= link_to "View All Goals", goals_path, 
+          class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium transition-colors",
+          data: { turbo_frame: "_top" } %>
+    </div>
+  </div>
+
+  <% if @goals.any? %>
+    <!-- Goals Stats -->
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-600">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
+            <%= @goals_stats[:total] %>
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Total Goals</div>
+        </div>
+        
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-600 dark:text-green-400">
+            <%= @goals_stats[:active] %>
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Active</div>
+        </div>
+        
+        <div class="text-center">
+          <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+            <%= @goals_stats[:completed] %>
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Completed</div>
+        </div>
+        
+        <div class="text-center">
+          <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">
+            <%= @goals_stats[:overdue] %>
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">Overdue</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Goals -->
+    <div class="p-6">
+      <h3 class="text-md font-medium text-gray-900 dark:text-white mb-4">Recent Goals</h3>
+      
+      <div class="space-y-4">
+        <% @recent_goals.each do |goal| %>
+          <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-3">
+                  <h4 class="font-medium text-gray-900 dark:text-white">
+                    <%= link_to goal.title, goal_path(goal), 
+                        class: "hover:text-blue-600 dark:hover:text-blue-400 transition-colors",
+                        data: { turbo_frame: "_top" } %>
+                  </h4>
+                  
+                  <!-- Goal Type Badge -->
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-<%= goal.goal_type_color %>-100 text-<%= goal.goal_type_color %>-800 dark:bg-<%= goal.goal_type_color %>-800 dark:text-<%= goal.goal_type_color %>-100">
+                    <%= goal.goal_type.humanize %>
+                  </span>
+                  
+                  <!-- Status Badge -->
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-<%= goal.status_color %>-100 text-<%= goal.status_color %>-800 dark:bg-<%= goal.status_color %>-800 dark:text-<%= goal.status_color %>-100">
+                    <%= goal.status.humanize %>
+                  </span>
+                </div>
+                
+                <div class="text-sm font-medium text-gray-900 dark:text-white">
+                  <%= number_to_percentage(goal.progress_percentage, precision: 0) %>
+                </div>
+              </div>
+              
+              <!-- Progress Bar -->
+              <div class="flex items-center gap-3">
+                <div class="flex-1">
+                  <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                    <div class="bg-<%= goal.goal_type_color %>-500 h-2 rounded-full transition-all duration-300" 
+                         style="width: <%= [goal.progress_percentage, 100].min %>%"></div>
+                  </div>
+                </div>
+                
+                <div class="text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                  $<%= number_with_delimiter(goal.current_amount, delimiter: ",") %> / 
+                  $<%= number_with_delimiter(goal.target_amount, delimiter: ",") %>
+                </div>
+              </div>
+              
+              <!-- Due Date -->
+              <div class="mt-2 flex items-center justify-between">
+                <div class="text-xs text-gray-500 dark:text-gray-400">
+                  Due: <%= goal.target_date.strftime("%b %d, %Y") %>
+                </div>
+                
+                <% if goal.overdue? %>
+                  <span class="text-xs font-medium text-red-600 dark:text-red-400">Overdue</span>
+                <% elsif goal.due_soon? %>
+                  <span class="text-xs font-medium text-yellow-600 dark:text-yellow-400">Due Soon</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="mt-6 flex justify-center">
+        <%= link_to "Add New Goal", new_goal_path, 
+            class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
+            data: { turbo_frame: "_top" } %>
+      </div>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="px-6 py-12 text-center">
+      <div class="text-gray-400 dark:text-gray-500 mb-4">
+        <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No Goals Yet</h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">Start tracking your financial objectives by creating your first goal.</p>
+      
+      <%= link_to "Create Your First Goal", new_goal_path, 
+          class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
+          data: { turbo_frame: "_top" } %>
+    </div>
+  <% end %>
+</div>

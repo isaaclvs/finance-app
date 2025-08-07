@@ -5,6 +5,16 @@ class DashboardController < ApplicationController
     @user = Current.user
     @transactions = filtered_transactions
 
+    # Goals data
+    @goals = Current.user.goals.includes(:category).ordered
+    @recent_goals = @goals.limit(3)
+    @goals_stats = {
+      total: @goals.count,
+      active: @goals.active_goals.count,
+      completed: @goals.completed_goals.count,
+      overdue: @goals.overdue.count
+    }
+
     @income_vs_expenses_data = income_vs_expenses_chart_data
     @expenses_by_category_data = expenses_by_category_chart_data
     @monthly_evolution_data = monthly_evolution_chart_data
@@ -13,8 +23,8 @@ class DashboardController < ApplicationController
       format.html
       format.turbo_stream do
         render turbo_stream: [
-          turbo_stream.update("dashboard_charts", partial: "dashboard/charts"),
-          turbo_stream.update("dashboard_transactions", partial: "dashboard/transactions")
+          turbo_stream.update("charts_and_transactions",
+            partial: "dashboard/charts_and_transactions")
         ]
       end
     end
