@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
       format.html
       format.turbo_stream do
         render turbo_stream: [
-          turbo_stream.update("charts_and_transactions", 
+          turbo_stream.update("charts_and_transactions",
             partial: "dashboard/charts_and_transactions")
         ]
       end
