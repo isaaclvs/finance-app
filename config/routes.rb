@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :transactions
     resources :goals do
       member do
+        get :update_progress
         patch :update_progress
       end
     end

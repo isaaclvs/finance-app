@@ -7,11 +7,9 @@
         <p class="text-gray-600 dark:text-gray-400">Track your financial objectives</p>
       </div>
       
-      <%= turbo_frame_tag "goal_new", class: "inline" do %>
-        <%= link_to "Add Goal", new_goal_path, 
-            class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
-            data: { turbo_frame: "goal_modal" } %>
-      <% end %>
+      <%= link_to "Add Goal", new_goal_path, 
+          class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
+          data: { turbo_frame: "goal_modal" } %>
     </div>
 
     <!-- Filters -->
@@ -61,7 +59,7 @@
   <!-- Goals List -->
   <%= turbo_frame_tag "goals_list", class: "w-full mt-12" do %>
     <% if @goals.any? %>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div id="goals_grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <% @goals.each do |goal| %>
           <%= turbo_frame_tag dom_id(goal), class: "h-full" do %>
             <%= render "goal_card", goal: goal %>
@@ -88,12 +86,8 @@
 </div>
 
 <!-- Modal Frame -->
-<%= turbo_frame_tag "goal_modal", class: "hidden" do %>
+<%= turbo_frame_tag "goal_modal" do %>
 <% end %>
 
-<!-- Progress Update Modals -->
-    <% @goals.each do |goal| %>
-      <%= render "progress_update_modal", goal: goal unless goal.completed? %>
-    <% end %>
   </div>
 </div>

@@ -1,0 +1,104 @@
+<!-- Modal Overlay -->
+<div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" 
+     data-controller="modal" 
+     data-modal-target="backdrop"
+     data-action="click->modal#closeOnBackdrop">
+  
+  <!-- Modal Content -->
+  <div class="relative top-20 mx-auto p-5 border max-w-md shadow-lg rounded-lg bg-white dark:bg-gray-800"
+       data-modal-target="dialog"
+       data-action="click->modal#preventClose"
+       data-turbo-permanent>
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+        Update Progress
+      </h3>
+      
+      <%= button_tag type: "button", 
+          class: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors",
+          data: { action: "click->modal#close" } do %>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      <% end %>
+    </div>
+
+    <!-- Goal Info -->
+    <div class="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+      <div class="text-sm font-medium text-gray-900 dark:text-white mb-1">
+        <%= goal.title %>
+      </div>
+      <div class="text-xs text-gray-600 dark:text-gray-400">
+        Current: $<%= number_with_delimiter(goal.current_amount) %> | 
+        Target: $<%= number_with_delimiter(goal.target_amount) %>
+      </div>
+    </div>
+
+    <!-- Progress Form -->
+    <%= form_with model: goal, 
+        url: update_progress_goal_path(goal), 
+        method: :patch,
+        class: "space-y-4" do |f| %>
+      
+      <div>
+        <%= f.label :amount, "New Current Amount", 
+            class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+        
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 dark:text-gray-400 text-sm">$</span>
+          </div>
+          
+          <%= f.number_field :amount, 
+              step: 0.01, 
+              min: 0, 
+              max: goal.target_amount,
+              value: goal.current_amount,
+              id: "goal_amount_field",
+              class: "w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white",
+              placeholder: "0.00",
+              required: true %>
+        </div>
+        
+        <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+          Remaining: $<%= number_with_delimiter(goal.remaining_amount) %>
+        </div>
+      </div>
+
+      <!-- Quick Amount Buttons -->
+      <div class="grid grid-cols-3 gap-2">
+        <% [25, 50, 100].each do |amount| %>
+          <button type="button" 
+                  class="px-3 py-1 text-xs bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
+                  onclick="addQuickAmount(<%= amount %>)">
+            +$<%= amount %>
+          </button>
+        <% end %>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
+        <%= button_tag "Cancel", type: "button",
+            class: "px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-medium rounded-lg transition-colors",
+            data: { action: "click->modal#close" } %>
+        
+        <%= f.submit "Update Progress", 
+            class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function addQuickAmount(amount) {
+    const field = document.getElementById('goal_amount_field');
+    if (field) {
+      const currentValue = parseFloat(field.value || 0);
+      const maxValue = parseFloat(field.max);
+      const newValue = Math.min(currentValue + amount, maxValue);
+      field.value = newValue;
+    }
+  }
+</script>

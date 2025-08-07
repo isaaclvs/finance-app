@@ -107,15 +107,31 @@ class GoalsController < ApplicationController
     end
   end
 
-  # PATCH /goals/1/update_progress
+  # GET /goals/1/update_progress - Show progress update form
+  # PATCH /goals/1/update_progress - Process progress update
   def update_progress
-    amount = params[:amount].to_f
+    if request.get?
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.update("goal_modal", partial: "update_progress_form", locals: { goal: @goal }) }
+        format.html { redirect_to goal_path(@goal) }
+      end
+      return
+    end
+
+    amount = params.dig(:goal, :amount)&.to_f || params[:amount]&.to_f || 0
 
     if @goal.update_progress(amount)
       respond_to do |format|
-        format.turbo_stream {
-          flash.now[:notice] = "Goal progress updated successfully"
-        }
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace(dom_id(@goal)) do
+              turbo_frame_tag dom_id(@goal), class: "h-full" do
+                render "goal_card", goal: @goal
+              end
+            end,
+            turbo_stream.update("goal_modal", "")
+          ]
+        end
         format.html {
           redirect_to goal_path(@goal), notice: "Goal progress updated successfully"
         }
@@ -123,8 +139,7 @@ class GoalsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream {
-          flash.now[:alert] = "Unable to update goal progress"
-          render :show, status: :unprocessable_entity
+          render turbo_stream: turbo_stream.update("goal_modal", partial: "update_progress_form", locals: { goal: @goal }), status: :unprocessable_entity
         }
         format.html {
           redirect_to goal_path(@goal), alert: "Unable to update goal progress"
