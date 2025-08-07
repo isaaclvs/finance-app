@@ -8,6 +8,11 @@ Rails.application.routes.draw do
     get "dashboard", to: "dashboard#index"
     resources :categories
     resources :transactions
+    resources :goals do
+      member do
+        patch :update_progress
+      end
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
