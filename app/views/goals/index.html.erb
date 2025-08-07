@@ -1,0 +1,99 @@
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-8">
+  <div class="mx-auto max-w-6xl">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Goals</h1>
+        <p class="text-gray-600 dark:text-gray-400">Track your financial objectives</p>
+      </div>
+      
+      <%= turbo_frame_tag "goal_new", class: "inline" do %>
+        <%= link_to "Add Goal", new_goal_path, 
+            class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
+            data: { turbo_frame: "goal_modal" } %>
+      <% end %>
+    </div>
+
+    <!-- Filters -->
+  <%= turbo_frame_tag "goal_filters", class: "w-full" do %>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+      <%= form_with url: goals_path, method: :get, local: true, 
+          class: "flex flex-col sm:flex-row gap-4", 
+          data: { controller: "filters", turbo_frame: "goals_list" } do |f| %>
+        
+        <div class="flex-1">
+          <%= f.text_field :search, 
+              placeholder: "Search goals...", 
+              value: params[:search],
+              class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white",
+              data: { action: "input->filters#filter" } %>
+        </div>
+
+        <div class="flex gap-2">
+          <%= f.select :status, 
+              options_for_select([
+                ['All Status', ''],
+                ['Active', 'active'],
+                ['Completed', 'completed'],
+                ['Paused', 'paused'],
+                ['Cancelled', 'cancelled']
+              ], params[:status]),
+              {},
+              { class: "px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white",
+                data: { action: "change->filters#filter" } } %>
+
+          <%= f.select :goal_type,
+              options_for_select([
+                ['All Types', ''],
+                ['Savings', 'savings'],
+                ['Expense Reduction', 'expense_reduction'],
+                ['Income Increase', 'income_increase'],
+                ['Debt Payoff', 'debt_payoff']
+              ], params[:goal_type]),
+              {},
+              { class: "px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white",
+                data: { action: "change->filters#filter" } } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Goals List -->
+  <%= turbo_frame_tag "goals_list", class: "w-full mt-12" do %>
+    <% if @goals.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @goals.each do |goal| %>
+          <%= turbo_frame_tag dom_id(goal), class: "h-full" do %>
+            <%= render "goal_card", goal: goal %>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
+        <div class="text-gray-400 dark:text-gray-500 mb-4">
+          <svg class="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No goals yet</h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">Start tracking your financial objectives by creating your first goal.</p>
+        
+        <%= link_to "Create Your First Goal", new_goal_path, 
+            class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
+            data: { turbo_frame: "goal_modal" } %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<!-- Modal Frame -->
+<%= turbo_frame_tag "goal_modal", class: "hidden" do %>
+<% end %>
+
+<!-- Progress Update Modals -->
+    <% @goals.each do |goal| %>
+      <%= render "progress_update_modal", goal: goal unless goal.completed? %>
+    <% end %>
+  </div>
+</div>
