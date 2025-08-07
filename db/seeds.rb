@@ -30,4 +30,73 @@ if Rails.env.development?
 
   # Load transaction seeds
   load Rails.root.join('db/seeds/transactions.rb')
+
+  # Create sample goals
+  emergency_category = demo_user.categories.find_by(name: 'Emergency Fund')
+  vacation_category = demo_user.categories.find_by(name: 'Entertainment')
+
+  goals_data = [
+    {
+      title: 'Emergency Fund',
+      description: 'Build an emergency fund to cover 6 months of expenses',
+      target_amount: 15000,
+      current_amount: 3750,
+      target_date: 18.months.from_now,
+      goal_type: 'savings',
+      status: 'active',
+      category: emergency_category
+    },
+    {
+      title: 'Annual Vacation',
+      description: 'Save for a two-week vacation to Europe',
+      target_amount: 8000,
+      current_amount: 2400,
+      target_date: 10.months.from_now,
+      goal_type: 'savings',
+      status: 'active',
+      category: vacation_category
+    },
+    {
+      title: 'Reduce Dining Out',
+      description: 'Cut dining expenses by cooking more meals at home',
+      target_amount: 2400, # Reduce by $200/month over 12 months
+      current_amount: 800,  # Already saved $800
+      target_date: 8.months.from_now,
+      goal_type: 'expense_reduction',
+      status: 'active'
+    },
+    {
+      title: 'Side Hustle Income',
+      description: 'Increase monthly income through freelance work',
+      target_amount: 6000, # $500/month extra for 12 months
+      current_amount: 1500, # Made $1500 so far
+      target_date: 9.months.from_now,
+      goal_type: 'income_increase',
+      status: 'active'
+    },
+    {
+      title: 'Pay Off Credit Card',
+      description: 'Eliminate all credit card debt',
+      target_amount: 4500,
+      current_amount: 4500,
+      target_date: Date.current,
+      goal_type: 'debt_payoff',
+      status: 'completed'
+    }
+  ]
+
+  goals_data.each do |goal_attrs|
+    goal = demo_user.goals.find_or_create_by!(title: goal_attrs[:title]) do |g|
+      g.description = goal_attrs[:description]
+      g.target_amount = goal_attrs[:target_amount]
+      g.current_amount = goal_attrs[:current_amount]
+      g.target_date = goal_attrs[:target_date]
+      g.goal_type = goal_attrs[:goal_type]
+      g.status = goal_attrs[:status]
+      g.category = goal_attrs[:category]
+    end
+    puts "Goal created: #{goal.title} (#{goal.progress_percentage}% complete)"
+  end
+
+  puts "Total goals created: #{demo_user.goals.count}"
 end
