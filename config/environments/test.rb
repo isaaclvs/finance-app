@@ -27,6 +27,9 @@ Rails.application.configure do
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
+  
+  # Disable host authorization completely in test environment  
+  config.hosts = nil
 
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test

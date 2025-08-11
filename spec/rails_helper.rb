@@ -10,6 +10,9 @@ require 'database_cleaner/active_record'
 
 Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
+# Force load Devise mappings for test environment
+Rails.application.reload_routes!
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -38,6 +41,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
+  
 end
 
 Shoulda::Matchers.configure do |config|

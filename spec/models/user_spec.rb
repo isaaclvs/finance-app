@@ -85,4 +85,17 @@ RSpec.describe User, type: :model do
       expect(other_user.total_income).to eq(2000.0)
     end
   end
+  
+  describe "balance calculation accuracy" do
+    let(:category) { create(:category, user: user) }
+    
+    it "calculates balance correctly with mixed transactions" do
+      create(:transaction, :income, user: user, category: category, amount: 1000)
+      create(:transaction, :expense, user: user, category: category, amount: 300)
+      create(:transaction, :income, user: user, category: category, amount: 500)
+      create(:transaction, :expense, user: user, category: category, amount: 200)
+      
+      expect(user.balance).to eq(1000.0)
+    end
+  end
 end

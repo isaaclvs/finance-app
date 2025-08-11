@@ -66,4 +66,30 @@ RSpec.describe Goal, type: :model do
       end
     end
   end
+  
+  describe "goal progress integration" do
+    let(:category) { create(:category, user: user) }
+    let(:goal) { create(:goal, user: user, category: category, target_amount: 1000, current_amount: 0) }
+    
+    it "can track progress when transactions are added" do
+      create(:transaction, :income, user: user, category: category, amount: 300)
+      
+      # Simulate updating goal progress (would be done by controller/service)
+      goal.update(current_amount: user.transactions.where(category: category).sum(:amount))
+      
+      expect(goal.progress_percentage).to eq(30.0)
+      expect(goal.remaining_amount).to eq(700.0)
+      expect(goal.completed?).to be false
+    end
+    
+    it "detects completion when target is reached" do
+      create(:transaction, :income, user: user, category: category, amount: 1000)
+      
+      # Simulate updating goal progress
+      goal.update(current_amount: user.transactions.where(category: category).sum(:amount))
+      
+      expect(goal.progress_percentage).to eq(100.0)
+      expect(goal.completed?).to be true
+    end
+  end
 end
