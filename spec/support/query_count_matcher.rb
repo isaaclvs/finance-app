@@ -7,7 +7,7 @@ RSpec::Matchers.define :exceed_query_limit do |expected|
     end
 
     ActiveSupport::Notifications.subscribed(callback, 'sql.active_record', &block)
-    
+
     @actual_count = query_count
     @actual_count > expected
   end

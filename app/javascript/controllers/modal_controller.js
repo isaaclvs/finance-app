@@ -16,9 +16,20 @@ export default class extends Controller {
   
   close(event) {
     if (event) event.preventDefault()
-    this.element.innerHTML = ""
-    this.element.removeAttribute("src")
-    this.element.removeAttribute("complete")
+    
+    document.body.classList.remove("overflow-hidden")
+    document.removeEventListener("keydown", this.#handleKeydown)
+    
+    const turboFrame = this.element.closest('turbo-frame')
+    if (turboFrame) {
+      turboFrame.innerHTML = ""
+      turboFrame.removeAttribute("src")
+      turboFrame.removeAttribute("complete")
+      turboFrame.removeAttribute("busy")
+      turboFrame.removeAttribute("aria-busy")
+    } else {
+      this.element.innerHTML = ""
+    }
   }
   
   closeOnBackdrop(event) {
