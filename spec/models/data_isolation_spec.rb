@@ -9,7 +9,7 @@ RSpec.describe "Data isolation between users", type: :model do
   it "users only see their own transactions" do
     transaction1 = create(:transaction, user: user1, category: category1)
     transaction2 = create(:transaction, user: user2, category: category2)
-    
+
     expect(user1.transactions).to include(transaction1)
     expect(user1.transactions).not_to include(transaction2)
     expect(user2.transactions).to include(transaction2)
@@ -26,7 +26,7 @@ RSpec.describe "Data isolation between users", type: :model do
   it "users only see their own goals" do
     goal1 = create(:goal, user: user1, category: category1)
     goal2 = create(:goal, user: user2, category: category2)
-    
+
     expect(user1.goals).to include(goal1)
     expect(user1.goals).not_to include(goal2)
     expect(user2.goals).to include(goal2)

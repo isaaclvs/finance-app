@@ -83,7 +83,7 @@ group :test do
   # Additional testing tools
   gem "shoulda-matchers", "~> 6.0"
   gem "database_cleaner-active_record", "~> 2.2"
-  
+
   # Test coverage
   gem "simplecov", "~> 0.22", require: false
 end
