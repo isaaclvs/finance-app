@@ -1,57 +1,29 @@
-<!-- Modal Overlay -->
-<div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" 
-     data-controller="modal" 
-     data-modal-target="backdrop"
-     data-action="click->modal#closeOnBackdrop">
-  
-  <!-- Modal Content -->
-  <div class="relative top-20 mx-auto p-5 border max-w-2xl shadow-lg rounded-lg bg-white dark:bg-gray-800"
-       data-modal-target="dialog"
-       data-action="click->modal#preventClose"
-       data-turbo-permanent>
-    
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-        <%= goal.persisted? ? "Edit Goal" : "Create New Goal" %>
-      </h3>
-      
-      <%= button_tag type: "button", 
-          class: "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors",
-          data: { action: "click->modal#close" } do %>
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      <% end %>
-    </div>
-
-    <%= form_with model: goal, class: "space-y-6" do |f| %>
-      
-      <!-- Error Messages -->
-      <% if goal.errors.any? %>
-        <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-md p-4">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
-                There were <%= pluralize(goal.errors.count, "error") %> with your submission:
-              </h3>
-              <div class="mt-2 text-sm text-red-700 dark:text-red-300">
-                <ul class="list-disc list-inside space-y-1">
-                  <% goal.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                  <% end %>
-                </ul>
-              </div>
-            </div>
+<%= form_with model: goal, local: false do |f| %>
+  <% if goal.errors.any? %>
+    <div class="rounded-md bg-red-50 dark:bg-red-900/20 p-4 mb-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400 dark:text-red-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
+            There were <%= pluralize(goal.errors.count, "error") %> with your submission
+          </h3>
+          <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+            <ul class="list-disc pl-5 space-y-1">
+              <% goal.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
           </div>
         </div>
-      <% end %>
+      </div>
+    </div>
+  <% end %>
 
+  <div class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Left Column -->
         <div class="space-y-6">
@@ -153,14 +125,14 @@
       </div>
 
       <!-- Form Actions -->
-      <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
-        <%= button_tag "Cancel", type: "button",
-            class: "px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-medium rounded-lg transition-colors",
-            data: { action: "click->modal#close" } %>
-        
+      <div class="mt-6 flex items-center justify-end space-x-3">
+        <button type="button" 
+                class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                data-action="click->modal#close">
+          Cancel
+        </button>
         <%= f.submit goal.persisted? ? "Update Goal" : "Create Goal", 
-            class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors" %>
+            class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200" %>
       </div>
-    <% end %>
   </div>
-</div>
+<% end %>

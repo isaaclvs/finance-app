@@ -16,9 +16,23 @@ export default class extends Controller {
   
   close(event) {
     if (event) event.preventDefault()
-    this.element.innerHTML = ""
-    this.element.removeAttribute("src")
-    this.element.removeAttribute("complete")
+    
+    // Clean up body state and event listeners before clearing
+    document.body.classList.remove("overflow-hidden")
+    document.removeEventListener("keydown", this.#handleKeydown)
+    
+    // Find the parent turbo-frame and clear it instead
+    const turboFrame = this.element.closest('turbo-frame')
+    if (turboFrame) {
+      turboFrame.innerHTML = ""
+      turboFrame.removeAttribute("src")
+      turboFrame.removeAttribute("complete")
+      turboFrame.removeAttribute("busy")
+      turboFrame.removeAttribute("aria-busy")
+    } else {
+      // Fallback: clear this element
+      this.element.innerHTML = ""
+    }
   }
   
   closeOnBackdrop(event) {
