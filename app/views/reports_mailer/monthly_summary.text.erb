@@ -1,0 +1,9 @@
+Hi <%= @user.email %>,
+
+Here is your monthly financial summary for <%= @summary[:month] %>:
+
+- Income: <%= number_to_currency(@summary[:income]) %>
+- Expenses: <%= number_to_currency(@summary[:expenses]) %>
+- Balance: <%= number_to_currency(@summary[:balance]) %>
+
+Generated automatically by Finance App.

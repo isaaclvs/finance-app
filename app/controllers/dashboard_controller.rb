@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
   def index
     @user = Current.user
     @transactions = filtered_transactions
+    @export_transactions = filtered_transactions_for_charts.ordered
 
     # Goals data
     @goals = Current.user.goals.includes(:category).ordered
@@ -21,6 +22,13 @@ class DashboardController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.csv do
+        send_data(
+          Export::TransactionsCsv.new(transactions: @export_transactions).call,
+          filename: export_filename,
+          type: "text/csv; charset=utf-8"
+        )
+      end
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.update("charts_and_transactions",
@@ -129,5 +137,9 @@ class DashboardController < ApplicationController
 
   def load_categories
     @categories = Current.user.categories.ordered
+  end
+
+  def export_filename
+    "transactions-#{Date.current}.csv"
   end
 end

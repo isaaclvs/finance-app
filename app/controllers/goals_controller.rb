@@ -112,7 +112,7 @@ class GoalsController < ApplicationController
   # GET /goals/1/update_progress - Show progress update form
   # PATCH /goals/1/update_progress - Process progress update
   def update_progress
-    if request.get?
+    if request.get? || request.head?
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.update("goal_modal", partial: "update_progress_form", locals: { goal: @goal }) }
         format.html { redirect_to goal_path(@goal) }
