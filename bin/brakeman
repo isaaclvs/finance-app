@@ -2,6 +2,8 @@
 require "rubygems"
 require "bundler/setup"
 
-ARGV.unshift("--ensure-latest")
+# Keep CI stable: do not fail builds only because a newer Brakeman exists.
+# Opt in with BRAKEMAN_ENSURE_LATEST=1 when you want update enforcement.
+ARGV.unshift("--ensure-latest") if ENV["BRAKEMAN_ENSURE_LATEST"] == "1"
 
 load Gem.bin_path("brakeman", "brakeman")

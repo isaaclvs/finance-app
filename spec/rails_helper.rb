@@ -1,5 +1,5 @@
 require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV'] = 'test'
 require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
@@ -8,11 +8,21 @@ require 'factory_bot_rails'
 require 'faker'
 require 'database_cleaner/active_record'
 
+Capybara.register_driver :rack_test_modern_browser do |app|
+  Capybara::RackTest::Driver.new(
+    app,
+    headers: {
+      'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36'
+    }
+  )
+end
+
+Capybara.default_driver = :rack_test_modern_browser
+Capybara.javascript_driver = :rack_test_modern_browser
+
 Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
 # Force load Devise mappings for test environment
-Rails.application.reload_routes!
-
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
