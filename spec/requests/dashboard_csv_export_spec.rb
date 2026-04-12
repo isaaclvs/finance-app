@@ -1,7 +1,7 @@
 require "rails_helper"
 require "csv"
 
-RSpec.describe DashboardController, type: :controller do
+RSpec.describe "Dashboard CSV export", type: :request do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
 
@@ -10,8 +10,6 @@ RSpec.describe DashboardController, type: :controller do
   let(:other_category) { create(:category, user: other_user, name: "Other") }
 
   before do
-    routes.draw { get "dashboard" => "dashboard#index" }
-
     sign_in user
 
     create(:transaction, :expense, user: user, category: food, amount: 25, description: "Coffee", date: Date.current)
@@ -20,7 +18,7 @@ RSpec.describe DashboardController, type: :controller do
   end
 
   it "exports only current user transactions in CSV format" do
-    get :index, format: :csv
+    get "/dashboard.csv"
 
     expect(response).to have_http_status(:ok)
     expect(response.content_type).to include("text/csv")
@@ -33,7 +31,7 @@ RSpec.describe DashboardController, type: :controller do
   end
 
   it "applies transaction_type filter to exported CSV" do
-    get :index, params: { transaction_type: "income" }, format: :csv
+    get "/dashboard.csv", params: { transaction_type: "income" }
 
     parsed = CSV.parse(response.body, headers: true)
     types = parsed.map { |row| row["Type"] }.uniq
@@ -54,11 +52,11 @@ RSpec.describe DashboardController, type: :controller do
       date: 3.months.ago.to_date
     )
 
-    get :index, params: {
+    get "/dashboard.csv", params: {
       period: "custom",
       start_date: Date.current.beginning_of_month,
       end_date: Date.current.end_of_month
-    }, format: :csv
+    }
 
     parsed = CSV.parse(response.body, headers: true)
     descriptions = parsed.map { |row| row["Description"] }
