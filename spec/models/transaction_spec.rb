@@ -44,8 +44,9 @@ RSpec.describe Transaction, type: :model do
 
   describe "useful scopes" do
     before do
-      create(:transaction, :income, amount: 100, user: user, category: category, date: Date.current)
-      create(:transaction, :expense, amount: 50, user: user, category: category, date: 1.day.ago)
+      reference_month = Date.new(2025, 7, 1)
+      create(:transaction, :income, amount: 100, user: user, category: category, date: reference_month + 5.days)
+      create(:transaction, :expense, amount: 50, user: user, category: category, date: reference_month + 10.days)
     end
 
     describe ".ordered" do
@@ -57,8 +58,9 @@ RSpec.describe Transaction, type: :model do
 
     describe ".by_month" do
       it "returns transactions for the given month" do
-        transactions = Transaction.by_month(Date.current)
-        expect(transactions.count).to eq(2)  # Both are from this month
+        reference_month = Date.new(2025, 7, 1)
+        transactions = Transaction.by_month(reference_month)
+        expect(transactions.count).to eq(2)
       end
     end
 
