@@ -94,3 +94,7 @@ production:
     <<: *primary_production
   writing:
     <<: *primary_production
+  queue:
+    <<: *primary_production
+    url: <%= ENV["QUEUE_DATABASE_URL"] || ENV["DATABASE_URL"] %>
+    schema_dump: db/queue_schema.rb
