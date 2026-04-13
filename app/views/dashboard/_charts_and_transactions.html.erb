@@ -3,7 +3,7 @@
     <!-- Charts Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Income vs Expenses</h2>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("dashboard.charts.income_vs_expenses") %></h2>
         <%= bar_chart @income_vs_expenses_data,
             colors: ["#10b981", "#ef4444"],
             prefix: "R$ ",
@@ -12,7 +12,7 @@
 
       <% if @expenses_by_category_data.any? %>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Expenses by Category</h2>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("dashboard.charts.expenses_by_category") %></h2>
           <%= pie_chart @expenses_by_category_data,
               prefix: "R$ ",
               height: "200px" %>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Evolution</h2>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("dashboard.charts.monthly_evolution") %></h2>
       <%= line_chart @monthly_evolution_data,
           colors: ["#10b981", "#ef4444"],
           prefix: "R$ ",
@@ -38,19 +38,19 @@
               <thead class="bg-gray-50 dark:bg-gray-800">
                 <tr>
                   <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
-                    Date
+                    <%= t("transactions.index.columns.date") %>
                   </th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                    Description
+                    <%= t("transactions.index.columns.transaction") %>
                   </th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                    Category
+                    <%= t("transactions.index.columns.category") %>
                   </th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                    Amount
+                    <%= t("transactions.index.columns.amount") %>
                   </th>
                   <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                    <span class="sr-only">Actions</span>
+                    <span class="sr-only"><%= t("transactions.index.columns.actions") %></span>
                   </th>
                 </tr>
               </thead>
@@ -73,14 +73,14 @@
                       <%= transaction.formatted_amount %>
                     </td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <%= link_to "Edit", edit_transaction_path(transaction), 
+                      <%= link_to t("common.actions.edit"), edit_transaction_path(transaction),
                           class: "text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300",
                           data: { turbo_frame: "modal" } %>
-                      <%= link_to "Delete", transaction_path(transaction), 
+                      <%= link_to t("common.actions.delete"), transaction_path(transaction),
                           class: "ml-4 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300",
                           data: { 
                             turbo_method: :delete,
-                            turbo_confirm: "Are you sure?"
+                            turbo_confirm: t("common.confirmations.are_you_sure")
                           } %>
                     </td>
                   </tr>
@@ -109,14 +109,14 @@
                     </div>
                   </div>
                   <div class="mt-2 flex space-x-3 text-xs">
-                    <%= link_to "Edit", edit_transaction_path(transaction), 
+                    <%= link_to t("common.actions.edit"), edit_transaction_path(transaction),
                         class: "text-indigo-600 dark:text-indigo-400",
                         data: { turbo_frame: "modal" } %>
-                    <%= link_to "Delete", transaction_path(transaction), 
+                    <%= link_to t("common.actions.delete"), transaction_path(transaction),
                         class: "text-red-600 dark:text-red-400",
                         data: { 
                           turbo_method: :delete,
-                          turbo_confirm: "Are you sure?"
+                          turbo_confirm: t("common.confirmations.are_you_sure")
                         } %>
                   </div>
                 </div>

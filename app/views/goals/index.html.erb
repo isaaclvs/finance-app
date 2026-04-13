@@ -2,13 +2,13 @@
   <div class="mx-auto max-w-6xl">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
-        <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">Goals</h1>
+        <h1 class="text-3xl font-semibold text-gray-900 dark:text-white"><%= t("goals.index.title") %></h1>
         <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-          Track and manage your financial objectives
+          <%= t("goals.index.subtitle") %>
         </p>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-        <%= link_to "New goal", new_goal_path, 
+        <%= link_to t("goals.index.new_goal"), new_goal_path,
             class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto",
             data: { turbo_frame: "goal_modal" } %>
       </div>
@@ -26,7 +26,7 @@
           
           <div class="flex-1">
             <%= f.text_field :search, 
-                placeholder: "Search goals...", 
+                placeholder: t("goals.index.filters.search_placeholder"),
                 value: params[:search],
                 class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white",
                 data: { action: "input->filters#submit" } %>
@@ -35,11 +35,11 @@
           <div class="flex gap-2">
             <%= f.select :status, 
                 options_for_select([
-                  ['All Status', ''],
-                  ['Active', 'active'],
-                  ['Completed', 'completed'],
-                  ['Paused', 'paused'],
-                  ['Cancelled', 'cancelled']
+                  [t("goals.index.filters.all_status"), ""],
+                  [t("goals.status.active"), "active"],
+                  [t("goals.status.completed"), "completed"],
+                  [t("goals.status.paused"), "paused"],
+                  [t("goals.status.cancelled"), "cancelled"]
                 ], params[:status]),
                 {},
                 { class: "px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white",
@@ -47,11 +47,11 @@
 
             <%= f.select :goal_type,
                 options_for_select([
-                  ['All Types', ''],
-                  ['Savings', 'savings'],
-                  ['Expense Reduction', 'expense_reduction'],
-                  ['Income Increase', 'income_increase'],
-                  ['Debt Payoff', 'debt_payoff']
+                  [t("goals.index.filters.all_types"), ""],
+                  [t("goals.types.savings"), "savings"],
+                  [t("goals.types.expense_reduction"), "expense_reduction"],
+                  [t("goals.types.income_increase"), "income_increase"],
+                  [t("goals.types.debt_payoff"), "debt_payoff"]
                 ], params[:goal_type]),
                 {},
                 { class: "px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white",

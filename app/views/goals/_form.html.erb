@@ -9,7 +9,7 @@
         </div>
         <div class="ml-3">
           <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
-            There were <%= pluralize(goal.errors.count, "error") %> with your submission
+            <%= t("goals.form.errors", count: goal.errors.count) %>
           </h3>
           <div class="mt-2 text-sm text-red-700 dark:text-red-300">
             <ul class="list-disc pl-5 space-y-1">
@@ -32,7 +32,7 @@
             <%= f.label :title, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
             <%= f.text_field :title, 
                 class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white",
-                placeholder: "e.g., Emergency Fund" %>
+              placeholder: t("goals.form.title_placeholder") %>
           </div>
 
           <!-- Goal Type -->
@@ -40,12 +40,12 @@
             <%= f.label :goal_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
             <%= f.select :goal_type, 
                 options_for_select([
-                  ['Savings', 'savings'],
-                  ['Expense Reduction', 'expense_reduction'],
-                  ['Income Increase', 'income_increase'],
-                  ['Debt Payoff', 'debt_payoff']
+                  [t("goals.types.savings"), "savings"],
+                  [t("goals.types.expense_reduction"), "expense_reduction"],
+                  [t("goals.types.income_increase"), "income_increase"],
+                  [t("goals.types.debt_payoff"), "debt_payoff"]
                 ], goal.goal_type),
-                { prompt: "Select goal type" },
+                { prompt: t("goals.form.goal_type_prompt") },
                 { class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" } %>
           </div>
 
@@ -54,7 +54,7 @@
             <%= f.label :target_amount, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 dark:text-gray-400 sm:text-sm">$</span>
+                <span class="text-gray-500 dark:text-gray-400 sm:text-sm">R$</span>
               </div>
               <%= f.number_field :target_amount, 
                   step: 0.01, 
@@ -69,7 +69,7 @@
             <%= f.label :current_amount, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 dark:text-gray-400 sm:text-sm">$</span>
+                <span class="text-gray-500 dark:text-gray-400 sm:text-sm">R$</span>
               </div>
               <%= f.number_field :current_amount, 
                   step: 0.01, 
@@ -95,10 +95,10 @@
             <%= f.label :status, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
             <%= f.select :status, 
                 options_for_select([
-                  ['Active', 'active'],
-                  ['Paused', 'paused'],
-                  ['Completed', 'completed'],
-                  ['Cancelled', 'cancelled']
+                  [t("goals.status.active"), "active"],
+                  [t("goals.status.paused"), "paused"],
+                  [t("goals.status.completed"), "completed"],
+                  [t("goals.status.cancelled"), "cancelled"]
                 ], goal.status),
                 {},
                 { class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" } %>
@@ -106,10 +106,10 @@
 
           <!-- Category -->
           <div>
-            <%= f.label :category_id, "Category (Optional)", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+            <%= f.label :category_id, t("goals.form.category_optional"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
             <%= f.select :category_id, 
                 options_from_collection_for_select(@categories, :id, :name, goal.category_id),
-                { prompt: "Select category (optional)" },
+              { prompt: t("goals.form.category_prompt") },
                 { class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white" } %>
           </div>
         </div>
@@ -121,7 +121,7 @@
         <%= f.text_area :description, 
             rows: 4,
             class: "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white resize-none",
-            placeholder: "Describe your goal and why it's important to you..." %>
+          placeholder: t("goals.form.description_placeholder") %>
       </div>
 
       <!-- Form Actions -->
@@ -129,9 +129,9 @@
         <button type="button" 
                 class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                 data-action="click->modal#close">
-          Cancel
+          <%= t("common.actions.cancel") %>
         </button>
-        <%= f.submit goal.persisted? ? "Update Goal" : "Create Goal", 
+        <%= f.submit goal.persisted? ? t("goals.form.update_goal") : t("goals.form.create_goal"),
             class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200" %>
       </div>
   </div>

@@ -102,6 +102,10 @@
         this_month: "Este mes"
         custom_range: "Periodo personalizado"
         clear: "Limpar filtros"
+    charts:
+      income_vs_expenses: "Receitas vs despesas"
+      expenses_by_category: "Despesas por categoria"
+      monthly_evolution: "Evolucao mensal"
   transactions:
     index:
       title: "Transacoes"
@@ -130,6 +134,115 @@
       select_category: "Selecione uma categoria"
       description_placeholder: "Observacoes opcionais sobre esta transacao"
       cancel: "Cancelar"
+    modal:
+      new_title: "Nova transacao"
+      edit_title: "Editar transacao"
+    item:
+      no_description: "Sem descricao"
+      delete_confirm: "Tem certeza que deseja excluir esta transacao?"
+  categories:
+    index:
+      title: "Categorias"
+      subtitle: "Gerencie as categorias das suas transacoes"
+      new_category: "Nova categoria"
+      columns:
+        name: "Nome"
+        color: "Cor"
+        transactions: "Transacoes"
+        actions: "Acoes"
+    form:
+      errors:
+        one: "Houve 1 erro no envio"
+        other: "Houve %{count} erros no envio"
+      name_placeholder: "ex.: Alimentacao, Transporte, Salario"
+      color_hint: "Escolha uma cor para identificar esta categoria"
+      cancel: "Cancelar"
+    modal:
+      new_title: "Nova categoria"
+      edit_title: "Editar categoria"
+  goals:
+    index:
+      title: "Metas"
+      subtitle: "Acompanhe e gerencie seus objetivos financeiros"
+      new_goal: "Nova meta"
+      filters:
+        search_placeholder: "Buscar metas..."
+        all_status: "Todos os status"
+        all_types: "Todos os tipos"
+    types:
+      savings: "Poupanca"
+      expense_reduction: "Reducao de despesas"
+      income_increase: "Aumento de receita"
+      debt_payoff: "Quitacao de dividas"
+    status:
+      active: "Ativa"
+      paused: "Pausada"
+      completed: "Concluida"
+      cancelled: "Cancelada"
+    form:
+      errors:
+        one: "Houve 1 erro no envio"
+        other: "Houve %{count} erros no envio"
+      title_placeholder: "ex.: Reserva de emergencia"
+      goal_type_prompt: "Selecione o tipo de meta"
+      category_optional: "Categoria (opcional)"
+      category_prompt: "Selecione uma categoria (opcional)"
+      description_placeholder: "Descreva sua meta e por que ela e importante para voce..."
+      update_goal: "Atualizar meta"
+      create_goal: "Criar meta"
+    modal:
+      new_title: "Nova meta"
+      edit_title: "Editar meta"
+    list:
+      empty_title: "Nenhuma meta encontrada"
+      empty_subtitle: "Ajuste sua busca ou filtros para encontrar o que procura."
+    card:
+      progress: "Progresso"
+      target_date: "Data alvo:"
+      days_remaining: "Dias restantes:"
+      remaining: "Restante:"
+      overdue: "Atrasada"
+      days_count:
+        one: "1 dia"
+        other: "%{count} dias"
+      update_progress: "Atualizar progresso"
+    summary:
+      overview: "Visao geral das metas"
+      view_all: "Ver todas"
+      total: "Total de metas"
+      overdue: "Atrasadas"
+      recent: "Metas recentes"
+      due: "Vencimento"
+      due_soon: "Vence em breve"
+      add_new: "Adicionar nova meta"
+      empty_title: "Nenhuma meta ainda"
+      empty_subtitle: "Comece a acompanhar seus objetivos financeiros criando sua primeira meta."
+      create_first: "Criar primeira meta"
+    show:
+      edit_goal: "Editar meta"
+      update_progress: "Atualizar progresso"
+      delete_goal: "Excluir meta"
+      delete_confirm: "Tem certeza que deseja excluir esta meta? Esta acao nao pode ser desfeita."
+      description: "Descricao"
+      progress_details: "Detalhes do progresso"
+      overall_progress: "Progresso geral"
+      current_amount: "Valor atual"
+      target_amount: "Valor alvo"
+      goal_information: "Informacoes da meta"
+      overdue_by_days:
+        one: "Atrasada ha 1 dia"
+        other: "Atrasada ha %{count} dias"
+      created: "Criada em"
+  common:
+    actions:
+      title: "Acoes"
+      close: "Fechar"
+      cancel: "Cancelar"
+      edit: "Editar"
+      delete: "Excluir"
+      view: "Ver"
+    confirmations:
+      are_you_sure: "Tem certeza?"
   shared:
     balance_summary:
       total_income: "Total de receitas"

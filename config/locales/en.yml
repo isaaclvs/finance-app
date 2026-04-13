@@ -132,6 +132,10 @@ en:
         this_month: "This month"
         custom_range: "Custom range"
         clear: "Clear filters"
+    charts:
+      income_vs_expenses: "Income vs Expenses"
+      expenses_by_category: "Expenses by Category"
+      monthly_evolution: "Monthly Evolution"
   transactions:
     index:
       title: "Transactions"
@@ -160,6 +164,115 @@ en:
       select_category: "Select a category"
       description_placeholder: "Optional notes about this transaction"
       cancel: "Cancel"
+    modal:
+      new_title: "New Transaction"
+      edit_title: "Edit Transaction"
+    item:
+      no_description: "No description"
+      delete_confirm: "Are you sure you want to delete this transaction?"
+  categories:
+    index:
+      title: "Categories"
+      subtitle: "Manage your transaction categories"
+      new_category: "New category"
+      columns:
+        name: "Name"
+        color: "Color"
+        transactions: "Transactions"
+        actions: "Actions"
+    form:
+      errors:
+        one: "There was 1 error with your submission"
+        other: "There were %{count} errors with your submission"
+      name_placeholder: "e.g. Food, Transport, Salary"
+      color_hint: "Choose a color to identify this category"
+      cancel: "Cancel"
+    modal:
+      new_title: "New Category"
+      edit_title: "Edit Category"
+  goals:
+    index:
+      title: "Goals"
+      subtitle: "Track and manage your financial objectives"
+      new_goal: "New goal"
+      filters:
+        search_placeholder: "Search goals..."
+        all_status: "All Status"
+        all_types: "All Types"
+    types:
+      savings: "Savings"
+      expense_reduction: "Expense Reduction"
+      income_increase: "Income Increase"
+      debt_payoff: "Debt Payoff"
+    status:
+      active: "Active"
+      paused: "Paused"
+      completed: "Completed"
+      cancelled: "Cancelled"
+    form:
+      errors:
+        one: "There was 1 error with your submission"
+        other: "There were %{count} errors with your submission"
+      title_placeholder: "e.g., Emergency Fund"
+      goal_type_prompt: "Select goal type"
+      category_optional: "Category (optional)"
+      category_prompt: "Select category (optional)"
+      description_placeholder: "Describe your goal and why it's important to you..."
+      update_goal: "Update Goal"
+      create_goal: "Create Goal"
+    modal:
+      new_title: "New Goal"
+      edit_title: "Edit Goal"
+    list:
+      empty_title: "No goals found"
+      empty_subtitle: "Try adjusting your search or filters to find what you're looking for."
+    card:
+      progress: "Progress"
+      target_date: "Target Date:"
+      days_remaining: "Days Remaining:"
+      remaining: "Remaining:"
+      overdue: "Overdue"
+      days_count:
+        one: "1 day"
+        other: "%{count} days"
+      update_progress: "Update Progress"
+    summary:
+      overview: "Goals Overview"
+      view_all: "View All Goals"
+      total: "Total Goals"
+      overdue: "Overdue"
+      recent: "Recent Goals"
+      due: "Due"
+      due_soon: "Due Soon"
+      add_new: "Add New Goal"
+      empty_title: "No Goals Yet"
+      empty_subtitle: "Start tracking your financial objectives by creating your first goal."
+      create_first: "Create Your First Goal"
+    show:
+      edit_goal: "Edit Goal"
+      update_progress: "Update Progress"
+      delete_goal: "Delete Goal"
+      delete_confirm: "Are you sure you want to delete this goal? This action cannot be undone."
+      description: "Description"
+      progress_details: "Progress Details"
+      overall_progress: "Overall Progress"
+      current_amount: "Current Amount"
+      target_amount: "Target Amount"
+      goal_information: "Goal Information"
+      overdue_by_days:
+        one: "Overdue by 1 day"
+        other: "Overdue by %{count} days"
+      created: "Created"
+  common:
+    actions:
+      title: "Actions"
+      close: "Close"
+      cancel: "Cancel"
+      edit: "Edit"
+      delete: "Delete"
+      view: "View"
+    confirmations:
+      are_you_sure: "Are you sure?"
   shared:
     balance_summary:
       total_income: "Total Income"
