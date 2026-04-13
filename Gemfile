@@ -84,7 +84,7 @@ group :test do
   gem "selenium-webdriver"
 
   # Additional testing tools
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 7.0"
   gem "database_cleaner-active_record", "~> 2.2"
 
   # Test coverage
