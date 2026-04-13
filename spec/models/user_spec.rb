@@ -98,4 +98,41 @@ RSpec.describe User, type: :model do
       expect(user.balance).to eq(1000.0)
     end
   end
+
+  describe "query efficiency" do
+    let!(:category) { create(:category, user: user) }
+
+    before do
+      create(:transaction, :income, amount: 1000.0, user: user, category: category, date: Date.current)
+      create(:transaction, :expense, amount: 400.0, user: user, category: category, date: Date.current)
+    end
+
+    it "loads balance_data with a single aggregate query" do
+      query_count = 0
+
+      callback = lambda do |_name, _started, _finished, _id, payload|
+        query_count += 1 if payload[:sql] !~ /SCHEMA/
+      end
+
+      ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+        user.balance_data
+      end
+
+      expect(query_count).to be <= 1
+    end
+
+    it "calculates monthly_balance with a single aggregate query" do
+      query_count = 0
+
+      callback = lambda do |_name, _started, _finished, _id, payload|
+        query_count += 1 if payload[:sql] !~ /SCHEMA/
+      end
+
+      ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+        user.monthly_balance
+      end
+
+      expect(query_count).to be <= 1
+    end
+  end
 end
