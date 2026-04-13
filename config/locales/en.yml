@@ -37,10 +37,6 @@ en:
       goals: "Goals"
       categories: "Categories"
       sign_out: "Sign out"
-      language: "Language"
-      locale:
-        en: "EN"
-        pt_br: "PT-BR"
   home:
     title: "Welcome to Finance App"
     logged_in_as: "Logged in as"

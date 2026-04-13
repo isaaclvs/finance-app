@@ -37,14 +37,6 @@
         </svg>
       </button>
     </div>
-    <div class="fixed top-4 right-4 z-50 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-      <span class="uppercase"><%= t("app.nav.language") %></span>
-      <%= link_to t("app.nav.locale.en"), url_for(locale: :en),
-          class: "#{I18n.locale.to_s == 'en' ? 'text-gray-900 dark:text-white font-semibold' : 'hover:text-gray-700 dark:hover:text-gray-200'}" %>
-      <%= link_to t("app.nav.locale.pt_br"), url_for(locale: :'pt-BR'),
-          class: "#{I18n.locale.to_s == 'pt-BR' ? 'text-gray-900 dark:text-white font-semibold' : 'hover:text-gray-700 dark:hover:text-gray-200'}" %>
-    </div>
-
     <main class="min-h-screen">
       <%= yield %>
     </main>

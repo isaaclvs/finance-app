@@ -7,10 +7,6 @@
       goals: "Metas"
       categories: "Categorias"
       sign_out: "Sair"
-      language: "Idioma"
-      locale:
-        en: "EN"
-        pt_br: "PT-BR"
   home:
     title: "Bem-vindo ao Finance App"
     logged_in_as: "Logado como"
