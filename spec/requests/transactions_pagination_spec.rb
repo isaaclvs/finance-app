@@ -5,12 +5,7 @@ RSpec.describe "Transactions pagination", type: :request do
   let(:category) { create(:category, user: user, name: "General") }
 
   before do
-    post user_session_path, params: {
-      user: {
-        email: user.email,
-        password: "password123"
-      }
-    }
+    sign_in_user(user)
 
     25.times do |i|
       create(

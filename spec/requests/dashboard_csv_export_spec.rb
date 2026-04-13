@@ -10,7 +10,7 @@ RSpec.describe "Dashboard CSV export", type: :request do
   let(:other_category) { create(:category, user: other_user, name: "Other") }
 
   before do
-    sign_in user
+    sign_in_user(user)
 
     create(:transaction, :expense, user: user, category: food, amount: 25, description: "Coffee", date: Date.current)
     create(:transaction, :income, user: user, category: salary, amount: 2000, description: "Paycheck", date: Date.current)

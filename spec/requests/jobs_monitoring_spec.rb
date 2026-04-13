@@ -10,7 +10,7 @@ RSpec.describe "Jobs monitoring", type: :request do
   end
 
   it "renders snapshot for authenticated users" do
-    sign_in user
+    sign_in_user(user)
     allow_any_instance_of(Jobs::MonitoringSnapshot).to receive(:call).and_return(
       pending: 3,
       running: 1,
