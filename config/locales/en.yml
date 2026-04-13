@@ -37,6 +37,10 @@ en:
       goals: "Goals"
       categories: "Categories"
       sign_out: "Sign out"
+      language: "Language"
+      locale:
+        en: "EN"
+        pt_br: "PT-BR"
   home:
     title: "Welcome to Finance App"
     logged_in_as: "Logged in as"
@@ -70,6 +74,7 @@ en:
       registrations:
         new:
           title: "Create your account"
+          email_placeholder: "name@example.com"
           password_placeholder: "Create a password"
           password_confirmation_placeholder: "Confirm your password"
           minimum_password_length: "(%{count} characters minimum)"
@@ -163,6 +168,7 @@ en:
       category: "Category"
       select_category: "Select a category"
       description_placeholder: "Optional notes about this transaction"
+      amount_placeholder: "0.00"
       cancel: "Cancel"
     modal:
       new_title: "New Transaction"
@@ -185,6 +191,7 @@ en:
         one: "There was 1 error with your submission"
         other: "There were %{count} errors with your submission"
       name_placeholder: "e.g. Food, Transport, Salary"
+      color_placeholder: "#FF5733"
       color_hint: "Choose a color to identify this category"
       cancel: "Cancel"
     modal:
@@ -218,6 +225,8 @@ en:
       category_optional: "Category (optional)"
       category_prompt: "Select category (optional)"
       description_placeholder: "Describe your goal and why it's important to you..."
+      target_amount_placeholder: "10000.00"
+      current_amount_placeholder: "0.00"
       update_goal: "Update Goal"
       create_goal: "Create Goal"
     modal:
@@ -270,6 +279,8 @@ en:
       new_current_amount: "New Current Amount"
       remaining: "Remaining"
       submit: "Update Progress"
+      amount_placeholder: "0.00"
+      quick_add: "+%{unit}%{amount}"
   common:
     actions:
       title: "Actions"
@@ -278,8 +289,10 @@ en:
       edit: "Edit"
       delete: "Delete"
       view: "View"
+      dismiss: "Dismiss"
     confirmations:
       are_you_sure: "Are you sure?"
+    loading: "Loading..."
   helpers:
     submit:
       category:
@@ -297,6 +310,11 @@ en:
       transaction: "Transaction"
       goal: "Goal"
     attributes:
+      user:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        current_password: "Current password"
       category:
         name: "Name"
         color: "Color"
@@ -336,11 +354,41 @@ en:
       deleted: "Goal deleted successfully"
       progress_updated: "Goal progress updated successfully"
       progress_update_failed: "Unable to update goal progress"
+  jobs:
+    monitoring:
+      title: "Jobs Monitoring"
+      subtitle: "Current background processing snapshot from Solid Queue."
+      status:
+        pending: "Pending"
+        running: "Running"
+        failed: "Failed"
+        finished: "Finished"
+  mailers:
+    goal_notifications:
+      due_soon:
+        greeting: "Hi %{email},"
+        summary: "Your goal \"%{title}\" is due in %{days} day(s)."
+        current_progress: "Current progress: %{progress}"
+        target_amount: "Target amount: %{amount}"
+        current_amount: "Current amount: %{amount}"
+        encouragement: "Keep going!"
+    reports:
+      monthly_summary:
+        greeting: "Hi %{email},"
+        summary: "Here is your monthly financial summary for %{month}:"
+        income: "Income: %{amount}"
+        expenses: "Expenses: %{amount}"
+        balance: "Balance: %{amount}"
+        footer: "Generated automatically by Finance App."
   number:
     currency:
       format:
-        unit: "R$ "
-        separator: ","
-        delimiter: "."
+        unit: "$"
+        separator: "."
+        delimiter: ","
         format: "%u%n"
         negative_format: "-%u%n"
+  date:
+    formats:
+      short: "%b %d, %Y"
+      long: "%B %d, %Y"

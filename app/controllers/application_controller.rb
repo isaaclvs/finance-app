@@ -4,10 +4,26 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern unless Rails.env.test?
 
+  before_action :set_locale
   before_action :authenticate_user!
   around_action :log_request_performance, if: :performance_logging_enabled?
 
+  def default_url_options
+    locale = I18n.locale
+    return {} if locale == I18n.default_locale
+
+    { locale: locale }
+  end
+
   private
+  def set_locale
+    if params[:locale].present? && I18n.available_locales.map(&:to_s).include?(params[:locale])
+      session[:locale] = params[:locale]
+    end
+
+    locale = session[:locale].presence || I18n.default_locale
+    I18n.locale = locale
+  end
 
   def performance_logging_enabled?
     Rails.env.development? && %w[dashboard transactions].include?(controller_name)

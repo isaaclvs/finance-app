@@ -7,6 +7,10 @@
       goals: "Metas"
       categories: "Categorias"
       sign_out: "Sair"
+      language: "Idioma"
+      locale:
+        en: "EN"
+        pt_br: "PT-BR"
   home:
     title: "Bem-vindo ao Finance App"
     logged_in_as: "Logado como"
@@ -40,6 +44,7 @@
       registrations:
         new:
           title: "Crie sua conta"
+          email_placeholder: "nome@exemplo.com"
           password_placeholder: "Crie uma senha"
           password_confirmation_placeholder: "Confirme sua senha"
           minimum_password_length: "(%{count} caracteres no minimo)"
@@ -133,6 +138,7 @@
       category: "Categoria"
       select_category: "Selecione uma categoria"
       description_placeholder: "Observacoes opcionais sobre esta transacao"
+      amount_placeholder: "0,00"
       cancel: "Cancelar"
     modal:
       new_title: "Nova transacao"
@@ -155,6 +161,7 @@
         one: "Houve 1 erro no envio"
         other: "Houve %{count} erros no envio"
       name_placeholder: "ex.: Alimentacao, Transporte, Salario"
+      color_placeholder: "#FF5733"
       color_hint: "Escolha uma cor para identificar esta categoria"
       cancel: "Cancelar"
     modal:
@@ -188,6 +195,8 @@
       category_optional: "Categoria (opcional)"
       category_prompt: "Selecione uma categoria (opcional)"
       description_placeholder: "Descreva sua meta e por que ela e importante para voce..."
+      target_amount_placeholder: "10000,00"
+      current_amount_placeholder: "0,00"
       update_goal: "Atualizar meta"
       create_goal: "Criar meta"
     modal:
@@ -240,6 +249,8 @@
       new_current_amount: "Novo valor atual"
       remaining: "Restante"
       submit: "Atualizar progresso"
+      amount_placeholder: "0,00"
+      quick_add: "+%{unit}%{amount}"
   common:
     actions:
       title: "Acoes"
@@ -248,8 +259,10 @@
       edit: "Editar"
       delete: "Excluir"
       view: "Ver"
+      dismiss: "Dispensar"
     confirmations:
       are_you_sure: "Tem certeza?"
+    loading: "Carregando..."
   helpers:
     submit:
       category:
@@ -267,6 +280,11 @@
       transaction: "Transacao"
       goal: "Meta"
     attributes:
+      user:
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmacao de senha"
+        current_password: "Senha atual"
       category:
         name: "Nome"
         color: "Cor"
@@ -306,3 +324,70 @@
       deleted: "Meta removida com sucesso"
       progress_updated: "Progresso da meta atualizado com sucesso"
       progress_update_failed: "Nao foi possivel atualizar o progresso da meta"
+  jobs:
+    monitoring:
+      title: "Monitoramento de jobs"
+      subtitle: "Snapshot do processamento em background via Solid Queue."
+      status:
+        pending: "Pendente"
+        running: "Em execucao"
+        failed: "Falhou"
+        finished: "Finalizado"
+  mailers:
+    goal_notifications:
+      due_soon:
+        greeting: "Ola %{email},"
+        summary: "Sua meta \"%{title}\" vence em %{days} dia(s)."
+        current_progress: "Progresso atual: %{progress}"
+        target_amount: "Valor alvo: %{amount}"
+        current_amount: "Valor atual: %{amount}"
+        encouragement: "Continue assim!"
+    reports:
+      monthly_summary:
+        greeting: "Ola %{email},"
+        summary: "Aqui esta o seu resumo financeiro de %{month}:"
+        income: "Receitas: %{amount}"
+        expenses: "Despesas: %{amount}"
+        balance: "Saldo: %{amount}"
+        footer: "Gerado automaticamente pelo Finance App."
+  number:
+    currency:
+      format:
+        unit: "R$"
+        separator: ","
+        delimiter: "."
+        format: "%u %n"
+        negative_format: "-%u %n"
+        precision: 2
+  date:
+    formats:
+      short: "%d %b %Y"
+      long: "%d %B %Y"
+    month_names:
+      - ~
+      - "janeiro"
+      - "fevereiro"
+      - "marco"
+      - "abril"
+      - "maio"
+      - "junho"
+      - "julho"
+      - "agosto"
+      - "setembro"
+      - "outubro"
+      - "novembro"
+      - "dezembro"
+    abbr_month_names:
+      - ~
+      - "jan"
+      - "fev"
+      - "mar"
+      - "abr"
+      - "mai"
+      - "jun"
+      - "jul"
+      - "ago"
+      - "set"
+      - "out"
+      - "nov"
+      - "dez"
