@@ -8,6 +8,8 @@ RSpec.describe "Dashboard interactions", type: :feature do
   before do
     create(:transaction, :expense, user: user, category: expense_category, amount: 20, description: "Coffee beans", date: Date.current)
     create(:transaction, :income, user: user, category: income_category, amount: 2000, description: "Monthly salary", date: Date.current)
+    create(:transaction, :income, user: user, category: income_category, amount: 1500, description: "Previous month salary", date: 1.month.ago.beginning_of_month + 2.days)
+    create(:transaction, :expense, user: user, category: expense_category, amount: 50, description: "Previous month groceries", date: 1.month.ago.beginning_of_month + 4.days)
 
     visit "/users/sign_in"
     fill_in "user_email", with: user.email
@@ -20,6 +22,9 @@ RSpec.describe "Dashboard interactions", type: :feature do
 
     expect(page).to have_content("Dashboard")
     expect(page).to have_content("Coffee beans")
+    expect(page).to have_content("vs")
+    expect(page).to have_content("Up R$ 500,00")
+    expect(page).to have_content("Down R$ 30,00")
 
     export_href = find_link("Export CSV")[:href]
     expect(export_href).to include("format=csv")
