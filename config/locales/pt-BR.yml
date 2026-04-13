@@ -130,6 +130,11 @@
       select_category: "Selecione uma categoria"
       description_placeholder: "Observacoes opcionais sobre esta transacao"
       cancel: "Cancelar"
+  shared:
+    balance_summary:
+      total_income: "Total de receitas"
+      total_expenses: "Total de despesas"
+      balance: "Saldo"
   notices:
     transactions:
       created: "Transacao criada com sucesso."

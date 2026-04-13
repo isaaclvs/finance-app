@@ -29,6 +29,157 @@
 
 en:
   hello: "Hello world"
+  app:
+    name: "Finance App"
+    nav:
+      dashboard: "Dashboard"
+      transactions: "Transactions"
+      goals: "Goals"
+      categories: "Categories"
+      sign_out: "Sign out"
+  home:
+    title: "Welcome to Finance App"
+    logged_in_as: "Logged in as"
+    dashboard_title: "Dashboard"
+    dashboard_placeholder: "Your financial dashboard will appear here."
+  devise:
+    views:
+      shared:
+        links:
+          sign_in: "Log in"
+          sign_up: "Sign up"
+          forgot_password: "Forgot your password?"
+          confirmation_instructions: "Didn't receive confirmation instructions?"
+          unlock_instructions: "Didn't receive unlock instructions?"
+          sign_in_with_provider: "Sign in with %{provider}"
+      confirmations:
+        new:
+          title: "Resend confirmation instructions"
+          submit: "Resend confirmation instructions"
+      unlocks:
+        new:
+          title: "Resend unlock instructions"
+          submit: "Resend unlock instructions"
+      sessions:
+        new:
+          title: "Sign in to Finance App"
+          email_placeholder: "name@example.com"
+          password_placeholder: "Enter your password"
+          remember_me: "Remember me"
+          submit: "Sign in"
+      registrations:
+        new:
+          title: "Create your account"
+          password_placeholder: "Create a password"
+          password_confirmation_placeholder: "Confirm your password"
+          minimum_password_length: "(%{count} characters minimum)"
+          submit: "Sign up"
+        edit:
+          title: "Edit %{resource}"
+          waiting_confirmation: "Currently waiting confirmation for: %{email}"
+          leave_blank: "(leave blank if you don't want to change it)"
+          current_password_help: "(we need your current password to confirm your changes)"
+          update: "Update"
+          cancel_title: "Cancel my account"
+          unhappy: "Unhappy?"
+          cancel_account: "Cancel my account"
+          back: "Back"
+          confirm_cancel: "Are you sure?"
+      passwords:
+        new:
+          title: "Forgot your password?"
+          email_placeholder: "Enter your email address"
+          submit: "Send me reset password instructions"
+        edit:
+          title: "Change your password"
+          new_password: "New password"
+          confirm_new_password: "Confirm new password"
+          minimum_password_length: "(%{count} characters minimum)"
+          submit: "Change my password"
+      mailer:
+        greeting: "Hello %{email}!"
+        welcome: "Welcome %{email}!"
+        confirmation_instructions: "You can confirm your account email through the link below:"
+        confirm_account: "Confirm my account"
+        email_changed_pending: "We're contacting you to notify you that your email is being changed to %{email}."
+        email_changed: "We're contacting you to notify you that your email has been changed to %{email}."
+        password_changed: "We're contacting you to notify you that your password has been changed."
+        reset_password_instructions: "Someone has requested a link to change your password. You can do this through the link below."
+        change_password: "Change my password"
+        ignore_email: "If you didn't request this, please ignore this email."
+        password_wont_change: "Your password won't change until you access the link above and create a new one."
+        account_locked: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+        unlock_instructions: "Click the link below to unlock your account:"
+        unlock_account: "Unlock my account"
+  dashboard:
+    index:
+      title: "Dashboard"
+      subtitle: "Financial overview and transaction management"
+      export_csv: "Export CSV"
+      new_transaction: "New transaction"
+      filters:
+        title: "Filters"
+        search_label: "Search Description"
+        search_placeholder: "Search transactions..."
+        all: "All"
+        income: "Income"
+        expense: "Expense"
+        category: "Category"
+        all_categories: "All Categories"
+        all_time: "All time"
+        today: "Today"
+        this_week: "This week"
+        this_month: "This month"
+        custom_range: "Custom range"
+        clear: "Clear filters"
+  transactions:
+    index:
+      title: "Transactions"
+      subtitle: "Simple transaction listing and management"
+      new_transaction: "New transaction"
+      table_title: "Transactions"
+      view_dashboard: "View Dashboard"
+      empty: "No transactions yet"
+      add_first: "Add your first transaction"
+      columns:
+        transaction: "Transaction"
+        category: "Category"
+        date: "Date"
+        amount: "Amount"
+        actions: "Actions"
+    form:
+      errors:
+        one: "There was 1 error with your submission"
+        other: "There were %{count} errors with your submission"
+      transaction_type: "Transaction Type"
+      income: "Income"
+      income_hint: "Money coming in"
+      expense: "Expense"
+      expense_hint: "Money going out"
+      category: "Category"
+      select_category: "Select a category"
+      description_placeholder: "Optional notes about this transaction"
+      cancel: "Cancel"
+  shared:
+    balance_summary:
+      total_income: "Total Income"
+      total_expenses: "Total Expenses"
+      balance: "Balance"
+  notices:
+    transactions:
+      created: "Transaction was successfully created."
+      updated: "Transaction was successfully updated."
+      deleted: "Transaction was successfully deleted."
+    categories:
+      created: "Category was successfully created."
+      updated: "Category was successfully updated."
+      deleted: "Category was successfully deleted."
+    goals:
+      created: "Goal created successfully"
+      updated: "Goal updated successfully"
+      deleted: "Goal deleted successfully"
+      progress_updated: "Goal progress updated successfully"
+      progress_update_failed: "Unable to update goal progress"
   number:
     currency:
       format:
