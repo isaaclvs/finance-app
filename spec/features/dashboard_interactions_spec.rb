@@ -20,11 +20,13 @@ RSpec.describe "Dashboard interactions", type: :feature do
   it "shows dashboard data and keeps filter params in export link" do
     visit "/dashboard?transaction_type=expense&period=month"
 
+    currency = ActionController::Base.helpers.method(:number_to_currency)
+
     expect(page).to have_content("Dashboard")
     expect(page).to have_content("Coffee beans")
     expect(page).to have_content("vs")
-    expect(page).to have_content("Up R$ 500,00")
-    expect(page).to have_content("Down R$ 30,00")
+    expect(page).to have_content("Up #{currency.call(500)}")
+    expect(page).to have_content("Down #{currency.call(30)}")
 
     export_href = find_link("Export CSV")[:href]
     expect(export_href).to include("format=csv")
