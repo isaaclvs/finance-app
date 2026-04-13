@@ -1,8 +1,8 @@
-Hi <%= @user.email %>,
+<%= t("mailers.goal_notifications.due_soon.greeting", email: @user.email) %>
 
-Your goal "<%= @goal.title %>" is due in <%= @goal.days_remaining %> day(s).
-Current progress: <%= number_to_percentage(@goal.progress_percentage, precision: 0) %>
-Target amount: <%= number_to_currency(@goal.target_amount) %>
-Current amount: <%= number_to_currency(@goal.current_amount) %>
+<%= t("mailers.goal_notifications.due_soon.summary", title: @goal.title, days: @goal.days_remaining) %>
+<%= t("mailers.goal_notifications.due_soon.current_progress", progress: number_to_percentage(@goal.progress_percentage, precision: 0)) %>
+<%= t("mailers.goal_notifications.due_soon.target_amount", amount: number_to_currency(@goal.target_amount)) %>
+<%= t("mailers.goal_notifications.due_soon.current_amount", amount: number_to_currency(@goal.current_amount)) %>
 
-Keep going!
+<%= t("mailers.goal_notifications.due_soon.encouragement") %>

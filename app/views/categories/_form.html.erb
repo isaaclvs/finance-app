@@ -9,7 +9,7 @@
         </div>
         <div class="ml-3">
           <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
-            There were <%= pluralize(category.errors.count, "error") %> with your submission
+            <%= t("categories.form.errors", count: category.errors.count) %>
           </h3>
           <div class="mt-2 text-sm text-red-700 dark:text-red-300">
             <ul class="list-disc pl-5 space-y-1">
@@ -30,7 +30,7 @@
         <%= form.text_field :name, 
             required: true,
             class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200",
-            placeholder: "e.g. Food, Transport, Salary",
+            placeholder: t("categories.form.name_placeholder"),
             data: { category_form_target: "nameInput" } %>
       </div>
     </div>
@@ -48,7 +48,7 @@
             <%= form.text_field :color, 
                 required: true,
                 class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200",
-                placeholder: "#FF5733",
+                placeholder: t("categories.form.color_placeholder"),
                 data: { 
                   color_picker_target: "hexInput",
                   category_form_target: "colorInput",
@@ -60,7 +60,7 @@
                style="background-color: <%= category.color || '#6B7280' %>"></div>
         </div>
       </div>
-      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Choose a color to identify this category</p>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400"><%= t("categories.form.color_hint") %></p>
     </div>
   </div>
 
@@ -68,7 +68,7 @@
     <button type="button" 
             class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
             data-action="click->modal#close">
-      Cancel
+      <%= t("categories.form.cancel") %>
     </button>
     <%= form.submit class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200", 
         data: { category_form_target: "submitButton" } %>

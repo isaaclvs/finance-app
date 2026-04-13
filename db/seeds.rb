@@ -2,19 +2,17 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-# Create default categories for development/demo user
-if Rails.env.development?
-  # Find or create a demo user
-  demo_user = User.find_or_create_by!(email: "demo@example.com") do |user|
-    user.password = "password123"
-  end
+# Permanent seeded user for local/staging testing.
+SEED_USER_EMAIL = ENV.fetch("SEED_USER_EMAIL", "demo@example.com")
+SEED_USER_PASSWORD = ENV.fetch("SEED_USER_PASSWORD", "password123")
 
-  # Ensure password is always set correctly
-  unless demo_user.valid_password?("password123")
-    demo_user.update!(password: "password123")
-  end
+unless Rails.env.production?
+  demo_user = User.find_or_initialize_by(email: SEED_USER_EMAIL)
+  demo_user.password = SEED_USER_PASSWORD
+  demo_user.password_confirmation = SEED_USER_PASSWORD
+  demo_user.save!
 
-  puts "Demo user created: #{demo_user.email}"
+  puts "Seed user ready: #{demo_user.email}"
 
   # Create default categories with colors
   Category::DEFAULT_COLORS.each do |name, color|
@@ -25,7 +23,7 @@ if Rails.env.development?
   end
 
   puts "\nSeeding completed!"
-  puts "Demo user credentials: demo@example.com / password123"
+  puts "Seed user credentials: #{SEED_USER_EMAIL} / #{SEED_USER_PASSWORD}"
   puts "Total categories created: #{demo_user.categories.count}"
 
   # Load transaction seeds

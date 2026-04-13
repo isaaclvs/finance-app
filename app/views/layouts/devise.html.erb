@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
-    <title>Finance App - <%= yield(:title) || "Sign In" %></title>
+    <title><%= t("app.name") %> - <%= yield(:title) || t("devise.views.sessions.new.title") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -37,7 +37,6 @@
         </svg>
       </button>
     </div>
-
     <main class="min-h-screen">
       <%= yield %>
     </main>

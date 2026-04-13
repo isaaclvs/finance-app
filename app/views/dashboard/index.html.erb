@@ -2,21 +2,21 @@
   <div class="mx-auto max-w-4xl">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
-        <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">Dashboard</h1>
+        <h1 class="text-3xl font-semibold text-gray-900 dark:text-white"><%= t("dashboard.index.title") %></h1>
         <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-          Financial overview and transaction management
+          <%= t("dashboard.index.subtitle") %>
         </p>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <div class="flex items-center gap-2">
-          <%= link_to "Export CSV",
+          <%= link_to t("dashboard.index.export_csv"),
               dashboard_path(
                 request.query_parameters.slice("transaction_type", "category_id", "search", "period", "start_date", "end_date").merge(format: :csv)
               ),
               class: "inline-flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto",
               data: { turbo: false } %>
 
-          <%= link_to "New transaction", new_transaction_path,
+            <%= link_to t("dashboard.index.new_transaction"), new_transaction_path,
               class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto",
               data: { turbo_frame: "modal" } %>
         </div>
@@ -44,13 +44,13 @@
           } do |f| %>
         <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg">
           <div class="px-4 py-5 sm:p-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">Filters</h3>
+            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white"><%= t("dashboard.index.filters.title") %></h3>
             
             <!-- Search field - full width on top -->
             <div class="mt-5">
-              <%= f.label :search, "Search Description", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.label :search, t("dashboard.index.filters.search_label"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
               <%= f.text_field :search, 
-                  placeholder: "Search transactions...",
+                  placeholder: t("dashboard.index.filters.search_placeholder"),
                   value: params[:search],
                   class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                   data: { action: "input->filters#submit" } %>
@@ -61,16 +61,16 @@
               <div>
                 <%= f.label :transaction_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.select :transaction_type, 
-                    options_for_select([["All", ""], ["Income", "income"], ["Expense", "expense"]], params[:transaction_type]),
+                  options_for_select([[t("dashboard.index.filters.all"), ""], [t("dashboard.index.filters.income"), "income"], [t("dashboard.index.filters.expense"), "expense"]], params[:transaction_type]),
                     {},
                     class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                     data: { action: "change->filters#submit" } %>
               </div>
               
               <div>
-                <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.label :category_id, t("dashboard.index.filters.category"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.select :category_id,
-                    options_for_select([["All Categories", ""]] + @categories.map { |c| [c.name, c.id] }, params[:category_id]),
+                  options_for_select([[t("dashboard.index.filters.all_categories"), ""]] + @categories.map { |c| [c.name, c.id] }, params[:category_id]),
                     {},
                     class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                     data: { action: "change->filters#submit" } %>
@@ -80,11 +80,11 @@
                 <%= f.label :period, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.select :period,
                     options_for_select([
-                      ["All time", ""],
-                      ["Today", "today"],
-                      ["This week", "week"],
-                      ["This month", "month"],
-                      ["Custom range", "custom"]
+                      [t("dashboard.index.filters.all_time"), ""],
+                      [t("dashboard.index.filters.today"), "today"],
+                      [t("dashboard.index.filters.this_week"), "week"],
+                      [t("dashboard.index.filters.this_month"), "month"],
+                      [t("dashboard.index.filters.custom_range"), "custom"]
                     ], params[:period]),
                     {},
                     class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
@@ -92,7 +92,7 @@
               </div>
               
               <div class="flex items-end">
-                <%= link_to "Clear filters", "#",
+                <%= link_to t("dashboard.index.filters.clear"), "#",
                   class: "inline-flex items-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800",
                   data: { action: "click->filters#clearForm" } %>
               </div>

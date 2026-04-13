@@ -1,0 +1,389 @@
+"pt-BR":
+  app:
+    name: "Finance App"
+    nav:
+      dashboard: "Dashboard"
+      transactions: "Transacoes"
+      goals: "Metas"
+      categories: "Categorias"
+      sign_out: "Sair"
+  home:
+    title: "Bem-vindo ao Finance App"
+    logged_in_as: "Logado como"
+    dashboard_title: "Dashboard"
+    dashboard_placeholder: "Seu painel financeiro aparecera aqui."
+  devise:
+    views:
+      shared:
+        links:
+          sign_in: "Entrar"
+          sign_up: "Criar conta"
+          forgot_password: "Esqueceu sua senha?"
+          confirmation_instructions: "Nao recebeu instrucoes de confirmacao?"
+          unlock_instructions: "Nao recebeu instrucoes de desbloqueio?"
+          sign_in_with_provider: "Entrar com %{provider}"
+      confirmations:
+        new:
+          title: "Reenviar instrucoes de confirmacao"
+          submit: "Reenviar instrucoes de confirmacao"
+      unlocks:
+        new:
+          title: "Reenviar instrucoes de desbloqueio"
+          submit: "Reenviar instrucoes de desbloqueio"
+      sessions:
+        new:
+          title: "Entrar no Finance App"
+          email_placeholder: "nome@exemplo.com"
+          password_placeholder: "Digite sua senha"
+          remember_me: "Lembrar de mim"
+          submit: "Entrar"
+      registrations:
+        new:
+          title: "Crie sua conta"
+          email_placeholder: "nome@exemplo.com"
+          password_placeholder: "Crie uma senha"
+          password_confirmation_placeholder: "Confirme sua senha"
+          minimum_password_length: "(%{count} caracteres no minimo)"
+          submit: "Criar conta"
+        edit:
+          title: "Editar %{resource}"
+          waiting_confirmation: "Aguardando confirmacao para: %{email}"
+          leave_blank: "(deixe em branco se nao quiser alterar)"
+          current_password_help: "(precisamos da sua senha atual para confirmar alteracoes)"
+          update: "Atualizar"
+          cancel_title: "Cancelar minha conta"
+          unhappy: "Nao esta satisfeito?"
+          cancel_account: "Cancelar minha conta"
+          back: "Voltar"
+          confirm_cancel: "Tem certeza?"
+      passwords:
+        new:
+          title: "Esqueceu sua senha?"
+          email_placeholder: "Digite seu e-mail"
+          submit: "Enviar instrucoes para redefinir senha"
+        edit:
+          title: "Altere sua senha"
+          new_password: "Nova senha"
+          confirm_new_password: "Confirme a nova senha"
+          minimum_password_length: "(%{count} caracteres no minimo)"
+          submit: "Alterar minha senha"
+      mailer:
+        greeting: "Ola %{email}!"
+        welcome: "Bem-vindo(a) %{email}!"
+        confirmation_instructions: "Voce pode confirmar o e-mail da sua conta pelo link abaixo:"
+        confirm_account: "Confirmar minha conta"
+        email_changed_pending: "Estamos entrando em contato para avisar que seu e-mail sera alterado para %{email}."
+        email_changed: "Estamos entrando em contato para avisar que seu e-mail foi alterado para %{email}."
+        password_changed: "Estamos entrando em contato para avisar que sua senha foi alterada."
+        reset_password_instructions: "Alguem solicitou um link para alterar sua senha. Voce pode fazer isso pelo link abaixo."
+        change_password: "Alterar minha senha"
+        ignore_email: "Se voce nao solicitou isso, ignore este e-mail."
+        password_wont_change: "Sua senha nao mudara ate voce acessar o link acima e criar uma nova."
+        account_locked: "Sua conta foi bloqueada devido a um numero excessivo de tentativas sem sucesso de login."
+        unlock_instructions: "Clique no link abaixo para desbloquear sua conta:"
+        unlock_account: "Desbloquear minha conta"
+  dashboard:
+    index:
+      title: "Dashboard"
+      subtitle: "Visao financeira e gestao de transacoes"
+      export_csv: "Exportar CSV"
+      new_transaction: "Nova transacao"
+      filters:
+        title: "Filtros"
+        search_label: "Buscar descricao"
+        search_placeholder: "Buscar transacoes..."
+        all: "Todas"
+        income: "Receita"
+        expense: "Despesa"
+        category: "Categoria"
+        all_categories: "Todas as categorias"
+        all_time: "Todo periodo"
+        today: "Hoje"
+        this_week: "Esta semana"
+        this_month: "Este mes"
+        custom_range: "Periodo personalizado"
+        clear: "Limpar filtros"
+    charts:
+      income_vs_expenses: "Receitas vs despesas"
+      expenses_by_category: "Despesas por categoria"
+      monthly_evolution: "Evolucao mensal"
+  transactions:
+    index:
+      title: "Transacoes"
+      subtitle: "Listagem e gestao de transacoes"
+      new_transaction: "Nova transacao"
+      table_title: "Transacoes"
+      view_dashboard: "Ver dashboard"
+      empty: "Nenhuma transacao ainda"
+      add_first: "Adicionar sua primeira transacao"
+      columns:
+        transaction: "Transacao"
+        category: "Categoria"
+        date: "Data"
+        amount: "Valor"
+        actions: "Acoes"
+    form:
+      errors:
+        one: "Houve 1 erro no envio"
+        other: "Houve %{count} erros no envio"
+      transaction_type: "Tipo de transacao"
+      income: "Receita"
+      income_hint: "Dinheiro entrando"
+      expense: "Despesa"
+      expense_hint: "Dinheiro saindo"
+      category: "Categoria"
+      select_category: "Selecione uma categoria"
+      description_placeholder: "Observacoes opcionais sobre esta transacao"
+      amount_placeholder: "0,00"
+      cancel: "Cancelar"
+    modal:
+      new_title: "Nova transacao"
+      edit_title: "Editar transacao"
+    item:
+      no_description: "Sem descricao"
+      delete_confirm: "Tem certeza que deseja excluir esta transacao?"
+  categories:
+    index:
+      title: "Categorias"
+      subtitle: "Gerencie as categorias das suas transacoes"
+      new_category: "Nova categoria"
+      columns:
+        name: "Nome"
+        color: "Cor"
+        transactions: "Transacoes"
+        actions: "Acoes"
+    form:
+      errors:
+        one: "Houve 1 erro no envio"
+        other: "Houve %{count} erros no envio"
+      name_placeholder: "ex.: Alimentacao, Transporte, Salario"
+      color_placeholder: "#FF5733"
+      color_hint: "Escolha uma cor para identificar esta categoria"
+      cancel: "Cancelar"
+    modal:
+      new_title: "Nova categoria"
+      edit_title: "Editar categoria"
+  goals:
+    index:
+      title: "Metas"
+      subtitle: "Acompanhe e gerencie seus objetivos financeiros"
+      new_goal: "Nova meta"
+      filters:
+        search_placeholder: "Buscar metas..."
+        all_status: "Todos os status"
+        all_types: "Todos os tipos"
+    types:
+      savings: "Poupanca"
+      expense_reduction: "Reducao de despesas"
+      income_increase: "Aumento de receita"
+      debt_payoff: "Quitacao de dividas"
+    status:
+      active: "Ativa"
+      paused: "Pausada"
+      completed: "Concluida"
+      cancelled: "Cancelada"
+    form:
+      errors:
+        one: "Houve 1 erro no envio"
+        other: "Houve %{count} erros no envio"
+      title_placeholder: "ex.: Reserva de emergencia"
+      goal_type_prompt: "Selecione o tipo de meta"
+      category_optional: "Categoria (opcional)"
+      category_prompt: "Selecione uma categoria (opcional)"
+      description_placeholder: "Descreva sua meta e por que ela e importante para voce..."
+      target_amount_placeholder: "10000,00"
+      current_amount_placeholder: "0,00"
+      update_goal: "Atualizar meta"
+      create_goal: "Criar meta"
+    modal:
+      new_title: "Nova meta"
+      edit_title: "Editar meta"
+    list:
+      empty_title: "Nenhuma meta encontrada"
+      empty_subtitle: "Ajuste sua busca ou filtros para encontrar o que procura."
+    card:
+      progress: "Progresso"
+      target_date: "Data alvo:"
+      days_remaining: "Dias restantes:"
+      remaining: "Restante:"
+      overdue: "Atrasada"
+      days_count:
+        one: "1 dia"
+        other: "%{count} dias"
+      update_progress: "Atualizar progresso"
+    summary:
+      overview: "Visao geral das metas"
+      view_all: "Ver todas"
+      total: "Total de metas"
+      overdue: "Atrasadas"
+      recent: "Metas recentes"
+      due: "Vencimento"
+      due_soon: "Vence em breve"
+      add_new: "Adicionar nova meta"
+      empty_title: "Nenhuma meta ainda"
+      empty_subtitle: "Comece a acompanhar seus objetivos financeiros criando sua primeira meta."
+      create_first: "Criar primeira meta"
+    show:
+      edit_goal: "Editar meta"
+      update_progress: "Atualizar progresso"
+      delete_goal: "Excluir meta"
+      delete_confirm: "Tem certeza que deseja excluir esta meta? Esta acao nao pode ser desfeita."
+      description: "Descricao"
+      progress_details: "Detalhes do progresso"
+      overall_progress: "Progresso geral"
+      current_amount: "Valor atual"
+      target_amount: "Valor alvo"
+      goal_information: "Informacoes da meta"
+      overdue_by_days:
+        one: "Atrasada ha 1 dia"
+        other: "Atrasada ha %{count} dias"
+      created: "Criada em"
+    progress_modal:
+      title: "Atualizar progresso"
+      current: "Atual"
+      target: "Meta"
+      new_current_amount: "Novo valor atual"
+      remaining: "Restante"
+      submit: "Atualizar progresso"
+      amount_placeholder: "0,00"
+      quick_add: "+%{unit}%{amount}"
+  common:
+    actions:
+      title: "Acoes"
+      close: "Fechar"
+      cancel: "Cancelar"
+      edit: "Editar"
+      delete: "Excluir"
+      view: "Ver"
+      dismiss: "Dispensar"
+    confirmations:
+      are_you_sure: "Tem certeza?"
+    loading: "Carregando..."
+  helpers:
+    submit:
+      category:
+        create: "Criar categoria"
+        update: "Atualizar categoria"
+      transaction:
+        create: "Criar transacao"
+        update: "Atualizar transacao"
+      goal:
+        create: "Criar meta"
+        update: "Atualizar meta"
+  activerecord:
+    models:
+      category: "Categoria"
+      transaction: "Transacao"
+      goal: "Meta"
+    attributes:
+      user:
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmacao de senha"
+        current_password: "Senha atual"
+      category:
+        name: "Nome"
+        color: "Cor"
+      transaction:
+        amount: "Valor"
+        date: "Data"
+        description: "Descricao"
+        category: "Categoria"
+        category_id: "Categoria"
+        transaction_type: "Tipo de transacao"
+      goal:
+        title: "Titulo"
+        goal_type: "Tipo da meta"
+        target_amount: "Valor alvo"
+        current_amount: "Valor atual"
+        target_date: "Data alvo"
+        status: "Status"
+        description: "Descricao"
+        category_id: "Categoria"
+  shared:
+    balance_summary:
+      total_income: "Total de receitas"
+      total_expenses: "Total de despesas"
+      balance: "Saldo"
+  notices:
+    transactions:
+      created: "Transacao criada com sucesso."
+      updated: "Transacao atualizada com sucesso."
+      deleted: "Transacao removida com sucesso."
+    categories:
+      created: "Categoria criada com sucesso."
+      updated: "Categoria atualizada com sucesso."
+      deleted: "Categoria removida com sucesso."
+    goals:
+      created: "Meta criada com sucesso"
+      updated: "Meta atualizada com sucesso"
+      deleted: "Meta removida com sucesso"
+      progress_updated: "Progresso da meta atualizado com sucesso"
+      progress_update_failed: "Nao foi possivel atualizar o progresso da meta"
+  jobs:
+    monitoring:
+      title: "Monitoramento de jobs"
+      subtitle: "Snapshot do processamento em background via Solid Queue."
+      status:
+        pending: "Pendente"
+        running: "Em execucao"
+        failed: "Falhou"
+        finished: "Finalizado"
+  mailers:
+    goal_notifications:
+      due_soon:
+        greeting: "Ola %{email},"
+        summary: "Sua meta \"%{title}\" vence em %{days} dia(s)."
+        current_progress: "Progresso atual: %{progress}"
+        target_amount: "Valor alvo: %{amount}"
+        current_amount: "Valor atual: %{amount}"
+        encouragement: "Continue assim!"
+    reports:
+      monthly_summary:
+        greeting: "Ola %{email},"
+        summary: "Aqui esta o seu resumo financeiro de %{month}:"
+        income: "Receitas: %{amount}"
+        expenses: "Despesas: %{amount}"
+        balance: "Saldo: %{amount}"
+        footer: "Gerado automaticamente pelo Finance App."
+  number:
+    currency:
+      format:
+        unit: "R$"
+        separator: ","
+        delimiter: "."
+        format: "%u %n"
+        negative_format: "-%u %n"
+        precision: 2
+  date:
+    formats:
+      short: "%d %b %Y"
+      long: "%d %B %Y"
+    month_names:
+      - ~
+      - "janeiro"
+      - "fevereiro"
+      - "marco"
+      - "abril"
+      - "maio"
+      - "junho"
+      - "julho"
+      - "agosto"
+      - "setembro"
+      - "outubro"
+      - "novembro"
+      - "dezembro"
+    abbr_month_names:
+      - ~
+      - "jan"
+      - "fev"
+      - "mar"
+      - "abr"
+      - "mai"
+      - "jun"
+      - "jul"
+      - "ago"
+      - "set"
+      - "out"
+      - "nov"
+      - "dez"

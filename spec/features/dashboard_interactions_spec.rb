@@ -12,7 +12,7 @@ RSpec.describe "Dashboard interactions", type: :feature do
     visit "/users/sign_in"
     fill_in "user_email", with: user.email
     fill_in "user_password", with: "password123"
-    click_button "Sign in"
+    click_button I18n.t("devise.views.sessions.new.submit")
   end
 
   it "shows dashboard data and keeps filter params in export link" do
@@ -21,7 +21,7 @@ RSpec.describe "Dashboard interactions", type: :feature do
     expect(page).to have_content("Dashboard")
     expect(page).to have_content("Coffee beans")
 
-    export_href = find_link("Export CSV")[:href]
+    export_href = find_link(I18n.t("dashboard.index.export_csv"))[:href]
     expect(export_href).to include("format=csv")
     expect(export_href).to include("transaction_type=expense")
     expect(export_href).to include("period=month")

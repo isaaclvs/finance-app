@@ -9,7 +9,7 @@
         </div>
         <div class="ml-3">
           <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
-            There were <%= pluralize(transaction.errors.count, "error") %> with your submission
+            <%= t("transactions.form.errors", count: transaction.errors.count) %>
           </h3>
           <div class="mt-2 text-sm text-red-700 dark:text-red-300">
             <ul class="list-disc pl-5 space-y-1">
@@ -25,7 +25,7 @@
 
   <div class="space-y-6">
     <fieldset>
-      <legend class="text-sm font-medium text-gray-700 dark:text-gray-300">Transaction Type</legend>
+      <legend class="text-sm font-medium text-gray-700 dark:text-gray-300"><%= t("transactions.form.transaction_type") %></legend>
       <div class="mt-2 grid grid-cols-2 gap-3">
         <label class="relative flex cursor-pointer rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-4 shadow-sm focus:outline-none">
           <%= form.radio_button :transaction_type, "income", 
@@ -33,8 +33,8 @@
               data: { action: "change->transaction-form#updateAmountColor" } %>
           <span class="flex flex-1">
             <span class="flex flex-col">
-              <span class="block text-sm font-medium text-gray-900 dark:text-white">Income</span>
-              <span class="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400">Money coming in</span>
+              <span class="block text-sm font-medium text-gray-900 dark:text-white"><%= t("transactions.form.income") %></span>
+              <span class="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400"><%= t("transactions.form.income_hint") %></span>
             </span>
           </span>
           <svg class="h-5 w-5 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -49,8 +49,8 @@
               data: { action: "change->transaction-form#updateAmountColor" } %>
           <span class="flex flex-1">
             <span class="flex flex-col">
-              <span class="block text-sm font-medium text-gray-900 dark:text-white">Expense</span>
-              <span class="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400">Money going out</span>
+              <span class="block text-sm font-medium text-gray-900 dark:text-white"><%= t("transactions.form.expense") %></span>
+              <span class="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400"><%= t("transactions.form.expense_hint") %></span>
             </span>
           </span>
           <svg class="h-5 w-5 text-red-600 dark:text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -65,14 +65,14 @@
       <%= form.label :amount, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
       <div class="relative mt-1 rounded-md shadow-sm">
         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <span class="text-gray-500 dark:text-gray-400 sm:text-sm">$</span>
+          <span class="text-gray-500 dark:text-gray-400 sm:text-sm"><%= currency_unit(strip: true) %></span>
         </div>
         <%= form.number_field :amount, 
             step: 0.01,
             min: 0.01,
             required: true,
             class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200",
-            placeholder: "0.00",
+            placeholder: t("transactions.form.amount_placeholder"),
             data: { transaction_form_target: "amountInput" } %>
       </div>
     </div>
@@ -87,11 +87,11 @@
     </div>
     
     <div>
-      <%= form.label :category_id, "Category", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+      <%= form.label :category_id, t("transactions.form.category"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
       <div class="mt-1">
         <%= form.select :category_id,
             options_for_select(@categories.map { |c| [c.name, c.id, { "data-color" => c.color }] }, transaction.category_id),
-            { prompt: "Select a category" },
+            { prompt: t("transactions.form.select_category") },
             { required: true, class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200" } %>
       </div>
     </div>
@@ -102,7 +102,7 @@
         <%= form.text_area :description, 
             rows: 3,
             class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-            placeholder: "Optional notes about this transaction" %>
+            placeholder: t("transactions.form.description_placeholder") %>
       </div>
     </div>
   </div>
@@ -111,7 +111,7 @@
     <button type="button" 
             class="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 py-2 px-4 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
             data-action="click->modal#close">
-      Cancel
+      <%= t("transactions.form.cancel") %>
     </button>
     <%= form.submit class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200", 
         data: { transaction_form_target: "submitButton" } %>
