@@ -3,13 +3,13 @@
     <%= turbo_frame_tag "transactions_page" do %>
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-          <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">Transactions</h1>
+          <h1 class="text-3xl font-semibold text-gray-900 dark:text-white"><%= t("transactions.index.title") %></h1>
           <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-            Simple transaction listing and management
+            <%= t("transactions.index.subtitle") %>
           </p>
         </div>
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <%= link_to "New transaction", new_transaction_path, 
+          <%= link_to t("transactions.index.new_transaction"), new_transaction_path,
               class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto",
               data: { turbo_frame: "modal" } %>
         </div>
@@ -23,8 +23,8 @@
     <!-- Transactions Section -->
     <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Transactions</h2>
-        <%= link_to "View Dashboard", dashboard_path, 
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white"><%= t("transactions.index.table_title") %></h2>
+        <%= link_to t("transactions.index.view_dashboard"), dashboard_path,
             class: "text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200" %>
       </div>
       
@@ -34,11 +34,11 @@
           <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Transaction</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Category</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
-                <th class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.transaction") %></th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.category") %></th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.date") %></th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.amount") %></th>
+                <th class="relative px-6 py-3"><span class="sr-only"><%= t("transactions.index.columns.actions") %></span></th>
               </tr>
             </thead>
             <tbody id="transactions-container" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -49,8 +49,8 @@
               <% else %>
                 <tr>
                   <td colspan="5" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                    No transactions yet
-                    <%= link_to "Add your first transaction", new_transaction_path, 
+                    <%= t("transactions.index.empty") %>
+                    <%= link_to t("transactions.index.add_first"), new_transaction_path,
                         class: "ml-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200",
                         data: { turbo_frame: "modal" } %>
                   </td>
@@ -69,8 +69,8 @@
           <% end %>
         <% else %>
           <div class="text-center py-8">
-            <p class="text-gray-500 dark:text-gray-400 mb-4">No transactions yet</p>
-            <%= link_to "Add your first transaction", new_transaction_path, 
+            <p class="text-gray-500 dark:text-gray-400 mb-4"><%= t("transactions.index.empty") %></p>
+            <%= link_to t("transactions.index.add_first"), new_transaction_path,
                 class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600",
                 data: { turbo_frame: "modal" } %>
           </div>

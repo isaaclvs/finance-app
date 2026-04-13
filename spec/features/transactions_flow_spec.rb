@@ -14,14 +14,14 @@ RSpec.describe "Transactions flow", type: :feature do
   it "creates and updates a transaction" do
     visit "/transactions/new"
 
-    choose "Income", allow_label_click: true
+    choose I18n.t("transactions.form.income"), allow_label_click: true
     fill_in "Amount", with: "123.45"
     fill_in "Date", with: Date.current
-    select "Salary", from: "Category"
+    select "Salary", from: I18n.t("transactions.form.category")
     fill_in "Description", with: "Capybara salary"
     click_button "Create Transaction"
 
-    expect(page).to have_content("Transaction was successfully created")
+    expect(page).to have_content(I18n.t("notices.transactions.created"))
     expect(page).to have_content("Capybara salary")
 
     transaction = user.transactions.find_by!(description: "Capybara salary")
@@ -30,7 +30,7 @@ RSpec.describe "Transactions flow", type: :feature do
     fill_in "Description", with: "Capybara salary updated"
     click_button "Update Transaction"
 
-    expect(page).to have_content("Transaction was successfully updated")
+    expect(page).to have_content(I18n.t("notices.transactions.updated"))
     expect(page).to have_content("Capybara salary updated")
   end
 end

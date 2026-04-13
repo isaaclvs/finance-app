@@ -24,7 +24,7 @@ class CategoriesController < ApplicationController
     if @category.save
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to categories_path, notice: "Category was successfully created." }
+        format.html { redirect_to categories_path, notice: t("notices.categories.created") }
       end
     else
       render :new, status: :unprocessable_entity
@@ -35,7 +35,7 @@ class CategoriesController < ApplicationController
     if @category.update(category_params)
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to categories_path, notice: "Category was successfully updated." }
+        format.html { redirect_to categories_path, notice: t("notices.categories.updated") }
       end
     else
       render :edit, status: :unprocessable_entity
@@ -46,7 +46,7 @@ class CategoriesController < ApplicationController
     if @category.destroy
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to categories_path, notice: "Category was successfully deleted." }
+        format.html { redirect_to categories_path, notice: t("notices.categories.deleted") }
       end
     else
       redirect_to categories_path, alert: @category.errors.full_messages.join(", ")
