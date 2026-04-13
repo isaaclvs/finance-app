@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
   before_action :load_categories, only: %i[ new edit create update ]
 
   def index
-    @recent_transactions = Current.user.transactions.includes(:category).ordered.limit(10)
+    @transactions = Current.user.transactions.includes(:category).ordered.page(params[:page]).per(20)
   end
 
   def show

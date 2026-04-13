@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
   before_action :load_categories
+  helper_method :charts_cache_key
 
   def index
     @user = Current.user
@@ -81,6 +82,19 @@ class DashboardController < ApplicationController
 
   def export_filename
     "transactions-#{Date.current}.csv"
+  end
+
+  def charts_cache_key
+    [
+      "dashboard/charts",
+      @user.id,
+      filter_cache_params,
+      @user.transactions.maximum(:updated_at)&.to_i
+    ]
+  end
+
+  def filter_cache_params
+    params.slice("transaction_type", "category_id", "search", "period", "start_date", "end_date").to_unsafe_h
   end
 
   def apply_filters(scope, include_date_filter:)

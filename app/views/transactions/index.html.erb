@@ -42,8 +42,8 @@
               </tr>
             </thead>
             <tbody id="transactions-container" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-              <% if @recent_transactions.any? %>
-                <% @recent_transactions.each do |transaction| %>
+              <% if @transactions.any? %>
+                <% @transactions.each do |transaction| %>
                   <%= render "transaction_table_row", transaction: transaction %>
                 <% end %>
               <% else %>
@@ -63,8 +63,8 @@
 
       <!-- Mobile Cards -->
       <div id="transactions-mobile" class="md:hidden space-y-3">
-        <% if @recent_transactions.any? %>
-          <% @recent_transactions.each do |transaction| %>
+        <% if @transactions.any? %>
+          <% @transactions.each do |transaction| %>
             <%= render "transaction_mobile_card", transaction: transaction %>
           <% end %>
         <% else %>
@@ -76,6 +76,12 @@
           </div>
         <% end %>
       </div>
+
+      <% if @transactions.respond_to?(:total_pages) && @transactions.total_pages > 1 %>
+        <div class="mt-4">
+          <%= paginate @transactions %>
+        </div>
+      <% end %>
     </div>
     <% end %>
   </div>
