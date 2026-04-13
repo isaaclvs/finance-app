@@ -1,0 +1,63 @@
+"pt-BR":
+  devise:
+    confirmations:
+      confirmed: "Seu endereco de e-mail foi confirmado com sucesso."
+      send_instructions: "Voce recebera um e-mail com instrucoes para confirmar seu endereco de e-mail em alguns minutos."
+      send_paranoid_instructions: "Se seu endereco de e-mail existir em nossa base, voce recebera um e-mail com instrucoes para confirmar seu endereco de e-mail em alguns minutos."
+    failure:
+      already_authenticated: "Voce ja esta autenticado."
+      inactive: "Sua conta ainda nao foi ativada."
+      invalid: "%{authentication_keys} ou senha invalida."
+      locked: "Sua conta esta bloqueada."
+      last_attempt: "Voce tem mais uma tentativa antes da sua conta ser bloqueada."
+      not_found_in_database: "%{authentication_keys} ou senha invalida."
+      timeout: "Sua sessao expirou. Entre novamente para continuar."
+      unauthenticated: "Voce precisa entrar ou se cadastrar antes de continuar."
+      unconfirmed: "Voce precisa confirmar seu endereco de e-mail antes de continuar."
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucoes de confirmacao"
+      reset_password_instructions:
+        subject: "Instrucoes para redefinicao de senha"
+      unlock_instructions:
+        subject: "Instrucoes de desbloqueio"
+      email_changed:
+        subject: "E-mail alterado"
+      password_change:
+        subject: "Senha alterada"
+    omniauth_callbacks:
+      failure: "Nao foi possivel autenticar com %{kind} porque \"%{reason}\"."
+      success: "Autenticado com sucesso com a conta %{kind}."
+    passwords:
+      no_token: "Voce nao pode acessar esta pagina sem vir de um e-mail de redefinicao de senha. Se voce veio de um e-mail, confirme se usou a URL completa."
+      send_instructions: "Voce recebera um e-mail com instrucoes para redefinir sua senha em alguns minutos."
+      send_paranoid_instructions: "Se seu endereco de e-mail existir em nossa base, voce recebera um link de recuperacao em alguns minutos."
+      updated: "Sua senha foi alterada com sucesso. Voce esta autenticado agora."
+      updated_not_active: "Sua senha foi alterada com sucesso."
+    registrations:
+      destroyed: "Conta cancelada com sucesso. Esperamos ver voce novamente em breve."
+      signed_up: "Bem-vindo! Seu cadastro foi realizado com sucesso."
+      signed_up_but_inactive: "Cadastro realizado com sucesso. No entanto, nao foi possivel entrar porque sua conta ainda nao foi ativada."
+      signed_up_but_locked: "Cadastro realizado com sucesso. No entanto, nao foi possivel entrar porque sua conta esta bloqueada."
+      signed_up_but_unconfirmed: "Enviamos uma mensagem com link de confirmacao para seu e-mail. Siga o link para ativar sua conta."
+      update_needs_confirmation: "Sua conta foi atualizada com sucesso, mas precisamos verificar seu novo e-mail. Verifique sua caixa de entrada e siga o link de confirmacao."
+      updated: "Sua conta foi atualizada com sucesso."
+      updated_but_not_signed_in: "Sua conta foi atualizada com sucesso, mas como a senha foi alterada voce precisa entrar novamente."
+    sessions:
+      signed_in: "Login realizado com sucesso."
+      signed_out: "Logout realizado com sucesso."
+      already_signed_out: "Logout realizado com sucesso."
+    unlocks:
+      send_instructions: "Voce recebera um e-mail com instrucoes para desbloquear sua conta em alguns minutos."
+      send_paranoid_instructions: "Se sua conta existir, voce recebera um e-mail com instrucoes para desbloqueio em alguns minutos."
+      unlocked: "Sua conta foi desbloqueada com sucesso. Entre para continuar."
+  errors:
+    messages:
+      already_confirmed: "ja foi confirmado, tente entrar"
+      confirmation_period_expired: "precisa ser confirmado em ate %{period}, solicite um novo"
+      expired: "expirou, solicite um novo"
+      not_found: "nao encontrado"
+      not_locked: "nao estava bloqueado"
+      not_saved:
+        one: "1 erro impediu que este %{resource} fosse salvo:"
+        other: "%{count} erros impediram que este %{resource} fosse salvo:"

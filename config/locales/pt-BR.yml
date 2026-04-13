@@ -1,0 +1,83 @@
+"pt-BR":
+  app:
+    name: "Finance App"
+    nav:
+      dashboard: "Dashboard"
+      transactions: "Transacoes"
+      goals: "Metas"
+      categories: "Categorias"
+      sign_out: "Sair"
+  home:
+    title: "Bem-vindo ao Finance App"
+    logged_in_as: "Logado como"
+    dashboard_title: "Dashboard"
+    dashboard_placeholder: "Seu painel financeiro aparecera aqui."
+  devise:
+    views:
+      shared:
+        links:
+          sign_in: "Entrar"
+          sign_up: "Criar conta"
+          forgot_password: "Esqueceu sua senha?"
+          confirmation_instructions: "Nao recebeu instrucoes de confirmacao?"
+          unlock_instructions: "Nao recebeu instrucoes de desbloqueio?"
+          sign_in_with_provider: "Entrar com %{provider}"
+      confirmations:
+        new:
+          title: "Reenviar instrucoes de confirmacao"
+          submit: "Reenviar instrucoes de confirmacao"
+      unlocks:
+        new:
+          title: "Reenviar instrucoes de desbloqueio"
+          submit: "Reenviar instrucoes de desbloqueio"
+      sessions:
+        new:
+          title: "Entrar no Finance App"
+          email_placeholder: "nome@exemplo.com"
+          password_placeholder: "Digite sua senha"
+          remember_me: "Lembrar de mim"
+          submit: "Entrar"
+      registrations:
+        new:
+          title: "Crie sua conta"
+          password_placeholder: "Crie uma senha"
+          password_confirmation_placeholder: "Confirme sua senha"
+          minimum_password_length: "(%{count} caracteres no minimo)"
+          submit: "Criar conta"
+        edit:
+          title: "Editar %{resource}"
+          waiting_confirmation: "Aguardando confirmacao para: %{email}"
+          leave_blank: "(deixe em branco se nao quiser alterar)"
+          current_password_help: "(precisamos da sua senha atual para confirmar alteracoes)"
+          update: "Atualizar"
+          cancel_title: "Cancelar minha conta"
+          unhappy: "Nao esta satisfeito?"
+          cancel_account: "Cancelar minha conta"
+          back: "Voltar"
+          confirm_cancel: "Tem certeza?"
+      passwords:
+        new:
+          title: "Esqueceu sua senha?"
+          email_placeholder: "Digite seu e-mail"
+          submit: "Enviar instrucoes para redefinir senha"
+        edit:
+          title: "Altere sua senha"
+          new_password: "Nova senha"
+          confirm_new_password: "Confirme a nova senha"
+          minimum_password_length: "(%{count} caracteres no minimo)"
+          submit: "Alterar minha senha"
+      mailer:
+        greeting: "Ola %{email}!"
+        welcome: "Bem-vindo(a) %{email}!"
+        confirmation_instructions: "Voce pode confirmar o e-mail da sua conta pelo link abaixo:"
+        confirm_account: "Confirmar minha conta"
+        email_changed_pending: "Estamos entrando em contato para avisar que seu e-mail sera alterado para %{email}."
+        email_changed: "Estamos entrando em contato para avisar que seu e-mail foi alterado para %{email}."
+        password_changed: "Estamos entrando em contato para avisar que sua senha foi alterada."
+        reset_password_instructions: "Alguem solicitou um link para alterar sua senha. Voce pode fazer isso pelo link abaixo."
+        change_password: "Alterar minha senha"
+        ignore_email: "Se voce nao solicitou isso, ignore este e-mail."
+        password_wont_change: "Sua senha nao mudara ate voce acessar o link acima e criar uma nova."
+        account_locked: "Sua conta foi bloqueada devido a um numero excessivo de tentativas sem sucesso de login."
+        unlock_instructions: "Clique no link abaixo para desbloquear sua conta:"
+        unlock_account: "Desbloquear minha conta"

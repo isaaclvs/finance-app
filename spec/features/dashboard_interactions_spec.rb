@@ -12,7 +12,7 @@ RSpec.describe "Dashboard interactions", type: :feature do
     visit "/users/sign_in"
     fill_in "user_email", with: user.email
     fill_in "user_password", with: "password123"
-    click_button "Sign in"
+    click_button I18n.t("devise.views.sessions.new.submit")
   end
 
   it "shows dashboard data and keeps filter params in export link" do
