@@ -11,46 +11,80 @@ class User < ApplicationRecord
 
   # Balance calculation methods
   def total_income
-    transactions.income.sum(:amount)
+    overall_totals[:income]
   end
 
   def total_expenses
-    transactions.expense.sum(:amount)
+    overall_totals[:expenses]
   end
 
   def balance
-    total_income - total_expenses
+    balance_data[:balance]
   end
 
   def balance_data
+    totals = overall_totals
+
     {
-      income: total_income,
-      expenses: total_expenses,
-      balance: balance
+      income: totals[:income],
+      expenses: totals[:expenses],
+      balance: totals[:income] - totals[:expenses]
     }
   end
 
   def monthly_income(month = Date.current)
-    transactions.income.by_month(month).sum(:amount)
+    monthly_totals(month)[:income]
   end
 
   def monthly_expenses(month = Date.current)
-    transactions.expense.by_month(month).sum(:amount)
+    monthly_totals(month)[:expenses]
   end
 
   def monthly_balance(month = Date.current)
-    monthly_income(month) - monthly_expenses(month)
+    totals = monthly_totals(month)
+    totals[:income] - totals[:expenses]
   end
 
   def yearly_income(year = Date.current.year)
-    transactions.income.where(date: Date.new(year).beginning_of_year..Date.new(year).end_of_year).sum(:amount)
+    yearly_totals(year)[:income]
   end
 
   def yearly_expenses(year = Date.current.year)
-    transactions.expense.where(date: Date.new(year).beginning_of_year..Date.new(year).end_of_year).sum(:amount)
+    yearly_totals(year)[:expenses]
   end
 
   def yearly_balance(year = Date.current.year)
-    yearly_income(year) - yearly_expenses(year)
+    totals = yearly_totals(year)
+    totals[:income] - totals[:expenses]
+  end
+
+  private
+
+  def overall_totals
+    @overall_totals ||= grouped_totals_for(transactions)
+  end
+
+  def monthly_totals(month)
+    @monthly_totals ||= {}
+
+    month_key = month.beginning_of_month
+    @monthly_totals[month_key] ||= grouped_totals_for(transactions.by_month(month_key))
+  end
+
+  def yearly_totals(year)
+    @yearly_totals ||= {}
+
+    @yearly_totals[year] ||= grouped_totals_for(
+      transactions.by_year(year)
+    )
+  end
+
+  def grouped_totals_for(scope)
+    totals = scope.group(:transaction_type).sum(:amount)
+
+    {
+      income: totals.fetch("income", 0),
+      expenses: totals.fetch("expense", 0)
+    }
   end
 end
