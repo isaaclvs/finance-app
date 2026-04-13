@@ -233,6 +233,13 @@
         one: "Atrasada ha 1 dia"
         other: "Atrasada ha %{count} dias"
       created: "Criada em"
+    progress_modal:
+      title: "Atualizar progresso"
+      current: "Atual"
+      target: "Meta"
+      new_current_amount: "Novo valor atual"
+      remaining: "Restante"
+      submit: "Atualizar progresso"
   common:
     actions:
       title: "Acoes"
@@ -243,6 +250,42 @@
       view: "Ver"
     confirmations:
       are_you_sure: "Tem certeza?"
+  helpers:
+    submit:
+      category:
+        create: "Criar categoria"
+        update: "Atualizar categoria"
+      transaction:
+        create: "Criar transacao"
+        update: "Atualizar transacao"
+      goal:
+        create: "Criar meta"
+        update: "Atualizar meta"
+  activerecord:
+    models:
+      category: "Categoria"
+      transaction: "Transacao"
+      goal: "Meta"
+    attributes:
+      category:
+        name: "Nome"
+        color: "Cor"
+      transaction:
+        amount: "Valor"
+        date: "Data"
+        description: "Descricao"
+        category: "Categoria"
+        category_id: "Categoria"
+        transaction_type: "Tipo de transacao"
+      goal:
+        title: "Titulo"
+        goal_type: "Tipo da meta"
+        target_amount: "Valor alvo"
+        current_amount: "Valor atual"
+        target_date: "Data alvo"
+        status: "Status"
+        description: "Descricao"
+        category_id: "Categoria"
   shared:
     balance_summary:
       total_income: "Total de receitas"
