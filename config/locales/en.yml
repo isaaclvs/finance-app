@@ -29,3 +29,11 @@
 
 en:
   hello: "Hello world"
+  number:
+    currency:
+      format:
+        unit: "R$ "
+        separator: ","
+        delimiter: "."
+        format: "%u%n"
+        negative_format: "-%u%n"

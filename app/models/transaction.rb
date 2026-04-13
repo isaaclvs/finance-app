@@ -50,6 +50,6 @@ class Transaction < ApplicationRecord
 
   def formatted_amount
     sign = income? ? "+" : "-"
-    "#{sign}$#{'%.2f' % amount}"
+    "#{sign}#{ActionController::Base.helpers.number_to_currency(amount)}"
   end
 end
