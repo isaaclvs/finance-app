@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   def index
     @user = Current.user
     @transactions = filtered_transactions
-    @export_transactions = filtered_transactions_for_charts.ordered
+    @export_transactions = chart_transactions.ordered
 
     # Goals data
     @goals = Current.user.goals.includes(:category).ordered
@@ -41,98 +41,38 @@ class DashboardController < ApplicationController
   private
 
   def filtered_transactions
-    transactions = @user.transactions.includes(:category)
+    @filtered_transactions ||= apply_filters(@user.transactions.includes(:category), include_date_filter: true)
+                               .ordered
+                               .page(params[:page])
+                               .per(20)
+  end
 
-    # Apply filters (same logic as TransactionsController)
-    transactions = transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
-    transactions = transactions.by_category(params[:category_id]) if params[:category_id].present?
-    transactions = transactions.search_description(params[:search]) if params[:search].present?
+  def chart_transactions
+    @chart_transactions ||= apply_filters(@user.transactions, include_date_filter: true)
+  end
 
-    if params[:period].present?
-      case params[:period]
-      when "today"
-        transactions = transactions.where(date: Date.current)
-      when "week"
-        transactions = transactions.where(date: Date.current.beginning_of_week..Date.current.end_of_week)
-      when "month"
-        transactions = transactions.by_month(Date.current)
-      when "custom"
-        if params[:start_date].present? && params[:end_date].present?
-          transactions = transactions.by_date_range(params[:start_date], params[:end_date])
-        end
-      end
-    end
-
-    transactions.ordered.page(params[:page]).per(20)
+  def chart_transactions_without_date
+    @chart_transactions_without_date ||= apply_filters(@user.transactions, include_date_filter: false)
   end
 
   def income_vs_expenses_chart_data
-    # Use filtered transactions for chart data
-    filtered_income = filtered_transactions_for_charts.income.sum(:amount)
-    filtered_expenses = filtered_transactions_for_charts.expense.sum(:amount)
+    totals = chart_transactions.group(:transaction_type).sum(:amount)
 
     {
-      "Income" => filtered_income,
-      "Expenses" => filtered_expenses
+      "Income" => totals.fetch("income", 0),
+      "Expenses" => totals.fetch("expense", 0)
     }
   end
 
   def expenses_by_category_chart_data
-    filtered_transactions_for_charts.expense
+    chart_transactions.expense
          .joins(:category)
          .group("categories.name")
          .sum(:amount)
   end
 
   def monthly_evolution_chart_data
-    data = {}
-    base_query = filtered_transactions_for_charts_without_date
-
-    (0..5).each do |i|
-      month = i.months.ago.beginning_of_month
-      month_transactions = base_query.by_month(month)
-
-      data[month.strftime("%b %Y")] = {
-        "Income" => month_transactions.income.sum(:amount),
-        "Expenses" => month_transactions.expense.sum(:amount)
-      }
-    end
-
-    data
-  end
-
-  def filtered_transactions_for_charts
-    # Get transactions with all filters applied (including date)
-    transactions = @user.transactions.includes(:category)
-    transactions = transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
-    transactions = transactions.by_category(params[:category_id]) if params[:category_id].present?
-    transactions = transactions.search_description(params[:search]) if params[:search].present?
-
-    if params[:period].present?
-      case params[:period]
-      when "today"
-        transactions = transactions.where(date: Date.current)
-      when "week"
-        transactions = transactions.where(date: Date.current.beginning_of_week..Date.current.end_of_week)
-      when "month"
-        transactions = transactions.by_month(Date.current)
-      when "custom"
-        if params[:start_date].present? && params[:end_date].present?
-          transactions = transactions.by_date_range(params[:start_date], params[:end_date])
-        end
-      end
-    end
-
-    transactions
-  end
-
-  def filtered_transactions_for_charts_without_date
-    # Get transactions with filters applied (excluding date for monthly evolution)
-    transactions = @user.transactions.includes(:category)
-    transactions = transactions.by_type(params[:transaction_type]) if params[:transaction_type].present?
-    transactions = transactions.by_category(params[:category_id]) if params[:category_id].present?
-    transactions = transactions.search_description(params[:search]) if params[:search].present?
-    transactions
+    Dashboard::MonthlyEvolutionData.new(scope: chart_transactions_without_date).call
   end
 
   def load_categories
@@ -141,5 +81,29 @@ class DashboardController < ApplicationController
 
   def export_filename
     "transactions-#{Date.current}.csv"
+  end
+
+  def apply_filters(scope, include_date_filter:)
+    scope = scope.by_type(params[:transaction_type]) if params[:transaction_type].present?
+    scope = scope.by_category(params[:category_id]) if params[:category_id].present?
+    scope = scope.search_description(params[:search]) if params[:search].present?
+    return scope unless include_date_filter
+
+    case params[:period]
+    when "today"
+      scope.where(date: Date.current)
+    when "week"
+      scope.where(date: Date.current.beginning_of_week..Date.current.end_of_week)
+    when "month"
+      scope.by_month(Date.current)
+    when "custom"
+      if params[:start_date].present? && params[:end_date].present?
+        scope.by_date_range(params[:start_date], params[:end_date])
+      else
+        scope
+      end
+    else
+      scope
+    end
   end
 end

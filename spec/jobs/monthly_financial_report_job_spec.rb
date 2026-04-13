@@ -20,9 +20,9 @@ RSpec.describe MonthlyFinancialReportJob, type: :job do
     email = ActionMailer::Base.deliveries.last
     expect(email.to).to contain_exactly(user.email)
     expect(email.subject).to include("2026-03")
-    expect(email.body.encoded).to include("Income: $2,500.00")
-    expect(email.body.encoded).to include("Expenses: $700.00")
-    expect(email.body.encoded).to include("Balance: $1,800.00")
+    expect(email.body.encoded).to include("Income: R$ 2.500,00")
+    expect(email.body.encoded).to include("Expenses: R$ 700,00")
+    expect(email.body.encoded).to include("Balance: R$ 1.800,00")
   end
 
   it "falls back to previous month when reference month is invalid" do
