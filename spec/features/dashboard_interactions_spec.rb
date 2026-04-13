@@ -8,6 +8,8 @@ RSpec.describe "Dashboard interactions", type: :feature do
   before do
     create(:transaction, :expense, user: user, category: expense_category, amount: 20, description: "Coffee beans", date: Date.current)
     create(:transaction, :income, user: user, category: income_category, amount: 2000, description: "Monthly salary", date: Date.current)
+    create(:transaction, :income, user: user, category: income_category, amount: 1500, description: "Previous month salary", date: 1.month.ago.beginning_of_month + 2.days)
+    create(:transaction, :expense, user: user, category: expense_category, amount: 50, description: "Previous month groceries", date: 1.month.ago.beginning_of_month + 4.days)
 
     visit "/users/sign_in"
     fill_in "user_email", with: user.email
@@ -18,8 +20,13 @@ RSpec.describe "Dashboard interactions", type: :feature do
   it "shows dashboard data and keeps filter params in export link" do
     visit "/dashboard?transaction_type=expense&period=month"
 
+    currency = ActionController::Base.helpers.method(:number_to_currency)
+
     expect(page).to have_content("Dashboard")
     expect(page).to have_content("Coffee beans")
+    expect(page).to have_content("vs")
+    expect(page).to have_content("Up #{currency.call(500)}")
+    expect(page).to have_content("Down #{currency.call(30)}")
 
     export_href = find_link(I18n.t("dashboard.index.export_csv"))[:href]
     expect(export_href).to include("format=csv")

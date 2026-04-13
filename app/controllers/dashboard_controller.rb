@@ -21,6 +21,7 @@ class DashboardController < ApplicationController
     @income_vs_expenses_data = charts_data[:income_vs_expenses]
     @expenses_by_category_data = charts_data[:expenses_by_category]
     @monthly_evolution_data = Dashboard::MonthlyEvolutionData.new(scope: unbounded_chart_transactions).call
+    @month_comparison = Dashboard::MonthComparisonData.new(scope: @user.transactions).call
 
     respond_to do |format|
       format.html
