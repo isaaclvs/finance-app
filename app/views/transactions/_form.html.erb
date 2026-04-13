@@ -65,14 +65,14 @@
       <%= form.label :amount, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
       <div class="relative mt-1 rounded-md shadow-sm">
         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <span class="text-gray-500 dark:text-gray-400 sm:text-sm">$</span>
+          <span class="text-gray-500 dark:text-gray-400 sm:text-sm"><%= currency_unit(strip: true) %></span>
         </div>
         <%= form.number_field :amount, 
             step: 0.01,
             min: 0.01,
             required: true,
             class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors duration-200",
-            placeholder: "0.00",
+            placeholder: t("transactions.form.amount_placeholder"),
             data: { transaction_form_target: "amountInput" } %>
       </div>
     </div>

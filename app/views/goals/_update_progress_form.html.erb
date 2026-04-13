@@ -48,7 +48,7 @@
         
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span class="text-gray-500 dark:text-gray-400 text-sm">R$</span>
+            <span class="text-gray-500 dark:text-gray-400 text-sm"><%= currency_unit(strip: true) %></span>
           </div>
           
           <%= f.number_field :amount, 
@@ -58,7 +58,7 @@
               value: goal.current_amount,
               id: "goal_amount_field",
               class: "w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white",
-              placeholder: "0.00",
+              placeholder: t("goals.progress_modal.amount_placeholder"),
               required: true %>
         </div>
         
@@ -73,7 +73,7 @@
           <button type="button" 
                   class="px-3 py-1 text-xs bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
                   onclick="addQuickAmount(<%= amount %>)">
-            +R$<%= amount %>
+            <%= t("goals.progress_modal.quick_add", unit: currency_unit(strip: true), amount: amount) %>
           </button>
         <% end %>
       </div>

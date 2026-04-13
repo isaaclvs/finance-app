@@ -1,9 +1,9 @@
-Hi <%= @user.email %>,
+<%= t("mailers.reports.monthly_summary.greeting", email: @user.email) %>
 
-Here is your monthly financial summary for <%= @summary[:month] %>:
+<%= t("mailers.reports.monthly_summary.summary", month: @summary[:month]) %>
 
-- Income: <%= number_to_currency(@summary[:income]) %>
-- Expenses: <%= number_to_currency(@summary[:expenses]) %>
-- Balance: <%= number_to_currency(@summary[:balance]) %>
+- <%= t("mailers.reports.monthly_summary.income", amount: number_to_currency(@summary[:income])) %>
+- <%= t("mailers.reports.monthly_summary.expenses", amount: number_to_currency(@summary[:expenses])) %>
+- <%= t("mailers.reports.monthly_summary.balance", amount: number_to_currency(@summary[:balance])) %>
 
-Generated automatically by Finance App.
+<%= t("mailers.reports.monthly_summary.footer") %>

@@ -6,17 +6,17 @@
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("dashboard.charts.income_vs_expenses") %></h2>
         <%= bar_chart @income_vs_expenses_data,
             colors: ["#10b981", "#ef4444"],
-            prefix: "R$ ",
+            prefix: currency_unit,
             height: "200px" %>
       </div>
 
       <% if @expenses_by_category_data.any? %>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("dashboard.charts.expenses_by_category") %></h2>
-          <%= pie_chart @expenses_by_category_data,
-              prefix: "R$ ",
-              height: "200px" %>
-        </div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("dashboard.charts.expenses_by_category") %></h2>
+        <%= pie_chart @expenses_by_category_data,
+            prefix: currency_unit,
+            height: "200px" %>
+      </div>
       <% end %>
     </div>
 
@@ -24,7 +24,7 @@
       <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("dashboard.charts.monthly_evolution") %></h2>
       <%= line_chart @monthly_evolution_data,
           colors: ["#10b981", "#ef4444"],
-          prefix: "R$ ",
+          prefix: currency_unit,
           height: "250px" %>
     </div>
   <% end %>
@@ -58,7 +58,7 @@
                 <% @transactions.each do |transaction| %>
                   <tr id="<%= dom_id(transaction) %>">
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 dark:text-white sm:pl-6">
-                      <%= transaction.date.strftime("%b %d, %Y") %>
+                      <%= localized_date(transaction.date) %>
                     </td>
                     <td class="px-3 py-4 text-sm text-gray-900 dark:text-white">
                       <%= transaction.description %>
@@ -100,7 +100,7 @@
                         </p>
                       </div>
                       <div class="mt-1 flex items-center justify-between">
-                        <p class="text-xs text-gray-500 dark:text-gray-400"><%= transaction.date.strftime("%b %d, %Y") %></p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400"><%= localized_date(transaction.date) %></p>
                         <span class="inline-flex items-center text-xs text-gray-500 dark:text-gray-400">
                           <span class="h-2 w-2 rounded-full mr-1" style="background-color: <%= transaction.category_color %>"></span>
                           <%= transaction.category_name %>

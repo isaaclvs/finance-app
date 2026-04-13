@@ -1,6 +1,6 @@
 <tr id="<%= dom_id(transaction) %>">
   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 dark:text-white sm:pl-6">
-    <%= transaction.date.strftime("%b %d, %Y") %>
+    <%= localized_date(transaction.date) %>
   </td>
   <td class="px-3 py-4 text-sm text-gray-900 dark:text-white">
     <%= transaction.description %>

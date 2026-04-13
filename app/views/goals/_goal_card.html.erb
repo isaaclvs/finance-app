@@ -57,7 +57,7 @@
       <div class="flex justify-between items-center text-sm">
         <span class="text-gray-600 dark:text-gray-400"><%= t("goals.card.target_date") %></span>
         <span class="font-medium text-gray-900 dark:text-white">
-          <%= goal.target_date.strftime("%b %d, %Y") %>
+          <%= localized_date(goal.target_date) %>
         </span>
       </div>
       

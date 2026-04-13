@@ -117,7 +117,7 @@
           <div>
             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("goals.card.target_date") %></dt>
             <dd class="mt-1 text-sm text-gray-900 dark:text-white">
-              <%= @goal.target_date.strftime("%B %d, %Y") %>
+              <%= localized_date(@goal.target_date, format: :long) %>
             </dd>
           </div>
           
@@ -145,7 +145,7 @@
           <div>
             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("goals.show.created") %></dt>
             <dd class="mt-1 text-sm text-gray-900 dark:text-white">
-              <%= @goal.created_at.strftime("%B %d, %Y") %>
+              <%= localized_date(@goal.created_at.to_date, format: :long) %>
             </dd>
           </div>
         </div>
@@ -185,4 +185,3 @@
 <!-- Modal Frame -->
 <%= turbo_frame_tag "goal_modal" do %>
 <% end %>
-
