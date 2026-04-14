@@ -20,6 +20,19 @@ RSpec.describe Category, type: :model do
         expect(category).to be_valid, "#{color} should be valid"
       end
     end
+
+    it "accepts nil monthly budget limit" do
+      category = build(:category, user: user, monthly_budget_limit: nil)
+
+      expect(category).to be_valid
+    end
+
+    it "requires monthly budget limit to be greater than zero when present" do
+      category = build(:category, user: user, monthly_budget_limit: 0)
+
+      expect(category).not_to be_valid
+      expect(category.errors[:monthly_budget_limit]).to include("must be greater than 0")
+    end
   end
 
   describe "useful scopes" do

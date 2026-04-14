@@ -10,6 +10,9 @@ class Category < ApplicationRecord
   validates :color, presence: true,
                     format: { with: /\A#[0-9A-F]{6}\z/i,
                              message: "must be a valid hex color (e.g. #FF5733)" }
+  validates :monthly_budget_limit,
+            numericality: { greater_than: 0 },
+            allow_nil: true
 
   # Scopes
   scope :ordered, -> { order(:name) }
