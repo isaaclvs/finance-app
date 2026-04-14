@@ -2,10 +2,12 @@ class TransactionsController < ApplicationController
   include ActionView::RecordIdentifier
 
   before_action :set_transaction, only: %i[ show edit update destroy ]
-  before_action :load_categories, only: %i[ new edit create update ]
+  before_action :load_categories, only: %i[ index new edit create update ]
+  before_action :load_tags, only: %i[ index new edit create update ]
 
   def index
-    @transactions = Current.user.transactions.includes(:category).ordered.page(params[:page]).per(20)
+    filtered_scope = Dashboard::TransactionsFilter.new(scope: Current.user.transactions, params: params).call
+    @transactions = filtered_scope.includes(:category, :tags).ordered.page(params[:page]).per(20)
   end
 
   def show
@@ -66,10 +68,14 @@ class TransactionsController < ApplicationController
     end
 
     def transaction_params
-      params.require(:transaction).permit(:amount, :transaction_type, :date, :description, :category_id)
+      params.require(:transaction).permit(:amount, :transaction_type, :date, :description, :category_id, tag_ids: [])
     end
 
     def load_categories
       @categories = Current.user.categories.ordered
+    end
+
+    def load_tags
+      @tags = Current.user.tags.ordered
     end
 end

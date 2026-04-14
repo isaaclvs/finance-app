@@ -9,6 +9,7 @@ module Dashboard
       scoped = @scope
       scoped = scoped.by_type(@params[:transaction_type]) if @params[:transaction_type].present?
       scoped = scoped.by_category(@params[:category_id]) if @params[:category_id].present?
+      scoped = scoped.by_tag(@params[:tag_id]) if @params[:tag_id].present?
       scoped = scoped.search_description(@params[:search]) if @params[:search].present?
       return scoped unless include_date_filter
 

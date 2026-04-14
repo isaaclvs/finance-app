@@ -4,12 +4,16 @@ RSpec.describe "Dashboard interactions", type: :feature do
   let(:user) { create(:user, email: "dashboard@example.com", password: "password123", password_confirmation: "password123") }
   let!(:expense_category) { create(:category, user: user, name: "Food", color: "#EF4444", monthly_budget_limit: 25) }
   let!(:income_category) { create(:category, user: user, name: "Salary", color: "#10B981") }
+  let!(:coffee_tag) { create(:tag, user: user, name: "Coffee", color: "#7C3AED") }
+  let!(:work_tag) { create(:tag, user: user, name: "Work", color: "#0EA5E9") }
 
   before do
-    create(:transaction, :expense, user: user, category: expense_category, amount: 20, description: "Coffee beans", date: Date.current)
-    create(:transaction, :income, user: user, category: income_category, amount: 2000, description: "Monthly salary", date: Date.current)
+    coffee_tx = create(:transaction, :expense, user: user, category: expense_category, amount: 20, description: "Coffee beans", date: Date.current)
+    salary_tx = create(:transaction, :income, user: user, category: income_category, amount: 2000, description: "Monthly salary", date: Date.current)
     create(:transaction, :income, user: user, category: income_category, amount: 1500, description: "Previous month salary", date: 1.month.ago.beginning_of_month + 2.days)
     create(:transaction, :expense, user: user, category: expense_category, amount: 50, description: "Previous month groceries", date: 1.month.ago.beginning_of_month + 4.days)
+    coffee_tx.tags << coffee_tag
+    salary_tx.tags << work_tag
 
     visit "/users/sign_in"
     fill_in "user_email", with: user.email
@@ -58,5 +62,12 @@ RSpec.describe "Dashboard interactions", type: :feature do
 
     expect(page).to have_css("#transactions-mobile", visible: :all)
     expect(page).to have_css(".hidden.md\\:block", visible: :all)
+  end
+
+  it "applies combined filters including tag" do
+    visit "/dashboard?tag_id=#{coffee_tag.id}&category_id=#{expense_category.id}&period=month&search=Coffee"
+
+    expect(page).to have_content("Coffee beans")
+    expect(page).not_to have_content("Monthly salary")
   end
 end

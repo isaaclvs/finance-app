@@ -5,6 +5,7 @@ RSpec.describe "Transactions authorization", type: :request do
   let(:other_user) { create(:user) }
   let(:user_category) { create(:category, user: user) }
   let(:other_category) { create(:category, user: other_user) }
+  let(:other_user_tag) { create(:tag, user: other_user) }
   let!(:own_transaction) { create(:transaction, user: user, category: user_category, description: "Own tx") }
   let!(:other_transaction) { create(:transaction, user: other_user, category: other_category, description: "Other tx") }
 
@@ -49,5 +50,23 @@ RSpec.describe "Transactions authorization", type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include(I18n.t("transactions.modal.edit_title"))
+  end
+
+  it "rejects assigning a tag owned by another user" do
+    sign_in_user(user)
+
+    post "/transactions", params: {
+      transaction: {
+        amount: 100,
+        transaction_type: "expense",
+        date: Date.current,
+        description: "Unauthorized tag assignment",
+        category_id: user_category.id,
+        tag_ids: [ other_user_tag.id ]
+      }
+    }
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(user.transactions.find_by(description: "Unauthorized tag assignment")).to be_nil
   end
 end

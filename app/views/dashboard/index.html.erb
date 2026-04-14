@@ -11,7 +11,7 @@
         <div class="flex items-center gap-2">
           <%= link_to t("dashboard.index.export_csv"),
               dashboard_path(
-                request.query_parameters.slice("transaction_type", "category_id", "search", "period", "start_date", "end_date").merge(format: :csv)
+                request.query_parameters.slice("transaction_type", "category_id", "tag_id", "search", "period", "start_date", "end_date").merge(format: :csv)
               ),
               class: "inline-flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto",
               data: { turbo: false } %>
@@ -57,11 +57,20 @@
             </div>
             
             <!-- Other filters in grid -->
-            <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
               <div>
                 <%= f.label :transaction_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.select :transaction_type, 
                   options_for_select([[t("dashboard.index.filters.all"), ""], [t("dashboard.index.filters.income"), "income"], [t("dashboard.index.filters.expense"), "expense"]], params[:transaction_type]),
+                    {},
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#submit" } %>
+              </div>
+
+              <div>
+                <%= f.label :tag_id, t("dashboard.index.filters.tag"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :tag_id,
+                  options_for_select([[t("dashboard.index.filters.all_tags"), ""]] + @tags.map { |t| [t.name, t.id] }, params[:tag_id]),
                     {},
                     class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                     data: { action: "change->filters#submit" } %>

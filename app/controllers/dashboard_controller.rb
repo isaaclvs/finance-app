@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
   before_action :load_categories
+  before_action :load_tags
   helper_method :charts_cache_key
 
   def index
@@ -48,7 +49,7 @@ class DashboardController < ApplicationController
   private
 
   def filtered_transactions
-    @filtered_transactions ||= filtered_chart_transactions.includes(:category).ordered.page(params[:page]).per(20)
+    @filtered_transactions ||= filtered_chart_transactions.includes(:category, :tags).ordered.page(params[:page]).per(20)
   end
 
   def filtered_chart_transactions
@@ -80,6 +81,10 @@ class DashboardController < ApplicationController
     @categories = Current.user.categories.ordered
   end
 
+  def load_tags
+    @tags = Current.user.tags.ordered
+  end
+
   def export_filename
     "transactions-#{Date.current}.csv"
   end
@@ -94,6 +99,6 @@ class DashboardController < ApplicationController
   end
 
   def filter_cache_params
-    params.slice("transaction_type", "category_id", "search", "period", "start_date", "end_date").to_unsafe_h
+    params.slice("transaction_type", "category_id", "tag_id", "search", "period", "start_date", "end_date").to_unsafe_h
   end
 end

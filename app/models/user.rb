@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   # Associations
   has_many :categories, dependent: :destroy
+  has_many :tags, dependent: :destroy
   has_many :transactions, dependent: :destroy
   has_many :goals, dependent: :destroy
 
