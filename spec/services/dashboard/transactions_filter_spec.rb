@@ -4,6 +4,8 @@ RSpec.describe Dashboard::TransactionsFilter, type: :service do
   let(:user) { create(:user) }
   let(:income_category) { create(:category, user: user, name: "Salary") }
   let(:expense_category) { create(:category, user: user, name: "Food") }
+  let(:work_tag) { create(:tag, user: user, name: "Work") }
+  let(:essential_tag) { create(:tag, user: user, name: "Essential") }
 
   let!(:income_transaction) do
     create(:transaction, :income, user: user, category: income_category, description: "Monthly salary", amount: 2000, date: Date.current)
@@ -13,6 +15,11 @@ RSpec.describe Dashboard::TransactionsFilter, type: :service do
   end
   let!(:old_expense_transaction) do
     create(:transaction, :expense, user: user, category: expense_category, description: "Old lunch", amount: 30, date: 2.months.ago)
+  end
+
+  before do
+    income_transaction.tags << work_tag
+    expense_transaction.tags << essential_tag
   end
 
   it "filters by type" do
@@ -30,6 +37,26 @@ RSpec.describe Dashboard::TransactionsFilter, type: :service do
 
   it "filters by search" do
     scope = described_class.new(scope: user.transactions, params: { search: "salary" }).call
+
+    expect(scope).to contain_exactly(income_transaction)
+  end
+
+  it "filters by tag" do
+    scope = described_class.new(scope: user.transactions, params: { tag_id: work_tag.id }).call
+
+    expect(scope).to contain_exactly(income_transaction)
+  end
+
+  it "supports combined filters" do
+    scope = described_class.new(
+      scope: user.transactions,
+      params: {
+        tag_id: work_tag.id,
+        category_id: income_category.id,
+        period: "month",
+        search: "salary"
+      }
+    ).call
 
     expect(scope).to contain_exactly(income_transaction)
   end

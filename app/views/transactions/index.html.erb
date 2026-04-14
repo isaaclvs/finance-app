@@ -15,6 +15,90 @@
         </div>
       </div>
 
+      <%= form_with url: transactions_path, method: :get, data: { controller: "filters" } do |f| %>
+        <div class="mt-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white"><%= t("transactions.index.filters.title") %></h3>
+
+            <div class="mt-5">
+              <%= f.label :search, t("transactions.index.filters.search_label"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+              <%= f.text_field :search,
+                  placeholder: t("transactions.index.filters.search_placeholder"),
+                  value: params[:search],
+                  class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                  data: { action: "input->filters#submit" } %>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              <div>
+                <%= f.label :transaction_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :transaction_type,
+                  options_for_select([[t("transactions.index.filters.all"), ""], [t("transactions.index.filters.income"), "income"], [t("transactions.index.filters.expense"), "expense"]], params[:transaction_type]),
+                  {},
+                  class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                  data: { action: "change->filters#submit" } %>
+              </div>
+
+              <div>
+                <%= f.label :category_id, t("transactions.index.filters.category"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :category_id,
+                  options_for_select([[t("transactions.index.filters.all_categories"), ""]] + @categories.map { |c| [c.name, c.id] }, params[:category_id]),
+                  {},
+                  class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                  data: { action: "change->filters#submit" } %>
+              </div>
+
+              <div>
+                <%= f.label :tag_id, t("transactions.index.filters.tag"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :tag_id,
+                  options_for_select([[t("transactions.index.filters.all_tags"), ""]] + @tags.map { |tag| [tag.name, tag.id] }, params[:tag_id]),
+                  {},
+                  class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                  data: { action: "change->filters#submit" } %>
+              </div>
+
+              <div>
+                <%= f.label :period, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.select :period,
+                  options_for_select([
+                    [t("transactions.index.filters.all_time"), ""],
+                    [t("transactions.index.filters.today"), "today"],
+                    [t("transactions.index.filters.this_week"), "week"],
+                    [t("transactions.index.filters.this_month"), "month"],
+                    [t("transactions.index.filters.custom_range"), "custom"]
+                  ], params[:period]),
+                  {},
+                  class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                  data: { action: "change->filters#toggleDateInputs change->filters#submit" } %>
+              </div>
+
+              <div class="flex items-end">
+                <%= link_to t("transactions.index.filters.clear"), "#",
+                  class: "inline-flex items-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800",
+                  data: { action: "click->filters#clearForm" } %>
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 <%= 'hidden' unless params[:period] == 'custom' %>" data-filters-target="dateInputs">
+              <div>
+                <%= f.label :start_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.date_field :start_date,
+                    value: params[:start_date],
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#submit" } %>
+              </div>
+              <div>
+                <%= f.label :end_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.date_field :end_date,
+                    value: params[:end_date],
+                    class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                    data: { action: "change->filters#submit" } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
     <!-- Balance Summary -->
     <div id="balance_summary" class="mt-8">
       <%= render "shared/balance_summary", user: Current.user %>
@@ -36,6 +120,7 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.transaction") %></th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.category") %></th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.tags") %></th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.date") %></th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"><%= t("transactions.index.columns.amount") %></th>
                 <th class="relative px-6 py-3"><span class="sr-only"><%= t("transactions.index.columns.actions") %></span></th>
@@ -48,7 +133,7 @@
                 <% end %>
               <% else %>
                 <tr>
-                  <td colspan="5" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+                  <td colspan="6" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                     <%= t("transactions.index.empty") %>
                     <%= link_to t("transactions.index.add_first"), new_transaction_path,
                         class: "ml-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200",
