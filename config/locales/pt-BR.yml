@@ -107,6 +107,17 @@
       income_vs_expenses: "Receitas vs despesas"
       expenses_by_category: "Despesas por categoria"
       monthly_evolution: "Evolucao mensal"
+    budget_alerts:
+      title: "Alertas de orcamento por categoria"
+      subtitle: "Acompanhe categorias proximas do limite ou que ja estouraram o orçamento."
+      active_alerts:
+        one: "1 alerta ativo"
+        other: "%{count} alertas ativos"
+      progress_label: "Consumo do limite"
+      message: "%{spent_amount} gastos de %{limit_amount} (%{percentage})"
+      levels:
+        warning: "Atingiu 80%"
+        exceeded: "Limite excedido"
   transactions:
     index:
       title: "Transacoes"
@@ -151,7 +162,9 @@
         name: "Nome"
         color: "Cor"
         transactions: "Transacoes"
+        monthly_budget_limit: "Limite mensal"
         actions: "Acoes"
+      no_budget_limit: "Sem limite"
     form:
       errors:
         one: "Houve 1 erro no envio"
@@ -159,6 +172,8 @@
       name_placeholder: "ex.: Alimentacao, Transporte, Salario"
       color_placeholder: "#FF5733"
       color_hint: "Escolha uma cor para identificar esta categoria"
+      monthly_budget_limit_placeholder: "500,00"
+      monthly_budget_limit_hint: "Opcional. Defina um teto mensal para disparar alertas no dashboard."
       cancel: "Cancelar"
     modal:
       new_title: "Nova categoria"

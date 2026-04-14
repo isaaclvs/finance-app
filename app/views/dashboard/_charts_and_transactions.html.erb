@@ -1,4 +1,6 @@
 <div class="space-y-6 mt-8 pb-12">
+  <%= render "budget_alerts" %>
+
   <% cache(charts_cache_key) do %>
     <!-- Charts Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">

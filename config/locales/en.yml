@@ -137,6 +137,17 @@ en:
       income_vs_expenses: "Income vs Expenses"
       expenses_by_category: "Expenses by Category"
       monthly_evolution: "Monthly Evolution"
+    budget_alerts:
+      title: "Category Budget Alerts"
+      subtitle: "Track categories that are nearing or already over budget."
+      active_alerts:
+        one: "1 active alert"
+        other: "%{count} active alerts"
+      progress_label: "Budget usage"
+      message: "%{spent_amount} spent out of %{limit_amount} (%{percentage})"
+      levels:
+        warning: "Reached 80%"
+        exceeded: "Budget exceeded"
   transactions:
     index:
       title: "Transactions"
@@ -181,7 +192,9 @@ en:
         name: "Name"
         color: "Color"
         transactions: "Transactions"
+        monthly_budget_limit: "Monthly budget"
         actions: "Actions"
+      no_budget_limit: "No budget"
     form:
       errors:
         one: "There was 1 error with your submission"
@@ -189,6 +202,8 @@ en:
       name_placeholder: "e.g. Food, Transport, Salary"
       color_placeholder: "#FF5733"
       color_hint: "Choose a color to identify this category"
+      monthly_budget_limit_placeholder: "500.00"
+      monthly_budget_limit_hint: "Optional. Define a monthly cap to trigger dashboard alerts."
       cancel: "Cancel"
     modal:
       new_title: "New Category"

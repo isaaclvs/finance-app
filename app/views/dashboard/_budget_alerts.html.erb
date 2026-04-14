@@ -1,0 +1,55 @@
+<% if @budget_alerts.any? %>
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white"><%= t("dashboard.budget_alerts.title") %></h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300"><%= t("dashboard.budget_alerts.subtitle") %></p>
+      </div>
+      <span class="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
+        <%= t("dashboard.budget_alerts.active_alerts", count: @budget_alerts.size) %>
+      </span>
+    </div>
+
+    <div class="mt-5 space-y-3">
+      <% @budget_alerts.each do |alert| %>
+        <% accent_classes = alert.exceeded? ? "border-red-200 bg-red-50 dark:border-red-900/60 dark:bg-red-950/30" : "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/30" %>
+        <% badge_classes = alert.exceeded? ? "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200" : "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200" %>
+
+        <div class="rounded-xl border p-4 <%= accent_classes %>">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div class="flex items-center gap-3">
+                <span class="h-3 w-3 rounded-full" style="background-color: <%= alert.category.color %>"></span>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white"><%= alert.category.name %></h3>
+                <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium <%= badge_classes %>">
+                  <%= t("dashboard.budget_alerts.levels.#{alert.level}") %>
+                </span>
+              </div>
+              <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                <%= t(
+                  "dashboard.budget_alerts.message",
+                  percentage: number_to_percentage(alert.percentage, precision: 1, strip_insignificant_zeros: true),
+                  spent_amount: number_to_currency(alert.spent_amount),
+                  limit_amount: number_to_currency(alert.limit_amount)
+                ) %>
+              </p>
+            </div>
+
+            <div class="w-full sm:max-w-xs">
+              <div class="flex items-center justify-between text-xs font-medium text-gray-600 dark:text-gray-300">
+                <span><%= t("dashboard.budget_alerts.progress_label") %></span>
+                <span><%= number_to_percentage(alert.percentage, precision: 1, strip_insignificant_zeros: true) %></span>
+              </div>
+              <div class="mt-2 h-2.5 rounded-full bg-gray-200 dark:bg-gray-700">
+                <div
+                  class="h-2.5 rounded-full <%= alert.exceeded? ? 'bg-red-500' : 'bg-amber-500' %>"
+                  style="width: <%= [ alert.percentage, 100 ].min %>%">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
