@@ -3,8 +3,26 @@ require 'rails_helper'
 RSpec.describe Transaction, type: :model do
   let(:user) { create(:user) }
   let(:category) { create(:category, user: user) }
+  let(:tag) { create(:tag, user: user) }
 
   describe "business logic methods" do
+    describe "tags association" do
+      it "supports many-to-many relation with tags" do
+        transaction = create(:transaction, user: user, category: category)
+        transaction.tags << tag
+
+        expect(transaction.tags).to contain_exactly(tag)
+      end
+
+      it "does not allow tags from another user" do
+        other_user_tag = create(:tag, user: create(:user))
+        transaction = build(:transaction, user: user, category: category)
+        transaction.tags << other_user_tag
+
+        expect(transaction).not_to be_valid
+      end
+    end
+
     describe "#income?" do
       it "returns true for income transactions" do
         transaction = create(:transaction, :income, user: user, category: category)
