@@ -25,7 +25,7 @@ gem "chartkick"
 # gem "bcrypt", "~> 3.1.7"
 
 # Authentication
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 
 # Pagination
 gem "kaminari", "~> 1.2"
