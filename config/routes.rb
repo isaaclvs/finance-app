@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     get "dashboard", to: "dashboard#index"
     get "jobs/monitoring", to: "jobs#monitoring"
     resources :categories
+    resources :tags
     resources :transactions
     resources :goals do
       member do
