@@ -29,11 +29,377 @@
 
 en:
   hello: "Hello world"
+  app:
+    name: "Finance App"
+    nav:
+      dashboard: "Dashboard"
+      transactions: "Transactions"
+      goals: "Goals"
+      categories: "Categories"
+      sign_out: "Sign out"
+  home:
+    title: "Welcome to Finance App"
+    logged_in_as: "Logged in as"
+    dashboard_title: "Dashboard"
+    dashboard_placeholder: "Your financial dashboard will appear here."
+  devise:
+    views:
+      shared:
+        links:
+          sign_in: "Log in"
+          sign_up: "Sign up"
+          forgot_password: "Forgot your password?"
+          confirmation_instructions: "Didn't receive confirmation instructions?"
+          unlock_instructions: "Didn't receive unlock instructions?"
+          sign_in_with_provider: "Sign in with %{provider}"
+      confirmations:
+        new:
+          title: "Resend confirmation instructions"
+          submit: "Resend confirmation instructions"
+      unlocks:
+        new:
+          title: "Resend unlock instructions"
+          submit: "Resend unlock instructions"
+      sessions:
+        new:
+          title: "Sign in to Finance App"
+          email_placeholder: "name@example.com"
+          password_placeholder: "Enter your password"
+          remember_me: "Remember me"
+          submit: "Sign in"
+      registrations:
+        new:
+          title: "Create your account"
+          email_placeholder: "name@example.com"
+          password_placeholder: "Create a password"
+          password_confirmation_placeholder: "Confirm your password"
+          minimum_password_length: "(%{count} characters minimum)"
+          submit: "Sign up"
+        edit:
+          title: "Edit %{resource}"
+          waiting_confirmation: "Currently waiting confirmation for: %{email}"
+          leave_blank: "(leave blank if you don't want to change it)"
+          current_password_help: "(we need your current password to confirm your changes)"
+          update: "Update"
+          cancel_title: "Cancel my account"
+          unhappy: "Unhappy?"
+          cancel_account: "Cancel my account"
+          back: "Back"
+          confirm_cancel: "Are you sure?"
+      passwords:
+        new:
+          title: "Forgot your password?"
+          email_placeholder: "Enter your email address"
+          submit: "Send me reset password instructions"
+        edit:
+          title: "Change your password"
+          new_password: "New password"
+          confirm_new_password: "Confirm new password"
+          minimum_password_length: "(%{count} characters minimum)"
+          submit: "Change my password"
+      mailer:
+        greeting: "Hello %{email}!"
+        welcome: "Welcome %{email}!"
+        confirmation_instructions: "You can confirm your account email through the link below:"
+        confirm_account: "Confirm my account"
+        email_changed_pending: "We're contacting you to notify you that your email is being changed to %{email}."
+        email_changed: "We're contacting you to notify you that your email has been changed to %{email}."
+        password_changed: "We're contacting you to notify you that your password has been changed."
+        reset_password_instructions: "Someone has requested a link to change your password. You can do this through the link below."
+        change_password: "Change my password"
+        ignore_email: "If you didn't request this, please ignore this email."
+        password_wont_change: "Your password won't change until you access the link above and create a new one."
+        account_locked: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+        unlock_instructions: "Click the link below to unlock your account:"
+        unlock_account: "Unlock my account"
+  dashboard:
+    index:
+      title: "Dashboard"
+      subtitle: "Financial overview and transaction management"
+      export_csv: "Export CSV"
+      new_transaction: "New transaction"
+      filters:
+        title: "Filters"
+        search_label: "Search Description"
+        search_placeholder: "Search transactions..."
+        all: "All"
+        income: "Income"
+        expense: "Expense"
+        category: "Category"
+        all_categories: "All Categories"
+        all_time: "All time"
+        today: "Today"
+        this_week: "This week"
+        this_month: "This month"
+        custom_range: "Custom range"
+        clear: "Clear filters"
+    charts:
+      income_vs_expenses: "Income vs Expenses"
+      expenses_by_category: "Expenses by Category"
+      monthly_evolution: "Monthly Evolution"
+    budget_alerts:
+      title: "Category Budget Alerts"
+      subtitle: "Track categories that are nearing or already over budget."
+      active_alerts:
+        one: "1 active alert"
+        other: "%{count} active alerts"
+      progress_label: "Budget usage"
+      message: "%{spent_amount} spent out of %{limit_amount} (%{percentage})"
+      levels:
+        warning: "Reached 80%"
+        exceeded: "Budget exceeded"
+  transactions:
+    index:
+      title: "Transactions"
+      subtitle: "Simple transaction listing and management"
+      new_transaction: "New transaction"
+      table_title: "Transactions"
+      view_dashboard: "View Dashboard"
+      empty: "No transactions yet"
+      add_first: "Add your first transaction"
+      columns:
+        transaction: "Transaction"
+        category: "Category"
+        date: "Date"
+        amount: "Amount"
+        actions: "Actions"
+    form:
+      errors:
+        one: "There was 1 error with your submission"
+        other: "There were %{count} errors with your submission"
+      transaction_type: "Transaction Type"
+      income: "Income"
+      income_hint: "Money coming in"
+      expense: "Expense"
+      expense_hint: "Money going out"
+      category: "Category"
+      select_category: "Select a category"
+      description_placeholder: "Optional notes about this transaction"
+      amount_placeholder: "0.00"
+      cancel: "Cancel"
+    modal:
+      new_title: "New Transaction"
+      edit_title: "Edit Transaction"
+    item:
+      no_description: "No description"
+      delete_confirm: "Are you sure you want to delete this transaction?"
+  categories:
+    index:
+      title: "Categories"
+      subtitle: "Manage your transaction categories"
+      new_category: "New category"
+      columns:
+        name: "Name"
+        color: "Color"
+        transactions: "Transactions"
+        monthly_budget_limit: "Monthly budget"
+        actions: "Actions"
+      no_budget_limit: "No budget"
+    form:
+      errors:
+        one: "There was 1 error with your submission"
+        other: "There were %{count} errors with your submission"
+      name_placeholder: "e.g. Food, Transport, Salary"
+      color_placeholder: "#FF5733"
+      color_hint: "Choose a color to identify this category"
+      monthly_budget_limit_placeholder: "500.00"
+      monthly_budget_limit_hint: "Optional. Define a monthly cap to trigger dashboard alerts."
+      cancel: "Cancel"
+    modal:
+      new_title: "New Category"
+      edit_title: "Edit Category"
+  goals:
+    index:
+      title: "Goals"
+      subtitle: "Track and manage your financial objectives"
+      new_goal: "New goal"
+      filters:
+        search_placeholder: "Search goals..."
+        all_status: "All Status"
+        all_types: "All Types"
+    types:
+      savings: "Savings"
+      expense_reduction: "Expense Reduction"
+      income_increase: "Income Increase"
+      debt_payoff: "Debt Payoff"
+    status:
+      active: "Active"
+      paused: "Paused"
+      completed: "Completed"
+      cancelled: "Cancelled"
+    form:
+      errors:
+        one: "There was 1 error with your submission"
+        other: "There were %{count} errors with your submission"
+      title_placeholder: "e.g., Emergency Fund"
+      goal_type_prompt: "Select goal type"
+      category_optional: "Category (optional)"
+      category_prompt: "Select category (optional)"
+      description_placeholder: "Describe your goal and why it's important to you..."
+      target_amount_placeholder: "10000.00"
+      current_amount_placeholder: "0.00"
+      update_goal: "Update Goal"
+      create_goal: "Create Goal"
+    modal:
+      new_title: "New Goal"
+      edit_title: "Edit Goal"
+    list:
+      empty_title: "No goals found"
+      empty_subtitle: "Try adjusting your search or filters to find what you're looking for."
+    card:
+      progress: "Progress"
+      target_date: "Target Date:"
+      days_remaining: "Days Remaining:"
+      remaining: "Remaining:"
+      overdue: "Overdue"
+      days_count:
+        one: "1 day"
+        other: "%{count} days"
+      update_progress: "Update Progress"
+    summary:
+      overview: "Goals Overview"
+      view_all: "View All Goals"
+      total: "Total Goals"
+      overdue: "Overdue"
+      recent: "Recent Goals"
+      due: "Due"
+      due_soon: "Due Soon"
+      add_new: "Add New Goal"
+      empty_title: "No Goals Yet"
+      empty_subtitle: "Start tracking your financial objectives by creating your first goal."
+      create_first: "Create Your First Goal"
+    show:
+      edit_goal: "Edit Goal"
+      update_progress: "Update Progress"
+      delete_goal: "Delete Goal"
+      delete_confirm: "Are you sure you want to delete this goal? This action cannot be undone."
+      description: "Description"
+      progress_details: "Progress Details"
+      overall_progress: "Overall Progress"
+      current_amount: "Current Amount"
+      target_amount: "Target Amount"
+      goal_information: "Goal Information"
+      overdue_by_days:
+        one: "Overdue by 1 day"
+        other: "Overdue by %{count} days"
+      created: "Created"
+    progress_modal:
+      title: "Update Progress"
+      current: "Current"
+      target: "Target"
+      new_current_amount: "New Current Amount"
+      remaining: "Remaining"
+      submit: "Update Progress"
+      amount_placeholder: "0.00"
+      quick_add: "+%{unit}%{amount}"
+  common:
+    actions:
+      title: "Actions"
+      close: "Close"
+      cancel: "Cancel"
+      edit: "Edit"
+      delete: "Delete"
+      view: "View"
+      dismiss: "Dismiss"
+    confirmations:
+      are_you_sure: "Are you sure?"
+    loading: "Loading..."
+  helpers:
+    submit:
+      category:
+        create: "Create Category"
+        update: "Update Category"
+      transaction:
+        create: "Create Transaction"
+        update: "Update Transaction"
+      goal:
+        create: "Create Goal"
+        update: "Update Goal"
+  activerecord:
+    models:
+      category: "Category"
+      transaction: "Transaction"
+      goal: "Goal"
+    attributes:
+      user:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        current_password: "Current password"
+      category:
+        name: "Name"
+        color: "Color"
+      transaction:
+        amount: "Amount"
+        date: "Date"
+        description: "Description"
+        category: "Category"
+        category_id: "Category"
+        transaction_type: "Transaction Type"
+      goal:
+        title: "Title"
+        goal_type: "Goal Type"
+        target_amount: "Target Amount"
+        current_amount: "Current Amount"
+        target_date: "Target Date"
+        status: "Status"
+        description: "Description"
+        category_id: "Category"
+  shared:
+    balance_summary:
+      total_income: "Total Income"
+      total_expenses: "Total Expenses"
+      balance: "Balance"
+  notices:
+    transactions:
+      created: "Transaction was successfully created."
+      updated: "Transaction was successfully updated."
+      deleted: "Transaction was successfully deleted."
+    categories:
+      created: "Category was successfully created."
+      updated: "Category was successfully updated."
+      deleted: "Category was successfully deleted."
+    goals:
+      created: "Goal created successfully"
+      updated: "Goal updated successfully"
+      deleted: "Goal deleted successfully"
+      progress_updated: "Goal progress updated successfully"
+      progress_update_failed: "Unable to update goal progress"
+  jobs:
+    monitoring:
+      title: "Jobs Monitoring"
+      subtitle: "Current background processing snapshot from Solid Queue."
+      status:
+        pending: "Pending"
+        running: "Running"
+        failed: "Failed"
+        finished: "Finished"
+  mailers:
+    goal_notifications:
+      due_soon:
+        greeting: "Hi %{email},"
+        summary: "Your goal \"%{title}\" is due in %{days} day(s)."
+        current_progress: "Current progress: %{progress}"
+        target_amount: "Target amount: %{amount}"
+        current_amount: "Current amount: %{amount}"
+        encouragement: "Keep going!"
+    reports:
+      monthly_summary:
+        greeting: "Hi %{email},"
+        summary: "Here is your monthly financial summary for %{month}:"
+        income: "Income: %{amount}"
+        expenses: "Expenses: %{amount}"
+        balance: "Balance: %{amount}"
+        footer: "Generated automatically by Finance App."
   number:
     currency:
       format:
-        unit: "R$ "
-        separator: ","
-        delimiter: "."
+        unit: "$"
+        separator: "."
+        delimiter: ","
         format: "%u%n"
         negative_format: "-%u%n"
+  date:
+    formats:
+      short: "%b %d, %Y"
+      long: "%B %d, %Y"

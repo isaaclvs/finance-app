@@ -32,12 +32,23 @@ RSpec.describe Transaction, type: :model do
     describe "#formatted_amount" do
       it "formats income with + sign" do
         transaction = create(:transaction, :income, amount: 100.50, user: user, category: category)
-        expect(transaction.formatted_amount).to eq("+R$ 100,50")
+
+        formatted = I18n.with_locale(:en) { transaction.formatted_amount }
+        expect(formatted).to eq("+$100.50")
       end
 
       it "formats expense with - sign" do
         transaction = create(:transaction, :expense, amount: 75.25, user: user, category: category)
-        expect(transaction.formatted_amount).to eq("-R$ 75,25")
+
+        formatted = I18n.with_locale(:en) { transaction.formatted_amount }
+        expect(formatted).to eq("-$75.25")
+      end
+
+      it "formats amounts using pt-BR locale" do
+        transaction = create(:transaction, :income, amount: 100.50, user: user, category: category)
+
+        formatted = I18n.with_locale(:"pt-BR") { transaction.formatted_amount }
+        expect(formatted).to eq("+R$ 100,50")
       end
     end
   end

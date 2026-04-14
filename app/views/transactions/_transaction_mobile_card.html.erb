@@ -8,7 +8,7 @@
         </p>
       </div>
       <div class="mt-1 flex items-center justify-between">
-        <p class="text-xs text-gray-500 dark:text-gray-400"><%= transaction.date.strftime("%b %d, %Y") %></p>
+        <p class="text-xs text-gray-500 dark:text-gray-400"><%= localized_date(transaction.date) %></p>
         <span class="inline-flex items-center text-xs text-gray-500 dark:text-gray-400">
           <span class="h-2 w-2 rounded-full mr-1" style="background-color: <%= transaction.category_color %>"></span>
           <%= transaction.category_name %>
@@ -17,14 +17,14 @@
     </div>
   </div>
   <div class="mt-2 flex space-x-3 text-xs">
-    <%= link_to "Edit", edit_transaction_path(transaction), 
+    <%= link_to t("common.actions.edit"), edit_transaction_path(transaction),
         class: "text-indigo-600 dark:text-indigo-400",
         data: { turbo_frame: "modal" } %>
-    <%= link_to "Delete", transaction_path(transaction), 
+    <%= link_to t("common.actions.delete"), transaction_path(transaction),
         class: "text-red-600 dark:text-red-400",
         data: { 
           turbo_method: :delete,
-          turbo_confirm: "Are you sure?"
+          turbo_confirm: t("common.confirmations.are_you_sure")
         } %>
   </div>
 </div>

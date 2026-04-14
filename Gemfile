@@ -25,7 +25,7 @@ gem "chartkick"
 # gem "bcrypt", "~> 3.1.7"
 
 # Authentication
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 
 # Pagination
 gem "kaminari", "~> 1.2"
@@ -58,7 +58,7 @@ group :development, :test do
   gem "bullet"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", "~> 7.1.0", require: false
+  gem "brakeman", "~> 8.0.4", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
@@ -66,7 +66,7 @@ group :development, :test do
   # Testing framework
   gem "rspec-rails", "~> 8.0"
   gem "factory_bot_rails", "~> 6.5"
-  gem "faker", "~> 3.5"
+  gem "faker", "~> 3.6"
 end
 
 group :development do
@@ -84,7 +84,7 @@ group :test do
   gem "selenium-webdriver"
 
   # Additional testing tools
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 7.0"
   gem "database_cleaner-active_record", "~> 2.2"
 
   # Test coverage

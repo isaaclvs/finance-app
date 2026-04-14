@@ -52,10 +52,10 @@ class GoalsController < ApplicationController
     if @goal.save
       respond_to do |format|
         format.turbo_stream {
-          flash.now[:notice] = "Goal created successfully"
+          flash.now[:notice] = t("notices.goals.created")
         }
         format.html {
-          redirect_to goals_path, notice: "Goal created successfully"
+          redirect_to goals_path, notice: t("notices.goals.created")
         }
       end
     else
@@ -77,10 +77,10 @@ class GoalsController < ApplicationController
     if @goal.update(goal_params)
       respond_to do |format|
         format.turbo_stream {
-          flash.now[:notice] = "Goal updated successfully"
+          flash.now[:notice] = t("notices.goals.updated")
         }
         format.html {
-          redirect_to goal_path(@goal), notice: "Goal updated successfully"
+          redirect_to goal_path(@goal), notice: t("notices.goals.updated")
         }
       end
     else
@@ -101,10 +101,10 @@ class GoalsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream {
-        flash.now[:notice] = "Goal deleted successfully"
+        flash.now[:notice] = t("notices.goals.deleted")
       }
       format.html {
-        redirect_to goals_path, notice: "Goal deleted successfully"
+        redirect_to goals_path, notice: t("notices.goals.deleted")
       }
     end
   end
@@ -135,7 +135,7 @@ class GoalsController < ApplicationController
           ]
         end
         format.html {
-          redirect_to goal_path(@goal), notice: "Goal progress updated successfully"
+          redirect_to goal_path(@goal), notice: t("notices.goals.progress_updated")
         }
       end
     else
@@ -144,7 +144,7 @@ class GoalsController < ApplicationController
           render turbo_stream: turbo_stream.update("goal_modal", partial: "update_progress_form", locals: { goal: @goal }), status: :unprocessable_entity
         }
         format.html {
-          redirect_to goal_path(@goal), alert: "Unable to update goal progress"
+          redirect_to goal_path(@goal), alert: t("notices.goals.progress_update_failed")
         }
       end
     end

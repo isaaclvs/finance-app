@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
     if @transaction.save
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to transactions_path, notice: "Transaction was successfully created." }
+        format.html { redirect_to transactions_path, notice: t("notices.transactions.created") }
       end
     else
       load_categories
@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
     if @transaction.update(transaction_params)
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to transactions_path, notice: "Transaction was successfully updated." }
+        format.html { redirect_to transactions_path, notice: t("notices.transactions.updated") }
       end
     else
       load_categories
@@ -56,7 +56,7 @@ class TransactionsController < ApplicationController
           turbo_stream.update("balance_summary", partial: "shared/balance_summary", locals: { user: Current.user })
         ]
       end
-      format.html { redirect_to transactions_path, notice: "Transaction was successfully deleted." }
+      format.html { redirect_to transactions_path, notice: t("notices.transactions.deleted") }
     end
   end
 

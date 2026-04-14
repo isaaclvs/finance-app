@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Dashboard interactions", type: :feature do
   let(:user) { create(:user, email: "dashboard@example.com", password: "password123", password_confirmation: "password123") }
-  let!(:expense_category) { create(:category, user: user, name: "Food", color: "#EF4444") }
+  let!(:expense_category) { create(:category, user: user, name: "Food", color: "#EF4444", monthly_budget_limit: 25) }
   let!(:income_category) { create(:category, user: user, name: "Salary", color: "#10B981") }
 
   before do
@@ -14,7 +14,7 @@ RSpec.describe "Dashboard interactions", type: :feature do
     visit "/users/sign_in"
     fill_in "user_email", with: user.email
     fill_in "user_password", with: "password123"
-    click_button "Sign in"
+    click_button I18n.t("devise.views.sessions.new.submit")
   end
 
   it "shows dashboard data and keeps filter params in export link" do
@@ -28,10 +28,29 @@ RSpec.describe "Dashboard interactions", type: :feature do
     expect(page).to have_content("Up #{currency.call(500)}")
     expect(page).to have_content("Down #{currency.call(30)}")
 
-    export_href = find_link("Export CSV")[:href]
+    export_href = find_link(I18n.t("dashboard.index.export_csv"))[:href]
     expect(export_href).to include("format=csv")
     expect(export_href).to include("transaction_type=expense")
     expect(export_href).to include("period=month")
+  end
+
+  it "shows category budget alerts for the current month by default" do
+    visit "/dashboard"
+
+    expect(page).to have_content(I18n.t("dashboard.budget_alerts.title"))
+    expect(page).to have_content("Food")
+    expect(page).to have_content(I18n.t("dashboard.budget_alerts.levels.warning"))
+    expect(page).to have_content(ActionController::Base.helpers.number_to_currency(20))
+  end
+
+  it "recalculates budget alerts when a period filter is applied" do
+    visit "/dashboard?category_id=#{expense_category.id}&period=month"
+    expect(page).to have_content(I18n.t("dashboard.budget_alerts.levels.warning"))
+
+    visit "/dashboard?category_id=#{expense_category.id}&period=custom&start_date=#{1.month.ago.beginning_of_month}&end_date=#{1.month.ago.end_of_month}"
+
+    expect(page).to have_content(I18n.t("dashboard.budget_alerts.levels.exceeded"))
+    expect(page).to have_content(ActionController::Base.helpers.number_to_currency(50))
   end
 
   it "renders mobile and desktop transaction containers" do
