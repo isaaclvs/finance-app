@@ -320,6 +320,14 @@
       total_income: "Total de receitas"
       total_expenses: "Total de despesas"
       balance: "Saldo"
+      comparison:
+        period: "%{current_month} vs %{previous_month}"
+        values: "%{current_month}: %{current_amount} | %{previous_month}: %{previous_amount}"
+        direction:
+          up: "Alta"
+          down: "Queda"
+          flat: "Estavel"
+        new_period: "novo periodo"
   notices:
     transactions:
       created: "Transacao criada com sucesso."

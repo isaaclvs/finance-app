@@ -350,6 +350,14 @@ en:
       total_income: "Total Income"
       total_expenses: "Total Expenses"
       balance: "Balance"
+      comparison:
+        period: "%{current_month} vs %{previous_month}"
+        values: "%{current_month}: %{current_amount} | %{previous_month}: %{previous_amount}"
+        direction:
+          up: "Up"
+          down: "Down"
+          flat: "Flat"
+        new_period: "new period"
   notices:
     transactions:
       created: "Transaction was successfully created."

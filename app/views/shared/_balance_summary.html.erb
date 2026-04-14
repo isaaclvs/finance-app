@@ -3,22 +3,31 @@
     <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("shared.balance_summary.total_income") %></dt>
     <dd class="mt-1 text-2xl font-semibold tracking-tight text-green-600 dark:text-green-400 balance-amount transition-colors duration-300" 
         data-balance-target="amount">
-      <%= number_to_currency(user.total_income) %>
+      <%= number_to_currency(local_assigns[:comparison].present? ? comparison[:metrics][:income][:current_amount] : user.total_income) %>
     </dd>
     <% if local_assigns[:comparison].present? %>
       <% income_metric = comparison[:metrics][:income] %>
       <% income_good = income_metric[:direction] != :down %>
       <div class="mt-3 text-sm">
         <p class="text-gray-500 dark:text-gray-400">
-          <%= comparison[:current_month_label] %> vs <%= comparison[:previous_month_label] %>
+          <%= t("shared.balance_summary.comparison.period", current_month: comparison[:current_month_label], previous_month: comparison[:previous_month_label]) %>
+        </p>
+        <p class="text-gray-500 dark:text-gray-400">
+          <%= t(
+            "shared.balance_summary.comparison.values",
+            current_month: comparison[:current_month_label],
+            current_amount: number_to_currency(income_metric[:current_amount]),
+            previous_month: comparison[:previous_month_label],
+            previous_amount: number_to_currency(income_metric[:previous_amount])
+          ) %>
         </p>
         <p class="<%= income_good ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %> font-medium">
-          <%= income_metric[:direction] == :up ? "Up" : income_metric[:direction] == :down ? "Down" : "Flat" %>
+          <%= t("shared.balance_summary.comparison.direction.#{income_metric[:direction]}") %>
           <%= number_to_currency(income_metric[:absolute_change].abs) %>
           <% if income_metric[:percentage_change].present? %>
             (<%= number_to_percentage(income_metric[:percentage_change].abs, precision: 1) %>)
           <% else %>
-            (new period)
+            (<%= t("shared.balance_summary.comparison.new_period") %>)
           <% end %>
         </p>
       </div>
@@ -29,22 +38,31 @@
     <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("shared.balance_summary.total_expenses") %></dt>
     <dd class="mt-1 text-2xl font-semibold tracking-tight text-red-600 dark:text-red-400 balance-amount transition-colors duration-300" 
         data-balance-target="amount">
-      <%= number_to_currency(user.total_expenses) %>
+      <%= number_to_currency(local_assigns[:comparison].present? ? comparison[:metrics][:expenses][:current_amount] : user.total_expenses) %>
     </dd>
     <% if local_assigns[:comparison].present? %>
       <% expenses_metric = comparison[:metrics][:expenses] %>
       <% expenses_good = expenses_metric[:direction] != :up %>
       <div class="mt-3 text-sm">
         <p class="text-gray-500 dark:text-gray-400">
-          <%= comparison[:current_month_label] %> vs <%= comparison[:previous_month_label] %>
+          <%= t("shared.balance_summary.comparison.period", current_month: comparison[:current_month_label], previous_month: comparison[:previous_month_label]) %>
+        </p>
+        <p class="text-gray-500 dark:text-gray-400">
+          <%= t(
+            "shared.balance_summary.comparison.values",
+            current_month: comparison[:current_month_label],
+            current_amount: number_to_currency(expenses_metric[:current_amount]),
+            previous_month: comparison[:previous_month_label],
+            previous_amount: number_to_currency(expenses_metric[:previous_amount])
+          ) %>
         </p>
         <p class="<%= expenses_good ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %> font-medium">
-          <%= expenses_metric[:direction] == :up ? "Up" : expenses_metric[:direction] == :down ? "Down" : "Flat" %>
+          <%= t("shared.balance_summary.comparison.direction.#{expenses_metric[:direction]}") %>
           <%= number_to_currency(expenses_metric[:absolute_change].abs) %>
           <% if expenses_metric[:percentage_change].present? %>
             (<%= number_to_percentage(expenses_metric[:percentage_change].abs, precision: 1) %>)
           <% else %>
-            (new period)
+            (<%= t("shared.balance_summary.comparison.new_period") %>)
           <% end %>
         </p>
       </div>
@@ -55,22 +73,31 @@
     <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("shared.balance_summary.balance") %></dt>
     <dd class="mt-1 text-2xl font-semibold tracking-tight balance-amount <%= user.balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %> transition-colors duration-300" 
         data-balance-target="amount">
-      <%= number_to_currency(user.balance) %>
+      <%= number_to_currency(local_assigns[:comparison].present? ? comparison[:metrics][:balance][:current_amount] : user.balance) %>
     </dd>
     <% if local_assigns[:comparison].present? %>
       <% balance_metric = comparison[:metrics][:balance] %>
       <% balance_good = balance_metric[:direction] != :down %>
       <div class="mt-3 text-sm">
         <p class="text-gray-500 dark:text-gray-400">
-          <%= comparison[:current_month_label] %> vs <%= comparison[:previous_month_label] %>
+          <%= t("shared.balance_summary.comparison.period", current_month: comparison[:current_month_label], previous_month: comparison[:previous_month_label]) %>
+        </p>
+        <p class="text-gray-500 dark:text-gray-400">
+          <%= t(
+            "shared.balance_summary.comparison.values",
+            current_month: comparison[:current_month_label],
+            current_amount: number_to_currency(balance_metric[:current_amount]),
+            previous_month: comparison[:previous_month_label],
+            previous_amount: number_to_currency(balance_metric[:previous_amount])
+          ) %>
         </p>
         <p class="<%= balance_good ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' %> font-medium">
-          <%= balance_metric[:direction] == :up ? "Up" : balance_metric[:direction] == :down ? "Down" : "Flat" %>
+          <%= t("shared.balance_summary.comparison.direction.#{balance_metric[:direction]}") %>
           <%= number_to_currency(balance_metric[:absolute_change].abs) %>
           <% if balance_metric[:percentage_change].present? %>
             (<%= number_to_percentage(balance_metric[:percentage_change].abs, precision: 1) %>)
           <% else %>
-            (new period)
+            (<%= t("shared.balance_summary.comparison.new_period") %>)
           <% end %>
         </p>
       </div>

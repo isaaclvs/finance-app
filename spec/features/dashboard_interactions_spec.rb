@@ -21,12 +21,23 @@ RSpec.describe "Dashboard interactions", type: :feature do
     visit "/dashboard?transaction_type=expense&period=month"
 
     currency = ActionController::Base.helpers.method(:number_to_currency)
+    current_label = Date.current.beginning_of_month.strftime("%b %Y")
+    previous_label = 1.month.ago.beginning_of_month.strftime("%b %Y")
 
     expect(page).to have_content("Dashboard")
     expect(page).to have_content("Coffee beans")
     expect(page).to have_content("vs")
-    expect(page).to have_content("Up #{currency.call(500)}")
-    expect(page).to have_content("Down #{currency.call(30)}")
+    expect(page).to have_content("#{I18n.t("shared.balance_summary.comparison.direction.up")} #{currency.call(500)}")
+    expect(page).to have_content("#{I18n.t("shared.balance_summary.comparison.direction.down")} #{currency.call(30)}")
+    expect(page).to have_content(
+      I18n.t(
+        "shared.balance_summary.comparison.values",
+        current_month: current_label,
+        current_amount: currency.call(2000),
+        previous_month: previous_label,
+        previous_amount: currency.call(1500)
+      )
+    )
 
     export_href = find_link(I18n.t("dashboard.index.export_csv"))[:href]
     expect(export_href).to include("format=csv")
@@ -58,5 +69,13 @@ RSpec.describe "Dashboard interactions", type: :feature do
 
     expect(page).to have_css("#transactions-mobile", visible: :all)
     expect(page).to have_css(".hidden.md\\:block", visible: :all)
+  end
+
+  it "shows fallback text when there is no previous month data" do
+    user.transactions.where(date: 1.month.ago.beginning_of_month..1.month.ago.end_of_month).delete_all
+
+    visit "/dashboard"
+
+    expect(page).to have_content(I18n.t("shared.balance_summary.comparison.new_period"))
   end
 end
