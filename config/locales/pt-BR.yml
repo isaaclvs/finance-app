@@ -3,7 +3,7 @@
     name: "Finance App"
     nav:
       dashboard: "Dashboard"
-      transactions: "Transacoes"
+      transactions: "Transações"
       goals: "Metas"
       categories: "Categorias"
       tags: "Tags"
@@ -12,7 +12,7 @@
     title: "Bem-vindo ao Finance App"
     logged_in_as: "Logado como"
     dashboard_title: "Dashboard"
-    dashboard_placeholder: "Seu painel financeiro aparecera aqui."
+    dashboard_placeholder: "Seu painel financeiro aparecerá aqui."
   devise:
     views:
       shared:
@@ -20,17 +20,17 @@
           sign_in: "Entrar"
           sign_up: "Criar conta"
           forgot_password: "Esqueceu sua senha?"
-          confirmation_instructions: "Nao recebeu instrucoes de confirmacao?"
-          unlock_instructions: "Nao recebeu instrucoes de desbloqueio?"
+          confirmation_instructions: "Não recebeu instruções de confirmação?"
+          unlock_instructions: "Não recebeu instruções de desbloqueio?"
           sign_in_with_provider: "Entrar com %{provider}"
       confirmations:
         new:
-          title: "Reenviar instrucoes de confirmacao"
-          submit: "Reenviar instrucoes de confirmacao"
+          title: "Reenviar instruções de confirmação"
+          submit: "Reenviar instruções de confirmação"
       unlocks:
         new:
-          title: "Reenviar instrucoes de desbloqueio"
-          submit: "Reenviar instrucoes de desbloqueio"
+          title: "Reenviar instruções de desbloqueio"
+          submit: "Reenviar instruções de desbloqueio"
       sessions:
         new:
           title: "Entrar no Finance App"
@@ -44,16 +44,16 @@
           email_placeholder: "nome@exemplo.com"
           password_placeholder: "Crie uma senha"
           password_confirmation_placeholder: "Confirme sua senha"
-          minimum_password_length: "(%{count} caracteres no minimo)"
+          minimum_password_length: "(%{count} caracteres no mínimo)"
           submit: "Criar conta"
         edit:
           title: "Editar %{resource}"
-          waiting_confirmation: "Aguardando confirmacao para: %{email}"
-          leave_blank: "(deixe em branco se nao quiser alterar)"
-          current_password_help: "(precisamos da sua senha atual para confirmar alteracoes)"
+          waiting_confirmation: "Aguardando confirmação para: %{email}"
+          leave_blank: "(deixe em branco se não quiser alterar)"
+          current_password_help: "(precisamos da sua senha atual para confirmar alterações)"
           update: "Atualizar"
           cancel_title: "Cancelar minha conta"
-          unhappy: "Nao esta satisfeito?"
+          unhappy: "Não está satisfeito?"
           cancel_account: "Cancelar minha conta"
           back: "Voltar"
           confirm_cancel: "Tem certeza?"
@@ -61,38 +61,38 @@
         new:
           title: "Esqueceu sua senha?"
           email_placeholder: "Digite seu e-mail"
-          submit: "Enviar instrucoes para redefinir senha"
+          submit: "Enviar instruções para redefinir senha"
         edit:
           title: "Altere sua senha"
           new_password: "Nova senha"
           confirm_new_password: "Confirme a nova senha"
-          minimum_password_length: "(%{count} caracteres no minimo)"
+          minimum_password_length: "(%{count} caracteres no mínimo)"
           submit: "Alterar minha senha"
       mailer:
-        greeting: "Ola %{email}!"
+        greeting: "Olá %{email}!"
         welcome: "Bem-vindo(a) %{email}!"
-        confirmation_instructions: "Voce pode confirmar o e-mail da sua conta pelo link abaixo:"
+        confirmation_instructions: "Você pode confirmar o e-mail da sua conta pelo link abaixo:"
         confirm_account: "Confirmar minha conta"
-        email_changed_pending: "Estamos entrando em contato para avisar que seu e-mail sera alterado para %{email}."
+        email_changed_pending: "Estamos entrando em contato para avisar que seu e-mail será alterado para %{email}."
         email_changed: "Estamos entrando em contato para avisar que seu e-mail foi alterado para %{email}."
         password_changed: "Estamos entrando em contato para avisar que sua senha foi alterada."
-        reset_password_instructions: "Alguem solicitou um link para alterar sua senha. Voce pode fazer isso pelo link abaixo."
+        reset_password_instructions: "Alguém solicitou um link para alterar sua senha. Você pode fazer isso pelo link abaixo."
         change_password: "Alterar minha senha"
-        ignore_email: "Se voce nao solicitou isso, ignore este e-mail."
-        password_wont_change: "Sua senha nao mudara ate voce acessar o link acima e criar uma nova."
-        account_locked: "Sua conta foi bloqueada devido a um numero excessivo de tentativas sem sucesso de login."
+        ignore_email: "Se você não solicitou isso, ignore este e-mail."
+        password_wont_change: "Sua senha não mudará até você acessar o link acima e criar uma nova."
+        account_locked: "Sua conta foi bloqueada devido a um número excessivo de tentativas sem sucesso de login."
         unlock_instructions: "Clique no link abaixo para desbloquear sua conta:"
         unlock_account: "Desbloquear minha conta"
   dashboard:
     index:
       title: "Dashboard"
-      subtitle: "Visao financeira e gestao de transacoes"
+      subtitle: "Visão financeira e gestão de transações"
       export_csv: "Exportar CSV"
-      new_transaction: "Nova transacao"
+      new_transaction: "Nova transação"
       filters:
         title: "Filtros"
-        search_label: "Buscar descricao"
-        search_placeholder: "Buscar transacoes..."
+        search_label: "Buscar descrição"
+        search_placeholder: "Buscar transações..."
         all: "Todas"
         income: "Receita"
         expense: "Despesa"
@@ -100,22 +100,22 @@
         all_categories: "Todas as categorias"
         tag: "Tag"
         all_tags: "Todas as tags"
-        all_time: "Todo periodo"
+        all_time: "Todo período"
         today: "Hoje"
         this_week: "Esta semana"
-        this_month: "Este mes"
-        custom_range: "Periodo personalizado"
+        this_month: "Este mês"
+        custom_range: "Período personalizado"
         clear: "Limpar filtros"
     charts:
       income_vs_expenses: "Receitas vs despesas"
       expenses_by_category: "Despesas por categoria"
-      monthly_evolution: "Evolucao mensal"
+      monthly_evolution: "Evolução mensal"
       series:
         income: "Receitas"
         expenses: "Despesas"
     budget_alerts:
-      title: "Alertas de orcamento por categoria"
-      subtitle: "Acompanhe categorias proximas do limite ou que ja estouraram o orçamento."
+      title: "Alertas de orçamento por categoria"
+      subtitle: "Acompanhe categorias próximas do limite ou que já estouraram o orçamento."
       active_alerts:
         one: "1 alerta ativo"
         other: "%{count} alertas ativos"
@@ -126,17 +126,17 @@
         exceeded: "Limite excedido"
   transactions:
     index:
-      title: "Transacoes"
-      subtitle: "Listagem e gestao de transacoes"
-      new_transaction: "Nova transacao"
-      table_title: "Transacoes"
+      title: "Transações"
+      subtitle: "Listagem e gestão de transações"
+      new_transaction: "Nova transação"
+      table_title: "Transações"
       view_dashboard: "Ver dashboard"
-      empty: "Nenhuma transacao ainda"
-      add_first: "Adicionar sua primeira transacao"
+      empty: "Nenhuma transação ainda"
+      add_first: "Adicionar sua primeira transação"
       filters:
         title: "Filtros"
-        search_label: "Buscar descricao"
-        search_placeholder: "Buscar transacoes..."
+        search_label: "Buscar descrição"
+        search_placeholder: "Buscar transações..."
         all: "Todas"
         income: "Receita"
         expense: "Despesa"
@@ -144,24 +144,24 @@
         all_categories: "Todas as categorias"
         tag: "Tag"
         all_tags: "Todas as tags"
-        all_time: "Todo periodo"
+        all_time: "Todo período"
         today: "Hoje"
         this_week: "Esta semana"
-        this_month: "Este mes"
-        custom_range: "Periodo personalizado"
+        this_month: "Este mês"
+        custom_range: "Período personalizado"
         clear: "Limpar filtros"
       columns:
-        transaction: "Transacao"
+        transaction: "Transação"
         category: "Categoria"
         tags: "Tags"
         date: "Data"
         amount: "Valor"
-        actions: "Acoes"
+        actions: "Ações"
     form:
       errors:
         one: "Houve 1 erro no envio"
         other: "Houve %{count} erros no envio"
-      transaction_type: "Tipo de transacao"
+      transaction_type: "Tipo de transação"
       income: "Receita"
       income_hint: "Dinheiro entrando"
       expense: "Despesa"
@@ -169,32 +169,32 @@
       category: "Categoria"
       select_category: "Selecione uma categoria"
       tags: "Tags"
-      tags_hint: "Opcional. Selecione uma ou mais tags para classificar esta transacao."
-      description_placeholder: "Observacoes opcionais sobre esta transacao"
+      tags_hint: "Opcional. Selecione uma ou mais tags para classificar esta transação."
+      description_placeholder: "Observações opcionais sobre esta transação"
       amount_placeholder: "0,00"
       cancel: "Cancelar"
     modal:
-      new_title: "Nova transacao"
-      edit_title: "Editar transacao"
+      new_title: "Nova transação"
+      edit_title: "Editar transação"
     item:
-      no_description: "Sem descricao"
+      no_description: "Sem descrição"
       no_tags: "Sem tags"
-      delete_confirm: "Tem certeza que deseja excluir esta transacao?"
+      delete_confirm: "Tem certeza que deseja excluir esta transação?"
   tags:
     index:
       title: "Tags"
-      subtitle: "Gerencie rotulos reutilizaveis para suas transacoes"
+      subtitle: "Gerencie rótulos reutilizáveis para suas transações"
       new_tag: "Nova tag"
       columns:
         name: "Nome"
         color: "Cor"
-        transactions: "Transacoes"
-        actions: "Acoes"
+        transactions: "Transações"
+        actions: "Ações"
     form:
       errors:
         one: "Houve 1 erro no envio"
         other: "Houve %{count} erros no envio"
-      name_placeholder: "ex.: Trabalho, Essencial, Saude"
+      name_placeholder: "ex.: Trabalho, Essencial, Saúde"
       color_placeholder: "#6366F1"
       color_hint: "Use cores para identificar tags rapidamente"
       cancel: "Cancelar"
@@ -204,20 +204,20 @@
   categories:
     index:
       title: "Categorias"
-      subtitle: "Gerencie as categorias das suas transacoes"
+      subtitle: "Gerencie as categorias das suas transações"
       new_category: "Nova categoria"
       columns:
         name: "Nome"
         color: "Cor"
-        transactions: "Transacoes"
+        transactions: "Transações"
         monthly_budget_limit: "Limite mensal"
-        actions: "Acoes"
+        actions: "Ações"
       no_budget_limit: "Sem limite"
     form:
       errors:
         one: "Houve 1 erro no envio"
         other: "Houve %{count} erros no envio"
-      name_placeholder: "ex.: Alimentacao, Transporte, Salario"
+      name_placeholder: "ex.: Alimentação, Transporte, Salário"
       color_placeholder: "#FF5733"
       color_hint: "Escolha uma cor para identificar esta categoria"
       monthly_budget_limit_placeholder: "500,00"
@@ -236,24 +236,24 @@
         all_status: "Todos os status"
         all_types: "Todos os tipos"
     types:
-      savings: "Poupanca"
-      expense_reduction: "Reducao de despesas"
+      savings: "Poupança"
+      expense_reduction: "Redução de despesas"
       income_increase: "Aumento de receita"
-      debt_payoff: "Quitacao de dividas"
+      debt_payoff: "Quitação de dívidas"
     status:
       active: "Ativa"
       paused: "Pausada"
-      completed: "Concluida"
+      completed: "Concluída"
       cancelled: "Cancelada"
     form:
       errors:
         one: "Houve 1 erro no envio"
         other: "Houve %{count} erros no envio"
-      title_placeholder: "ex.: Reserva de emergencia"
+      title_placeholder: "ex.: Reserva de emergência"
       goal_type_prompt: "Selecione o tipo de meta"
       category_optional: "Categoria (opcional)"
       category_prompt: "Selecione uma categoria (opcional)"
-      description_placeholder: "Descreva sua meta e por que ela e importante para voce..."
+      description_placeholder: "Descreva sua meta e por que ela e importante para você..."
       target_amount_placeholder: "10000,00"
       current_amount_placeholder: "0,00"
       update_goal: "Atualizar meta"
@@ -275,7 +275,7 @@
         other: "%{count} dias"
       update_progress: "Atualizar progresso"
     summary:
-      overview: "Visao geral das metas"
+      overview: "Visão geral das metas"
       view_all: "Ver todas"
       total: "Total de metas"
       overdue: "Atrasadas"
@@ -290,16 +290,16 @@
       edit_goal: "Editar meta"
       update_progress: "Atualizar progresso"
       delete_goal: "Excluir meta"
-      delete_confirm: "Tem certeza que deseja excluir esta meta? Esta acao nao pode ser desfeita."
-      description: "Descricao"
+      delete_confirm: "Tem certeza que desejá excluir esta meta? Esta acao não pode ser desfeita."
+      description: "Descrição"
       progress_details: "Detalhes do progresso"
       overall_progress: "Progresso geral"
       current_amount: "Valor atual"
       target_amount: "Valor alvo"
-      goal_information: "Informacoes da meta"
+      goal_information: "Informações da meta"
       overdue_by_days:
-        one: "Atrasada ha 1 dia"
-        other: "Atrasada ha %{count} dias"
+        one: "Atrasada há 1 dia"
+        other: "Atrasada há %{count} dias"
       created: "Criada em"
     progress_modal:
       title: "Atualizar progresso"
@@ -312,7 +312,7 @@
       quick_add: "+%{unit}%{amount}"
   common:
     actions:
-      title: "Acoes"
+      title: "Ações"
       close: "Fechar"
       cancel: "Cancelar"
       edit: "Editar"
@@ -328,21 +328,21 @@
         create: "Criar categoria"
         update: "Atualizar categoria"
       transaction:
-        create: "Criar transacao"
-        update: "Atualizar transacao"
+        create: "Criar transação"
+        update: "Atualizar transação"
       goal:
         create: "Criar meta"
         update: "Atualizar meta"
   activerecord:
     models:
       category: "Categoria"
-      transaction: "Transacao"
+      transaction: "Transação"
       goal: "Meta"
     attributes:
       user:
         email: "E-mail"
         password: "Senha"
-        password_confirmation: "Confirmacao de senha"
+        password_confirmation: "Confirmação de senha"
         current_password: "Senha atual"
       category:
         name: "Nome"
@@ -351,18 +351,18 @@
       transaction:
         amount: "Valor"
         date: "Data"
-        description: "Descricao"
+        description: "Descrição"
         category: "Categoria"
         category_id: "Categoria"
-        transaction_type: "Tipo de transacao"
+        transaction_type: "Tipo de transação"
       goal:
-        title: "Titulo"
+        title: "Título"
         goal_type: "Tipo da meta"
         target_amount: "Valor alvo"
         current_amount: "Valor atual"
         target_date: "Data alvo"
         status: "Status"
-        description: "Descricao"
+        description: "Descrição"
         category_id: "Categoria"
   shared:
     balance_summary:
@@ -373,16 +373,16 @@
         income: "Receitas"
         expenses: "Despesas"
         balance: "Saldo"
-      new_period: "novo periodo"
+      new_period: "novo período"
       trend:
         up: "Alta"
         down: "Baixa"
-        flat: "Estavel"
+        flat: "Estável"
   notices:
     transactions:
-      created: "Transacao criada com sucesso."
-      updated: "Transacao atualizada com sucesso."
-      deleted: "Transacao removida com sucesso."
+      created: "Transação criada com sucesso."
+      updated: "Transação atualizada com sucesso."
+      deleted: "Transação removida com sucesso."
     categories:
       created: "Categoria criada com sucesso."
       updated: "Categoria atualizada com sucesso."
@@ -396,20 +396,20 @@
       updated: "Meta atualizada com sucesso"
       deleted: "Meta removida com sucesso"
       progress_updated: "Progresso da meta atualizado com sucesso"
-      progress_update_failed: "Nao foi possivel atualizar o progresso da meta"
+      progress_update_failed: "Não foi possível atualizar o progresso da meta"
   jobs:
     monitoring:
       title: "Monitoramento de jobs"
       subtitle: "Snapshot do processamento em background via Solid Queue."
       status:
         pending: "Pendente"
-        running: "Em execucao"
+        running: "Em execução"
         failed: "Falhou"
         finished: "Finalizado"
   mailers:
     goal_notifications:
       due_soon:
-        greeting: "Ola %{email},"
+        greeting: "Olá %{email},"
         summary: "Sua meta \"%{title}\" vence em %{days} dia(s)."
         current_progress: "Progresso atual: %{progress}"
         target_amount: "Valor alvo: %{amount}"
@@ -417,8 +417,8 @@
         encouragement: "Continue assim!"
     reports:
       monthly_summary:
-        greeting: "Ola %{email},"
-        summary: "Aqui esta o seu resumo financeiro de %{month}:"
+        greeting: "Olá %{email},"
+        summary: "Aqui está o seu resumo financeiro de %{month}:"
         income: "Receitas: %{amount}"
         expenses: "Despesas: %{amount}"
         balance: "Saldo: %{amount}"
@@ -436,11 +436,11 @@
     formats:
       short: "%d %b %Y"
       long: "%d %B %Y"
-    month_names:
+    month_namês:
       - ~
-      - "janeiro"
+      - "jáneiro"
       - "fevereiro"
-      - "marco"
+      - "março"
       - "abril"
       - "maio"
       - "junho"
@@ -450,9 +450,9 @@
       - "outubro"
       - "novembro"
       - "dezembro"
-    abbr_month_names:
+    abbr_month_namês:
       - ~
-      - "jan"
+      - "ján"
       - "fev"
       - "mar"
       - "abr"
