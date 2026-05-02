@@ -1,10 +1,6 @@
 module Dashboard
   class MonthComparisonData
-    METRICS = {
-      income: "Income",
-      expenses: "Expenses",
-      balance: "Balance"
-    }.freeze
+    METRICS = %i[income expenses balance].freeze
 
     def initialize(scope:, reference_date: Date.current)
       @scope = scope
@@ -13,8 +9,8 @@ module Dashboard
 
     def call
       {
-        current_month_label: current_month.strftime("%b %Y"),
-        previous_month_label: previous_month.strftime("%b %Y"),
+        current_month_label: I18n.l(current_month, format: "%b %Y"),
+        previous_month_label: I18n.l(previous_month, format: "%b %Y"),
         metrics: build_metrics
       }
     end
@@ -25,9 +21,9 @@ module Dashboard
       current_totals = totals_for(current_month)
       previous_totals = totals_for(previous_month)
 
-      METRICS.each_with_object({}) do |(key, label), metrics|
+      METRICS.each_with_object({}) do |key, metrics|
         metrics[key] = build_metric(
-          label: label,
+          label: I18n.t("shared.balance_summary.metric_labels.#{key}"),
           current_amount: current_totals.fetch(key, 0),
           previous_amount: previous_totals.fetch(key, 0)
         )

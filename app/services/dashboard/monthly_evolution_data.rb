@@ -29,9 +29,9 @@ module Dashboard
         month = offset.months.ago.beginning_of_month
         month_key = month.strftime("%Y-%m")
 
-        chart[month.strftime("%b %Y")] = {
-          "Income" => totals.fetch([ month_key, "income" ], 0),
-          "Expenses" => totals.fetch([ month_key, "expense" ], 0)
+        chart[I18n.l(month, format: "%b %Y")] = {
+          I18n.t("dashboard.charts.series.income") => totals.fetch([ month_key, "income" ], 0),
+          I18n.t("dashboard.charts.series.expenses") => totals.fetch([ month_key, "expense" ], 0)
         }
       end
     end

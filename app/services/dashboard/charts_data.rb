@@ -17,8 +17,8 @@ module Dashboard
       totals = @scope.group(:transaction_type).sum(:amount)
 
       {
-        "Income" => totals.fetch("income", 0),
-        "Expenses" => totals.fetch("expense", 0)
+        I18n.t("dashboard.charts.series.income") => totals.fetch("income", 0),
+        I18n.t("dashboard.charts.series.expenses") => totals.fetch("expense", 0)
       }
     end
 

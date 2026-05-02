@@ -140,6 +140,9 @@ en:
       income_vs_expenses: "Income vs Expenses"
       expenses_by_category: "Expenses by Category"
       monthly_evolution: "Monthly Evolution"
+      series:
+        income: "Income"
+        expenses: "Expenses"
     budget_alerts:
       title: "Category Budget Alerts"
       subtitle: "Track categories that are nearing or already over budget."
@@ -374,6 +377,7 @@ en:
       category:
         name: "Name"
         color: "Color"
+        monthly_budget_limit: "Monthly budget"
       transaction:
         amount: "Amount"
         date: "Date"
@@ -395,6 +399,15 @@ en:
       total_income: "Total Income"
       total_expenses: "Total Expenses"
       balance: "Balance"
+      metric_labels:
+        income: "Income"
+        expenses: "Expenses"
+        balance: "Balance"
+      new_period: "new period"
+      trend:
+        up: "Up"
+        down: "Down"
+        flat: "Flat"
   notices:
     transactions:
       created: "Transaction was successfully created."

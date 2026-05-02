@@ -110,6 +110,9 @@
       income_vs_expenses: "Receitas vs despesas"
       expenses_by_category: "Despesas por categoria"
       monthly_evolution: "Evolucao mensal"
+      series:
+        income: "Receitas"
+        expenses: "Despesas"
     budget_alerts:
       title: "Alertas de orcamento por categoria"
       subtitle: "Acompanhe categorias proximas do limite ou que ja estouraram o orçamento."
@@ -344,6 +347,7 @@
       category:
         name: "Nome"
         color: "Cor"
+        monthly_budget_limit: "Limite mensal"
       transaction:
         amount: "Valor"
         date: "Data"
@@ -365,6 +369,15 @@
       total_income: "Total de receitas"
       total_expenses: "Total de despesas"
       balance: "Saldo"
+      metric_labels:
+        income: "Receitas"
+        expenses: "Despesas"
+        balance: "Saldo"
+      new_period: "novo periodo"
+      trend:
+        up: "Alta"
+        down: "Baixa"
+        flat: "Estavel"
   notices:
     transactions:
       created: "Transacao criada com sucesso."
