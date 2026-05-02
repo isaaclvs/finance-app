@@ -31,7 +31,7 @@
 
             <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
               <div>
-                <%= f.label :transaction_type, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.label :transaction_type, t("transactions.index.filters.transaction_type"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.select :transaction_type,
                   options_for_select([[t("transactions.index.filters.all"), ""], [t("transactions.index.filters.income"), "income"], [t("transactions.index.filters.expense"), "expense"]], params[:transaction_type]),
                   {},
@@ -58,7 +58,7 @@
               </div>
 
               <div>
-                <%= f.label :period, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.label :period, t("transactions.index.filters.period"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.select :period,
                   options_for_select([
                     [t("transactions.index.filters.all_time"), ""],
@@ -81,14 +81,14 @@
 
             <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 <%= 'hidden' unless params[:period] == 'custom' %>" data-filters-target="dateInputs">
               <div>
-                <%= f.label :start_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.label :start_date, t("transactions.index.filters.start_date"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.date_field :start_date,
                     value: params[:start_date],
                     class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                     data: { action: "change->filters#submit" } %>
               </div>
               <div>
-                <%= f.label :end_date, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.label :end_date, t("transactions.index.filters.end_date"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.date_field :end_date,
                     value: params[:end_date],
                     class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",

@@ -357,6 +357,9 @@ en:
       category:
         create: "Create Category"
         update: "Update Category"
+      tag:
+        create: "Create Tag"
+        update: "Update Tag"
       transaction:
         create: "Create Transaction"
         update: "Update Transaction"

@@ -25,7 +25,7 @@
 
   <div class="space-y-6">
     <div>
-      <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+      <%= form.label :name, t("tags.form.name"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
       <div class="mt-1">
         <%= form.text_field :name,
             required: true,
@@ -35,7 +35,7 @@
     </div>
 
     <div>
-      <%= form.label :color, class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+      <%= form.label :color, t("tags.form.color"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
       <div class="mt-1 flex items-center space-x-3">
         <%= form.color_field :color,
             class: "h-10 w-20 rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
