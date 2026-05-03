@@ -22,6 +22,12 @@
             <%= t("goals.status.#{@goal.status}") %>
           </span>
 
+          <% if @goal.recurring? %>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100">
+              ↻ <%= t("goals.card.recurring") %>
+            </span>
+          <% end %>
+
           <% if @goal.overdue? %>
             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
               <%= t("goals.card.overdue") %>
@@ -36,14 +42,16 @@
     </div>
     
     <div class="flex gap-3">
-      <%= link_to t("goals.show.edit_goal"), edit_goal_path(@goal),
-          class: "inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors",
-          data: { turbo_frame: "goal_modal" } %>
-      
-      <% unless @goal.completed? %>
+      <% unless @goal.rolled_over? %>
+        <%= link_to t("goals.show.edit_goal"), edit_goal_path(@goal),
+            class: "inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors",
+            data: { turbo_frame: "goal_modal" } %>
+      <% end %>
+
+      <% unless @goal.completed? || @goal.rolled_over? %>
         <%= link_to t("goals.show.update_progress"), update_progress_goal_path(@goal),
             class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
-            data: { 
+            data: {
               turbo_frame: "goal_modal",
               turbo_stream: true
             } %>
@@ -142,6 +150,13 @@
             </div>
           <% end %>
           
+          <% if @goal.recurring? && @goal.current_period_label %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("goals.card.period") %></dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @goal.current_period_label %></dd>
+            </div>
+          <% end %>
+
           <div>
             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("goals.show.created") %></dt>
             <dd class="mt-1 text-sm text-gray-900 dark:text-white">
@@ -151,24 +166,48 @@
         </div>
       </div>
 
+      <!-- Cycle History (recurring goals) -->
+      <% root_id = @goal.parent_goal_id || @goal.id %>
+      <% past_cycles = Goal.where(parent_goal_id: root_id).history.order(period_start: :desc) %>
+      <% if @goal.recurring? && past_cycles.any? %>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("goals.card.cycle_history") %></h3>
+          <ul class="space-y-3">
+            <% past_cycles.each do |cycle| %>
+              <li class="flex items-center justify-between text-sm">
+                <%= link_to cycle.current_period_label || localized_date(cycle.period_start),
+                    goal_path(cycle),
+                    class: "text-indigo-600 dark:text-indigo-400 hover:underline font-medium",
+                    data: { turbo_frame: "_top" } %>
+                <span class="text-gray-500 dark:text-gray-400">
+                  <%= number_to_percentage(cycle.progress_percentage, precision: 0) %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
       <!-- Actions -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("common.actions.title") %></h3>
         
         <div class="space-y-3">
-          <% unless @goal.completed? %>
+          <% unless @goal.completed? || @goal.rolled_over? %>
             <%= link_to t("goals.show.update_progress"), update_progress_goal_path(@goal),
                 class: "w-full inline-flex justify-center items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors",
-                data: { 
+                data: {
                   turbo_frame: "goal_modal",
                   turbo_stream: true
                 } %>
           <% end %>
-          
-          <%= link_to t("goals.show.edit_goal"), edit_goal_path(@goal),
-              class: "w-full inline-flex justify-center items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors",
-              data: { turbo_frame: "goal_modal" } %>
-          
+
+          <% unless @goal.rolled_over? %>
+            <%= link_to t("goals.show.edit_goal"), edit_goal_path(@goal),
+                class: "w-full inline-flex justify-center items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors",
+                data: { turbo_frame: "goal_modal" } %>
+          <% end %>
+
           <%= link_to t("goals.show.delete_goal"), goal_path(@goal),
               method: :delete,
               class: "w-full inline-flex justify-center items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors",

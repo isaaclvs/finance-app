@@ -60,6 +60,6 @@ module Progressable
   def check_completion_status
     return unless respond_to?(:can_complete?) && respond_to?(:mark_completed!)
 
-    mark_completed! if can_complete? && respond_to?(:status) && status != "completed"
+    mark_completed! if can_complete? && respond_to?(:status) && !%w[completed rolled_over].include?(status)
   end
 end

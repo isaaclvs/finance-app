@@ -3,9 +3,16 @@ class GoalsController < ApplicationController
 
   # GET /goals
   def index
+    @showing_history = params[:history] == "true"
     @goals = Current.user.goals.includes(:category).ordered
 
-    @goals = filter_goals(@goals) if filtering_params.values.any?(&:present?)
+    if @showing_history
+      @goals = @goals.history
+    else
+      @goals = @goals.where.not(status: "rolled_over")
+    end
+
+    @goals = filter_goals(@goals) if params[:goal_type].present? || params[:search].present? || (!@showing_history && params[:status].present?)
 
     respond_to do |format|
       format.html
@@ -158,11 +165,11 @@ class GoalsController < ApplicationController
 
   def goal_params
     params.require(:goal).permit(:title, :description, :target_amount, :current_amount,
-                                 :target_date, :goal_type, :status, :category_id)
+                                 :target_date, :goal_type, :status, :category_id, :recurring)
   end
 
   def filtering_params
-    params.permit(:status, :goal_type, :search)
+    params.permit(:status, :goal_type, :search, :history)
   end
 
   def filter_goals(goals)

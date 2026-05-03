@@ -64,5 +64,24 @@ FactoryBot.define do
     trait :without_category do
       category { nil }
     end
+
+    trait :recurring do
+      recurring { true }
+      period_start { Date.current.beginning_of_month }
+      period_end { Date.current.end_of_month }
+      target_date { Date.current.end_of_month }
+    end
+
+    trait :rolled_over do
+      status { "rolled_over" }
+      recurring { true }
+      period_start { 1.month.ago.beginning_of_month }
+      period_end { 1.month.ago.end_of_month }
+      target_date { 1.month.ago.end_of_month }
+    end
+
+    trait :with_parent do
+      association :parent_goal, factory: :goal
+    end
   end
 end
