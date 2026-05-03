@@ -2,99 +2,58 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-# Permanent seeded user for local/staging testing.
-SEED_USER_EMAIL = ENV.fetch("SEED_USER_EMAIL", "demo@example.com")
+SEED_USER_EMAIL    = ENV.fetch("SEED_USER_EMAIL", "demo@example.com")
 SEED_USER_PASSWORD = ENV.fetch("SEED_USER_PASSWORD", "password123")
 
 unless Rails.env.production?
+  # ── User ────────────────────────────────────────────────────────────────────
   demo_user = User.find_or_initialize_by(email: SEED_USER_EMAIL)
-  demo_user.password = SEED_USER_PASSWORD
+  demo_user.password              = SEED_USER_PASSWORD
   demo_user.password_confirmation = SEED_USER_PASSWORD
   demo_user.save!
-
   puts "Seed user ready: #{demo_user.email}"
 
-  # Create default categories with colors
+  # ── Categories (with budget limits on expense categories) ───────────────────
+  budget_limits = {
+    "Food"          => 500,
+    "Transport"     => 200,
+    "Entertainment" => 150,
+    "Shopping"      => 300,
+    "Bills"         => 200,
+    "Health"        => 250
+  }
+
   Category::DEFAULT_COLORS.each do |name, color|
-    category = demo_user.categories.find_or_create_by!(name: name) do |cat|
-      cat.color = color
+    category = demo_user.categories.find_or_initialize_by(name: name)
+    if category.new_record?
+      category.color               = color
+      category.monthly_budget_limit = budget_limits[name]
+      category.save!
+      puts "  Category created: #{name}"
+    else
+      # Update budget limits on existing categories if not yet set
+      if budget_limits[name] && category.monthly_budget_limit.nil?
+        category.update!(monthly_budget_limit: budget_limits[name])
+        puts "  Category updated (budget limit): #{name}"
+      else
+        puts "  Category skipped (exists): #{name}"
+      end
     end
-    puts "Category created: #{category.name} (#{category.color})"
   end
 
-  puts "\nSeeding completed!"
-  puts "Seed user credentials: #{SEED_USER_EMAIL} / #{SEED_USER_PASSWORD}"
-  puts "Total categories created: #{demo_user.categories.count}"
+  # ── Tags ────────────────────────────────────────────────────────────────────
+  load Rails.root.join("db/seeds/tags.rb")
 
-  # Load transaction seeds
-  load Rails.root.join('db/seeds/transactions.rb')
+  # ── Transactions (6 months of history + current month, with tags) ───────────
+  load Rails.root.join("db/seeds/transactions.rb")
 
-  # Create sample goals
-  emergency_category = demo_user.categories.find_by(name: 'Emergency Fund')
-  vacation_category = demo_user.categories.find_by(name: 'Entertainment')
+  # ── Goals (one-time + recurring + rolled-over history) ──────────────────────
+  load Rails.root.join("db/seeds/goals.rb")
 
-  goals_data = [
-    {
-      title: 'Emergency Fund',
-      description: 'Build an emergency fund to cover 6 months of expenses',
-      target_amount: 15000,
-      current_amount: 3750,
-      target_date: 18.months.from_now,
-      goal_type: 'savings',
-      status: 'active',
-      category: emergency_category
-    },
-    {
-      title: 'Annual Vacation',
-      description: 'Save for a two-week vacation to Europe',
-      target_amount: 8000,
-      current_amount: 2400,
-      target_date: 10.months.from_now,
-      goal_type: 'savings',
-      status: 'active',
-      category: vacation_category
-    },
-    {
-      title: 'Reduce Dining Out',
-      description: 'Cut dining expenses by cooking more meals at home',
-      target_amount: 2400, # Reduce by $200/month over 12 months
-      current_amount: 800,  # Already saved $800
-      target_date: 8.months.from_now,
-      goal_type: 'expense_reduction',
-      status: 'active'
-    },
-    {
-      title: 'Side Hustle Income',
-      description: 'Increase monthly income through freelance work',
-      target_amount: 6000, # $500/month extra for 12 months
-      current_amount: 1500, # Made $1500 so far
-      target_date: 9.months.from_now,
-      goal_type: 'income_increase',
-      status: 'active'
-    },
-    {
-      title: 'Pay Off Credit Card',
-      description: 'Eliminate all credit card debt',
-      target_amount: 4500,
-      current_amount: 4500,
-      target_date: Date.current,
-      goal_type: 'debt_payoff',
-      status: 'completed'
-    }
-  ]
-
-  goals_data.each do |goal_attrs|
-    goal = demo_user.goals.find_or_create_by!(title: goal_attrs[:title]) do |g|
-      g.description = goal_attrs[:description]
-      g.target_amount = goal_attrs[:target_amount]
-      g.current_amount = goal_attrs[:current_amount]
-      g.target_date = goal_attrs[:target_date]
-      g.goal_type = goal_attrs[:goal_type]
-      g.status = goal_attrs[:status]
-      g.category = goal_attrs[:category]
-    end
-    puts "Goal created: #{goal.title} (#{goal.progress_percentage}% complete)"
-  end
-
-  puts "Total goals created: #{demo_user.goals.count}"
+  puts "\nSeeding complete!"
+  puts "  Login: #{SEED_USER_EMAIL} / #{SEED_USER_PASSWORD}"
+  puts "  Categories: #{demo_user.categories.count}"
+  puts "  Tags:        #{demo_user.tags.count}"
+  puts "  Transactions: #{demo_user.transactions.count}"
+  puts "  Goals:        #{demo_user.goals.count}"
 end
