@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_14_223600) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_02_212707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -32,6 +32,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_223600) do
     t.decimal "current_amount", precision: 10, scale: 2, default: "0.0", null: false
     t.text "description"
     t.string "goal_type", null: false
+    t.bigint "parent_goal_id"
+    t.date "period_end"
+    t.date "period_start"
+    t.boolean "recurring", default: false, null: false
     t.string "status", default: "active", null: false
     t.decimal "target_amount", precision: 10, scale: 2, null: false
     t.date "target_date", null: false
@@ -39,6 +43,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_223600) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["category_id"], name: "index_goals_on_category_id"
+    t.index ["parent_goal_id"], name: "index_goals_on_parent_goal_id"
     t.index ["user_id", "goal_type"], name: "index_goals_on_user_id_and_goal_type"
     t.index ["user_id", "status"], name: "index_goals_on_user_id_and_status"
     t.index ["user_id", "target_date"], name: "index_goals_on_user_id_and_target_date"
@@ -99,6 +104,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_223600) do
 
   add_foreign_key "categories", "users"
   add_foreign_key "goals", "categories"
+  add_foreign_key "goals", "goals", column: "parent_goal_id"
   add_foreign_key "goals", "users"
   add_foreign_key "tags", "users"
   add_foreign_key "transaction_tags", "tags"
