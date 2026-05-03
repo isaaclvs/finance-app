@@ -129,6 +129,7 @@
       title: "Transações"
       subtitle: "Listagem e gestão de transações"
       new_transaction: "Nova transação"
+      import_csv: "Importar CSV"
       table_title: "Transações"
       view_dashboard: "Ver dashboard"
       empty: "Nenhuma transação ainda"
@@ -184,6 +185,44 @@
       no_description: "Sem descrição"
       no_tags: "Sem tags"
       delete_confirm: "Tem certeza que deseja excluir esta transação?"
+  transaction_imports:
+    new:
+      title: "Importar transações por CSV"
+      subtitle: "Envie um arquivo CSV e revise os dados antes de importar."
+      file_label: "Arquivo CSV"
+      preview_button: "Gerar preview"
+      back: "Voltar"
+    preview:
+      title: "Preview da importação"
+      invalid_rows: "Linhas com erro"
+      line: "Linha %{line}"
+      columns:
+        date: "Data"
+        description: "Descrição"
+        category: "Categoria"
+        type: "Tipo"
+        amount: "Valor"
+        status: "Status"
+      status:
+        importable: "Pronta para importar"
+        duplicate_file: "Duplicada no arquivo"
+        duplicate_existing: "Duplicada existente"
+      summary:
+        total: "Total"
+        valid: "Válidas"
+        invalid: "Inválidas"
+        duplicate_file: "Duplicadas no arquivo"
+        duplicate_existing: "Duplicadas existentes"
+        importable: "Importáveis"
+      confirm_button: "Importar válidas"
+      back: "Voltar ao upload"
+    errors:
+      invalid_csv: "Arquivo CSV inválido."
+      missing_headers: "Cabeçalhos obrigatórios ausentes: %{headers}"
+      invalid_date: "Data inválida"
+      invalid_amount: "Valor inválido"
+      invalid_type: "Tipo inválido (use income/expense)"
+      missing_category: "Categoria obrigatória"
   tags:
     index:
       title: "Tags"
@@ -406,6 +445,10 @@
       deleted: "Meta removida com sucesso"
       progress_updated: "Progresso da meta atualizado com sucesso"
       progress_update_failed: "Não foi possível atualizar o progresso da meta"
+    transaction_imports:
+      file_required: "Selecione um arquivo CSV para continuar."
+      preview_expired: "O preview expirou. Faça o upload novamente."
+      imported: "Importação concluída. %{imported_count} importadas, %{skipped_count} ignoradas."
   jobs:
     monitoring:
       title: "Monitoramento de jobs"

@@ -8,7 +8,9 @@
             <%= t("transactions.index.subtitle") %>
           </p>
         </div>
-        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex sm:gap-2 sm:flex-none">
+          <%= link_to t("transactions.index.import_csv"), new_transaction_import_path,
+              class: "inline-flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto" %>
           <%= link_to t("transactions.index.new_transaction"), new_transaction_path,
               class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 sm:w-auto",
               data: { turbo_frame: "modal" } %>
@@ -31,7 +33,7 @@
 
             <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
               <div>
-                <%= f.label :transaction_type, t("transactions.index.filters.transaction_type"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+                <%= f.label :transaction_type, t("transactions.form.transaction_type"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
                 <%= f.select :transaction_type,
                   options_for_select([[t("transactions.index.filters.all"), ""], [t("transactions.index.filters.income"), "income"], [t("transactions.index.filters.expense"), "expense"]], params[:transaction_type]),
                   {},
