@@ -22,6 +22,12 @@
             <%= t("goals.status.#{@goal.status}") %>
           </span>
 
+          <% if @goal.recurring? %>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100">
+              ↻ <%= t("goals.card.recurring") %>
+            </span>
+          <% end %>
+
           <% if @goal.overdue? %>
             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
               <%= t("goals.card.overdue") %>
@@ -142,6 +148,13 @@
             </div>
           <% end %>
           
+          <% if @goal.recurring? && @goal.current_period_label %>
+            <div>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("goals.card.period") %></dt>
+              <dd class="mt-1 text-sm text-gray-900 dark:text-white"><%= @goal.current_period_label %></dd>
+            </div>
+          <% end %>
+
           <div>
             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400"><%= t("goals.show.created") %></dt>
             <dd class="mt-1 text-sm text-gray-900 dark:text-white">
@@ -150,6 +163,28 @@
           </div>
         </div>
       </div>
+
+      <!-- Cycle History (recurring goals) -->
+      <% root_id = @goal.parent_goal_id || @goal.id %>
+      <% past_cycles = Goal.where(parent_goal_id: root_id).history.order(period_start: :desc) %>
+      <% if @goal.recurring? && past_cycles.any? %>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t("goals.card.cycle_history") %></h3>
+          <ul class="space-y-3">
+            <% past_cycles.each do |cycle| %>
+              <li class="flex items-center justify-between text-sm">
+                <%= link_to cycle.current_period_label || localized_date(cycle.period_start),
+                    goal_path(cycle),
+                    class: "text-indigo-600 dark:text-indigo-400 hover:underline font-medium",
+                    data: { turbo_frame: "_top" } %>
+                <span class="text-gray-500 dark:text-gray-400">
+                  <%= number_to_percentage(cycle.progress_percentage, precision: 0) %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
       <!-- Actions -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
