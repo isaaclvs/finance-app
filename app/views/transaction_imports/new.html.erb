@@ -1,0 +1,18 @@
+<div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+  <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6">
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white"><%= t("transaction_imports.new.title") %></h1>
+    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300"><%= t("transaction_imports.new.subtitle") %></p>
+
+    <%= form_with url: preview_transaction_imports_path, method: :post, multipart: true, scope: :import, class: "mt-6 space-y-4" do |f| %>
+      <div>
+        <%= f.label :file, t("transaction_imports.new.file_label"), class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= f.file_field :file, accept: ".csv,text/csv", class: "mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" %>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <%= f.submit t("transaction_imports.new.preview_button"), class: "inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700" %>
+        <%= link_to t("transaction_imports.new.back"), transactions_path, class: "text-sm text-gray-600 dark:text-gray-300 hover:underline" %>
+      </div>
+    <% end %>
+  </div>
+</div>

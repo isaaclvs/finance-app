@@ -10,6 +10,12 @@ Rails.application.routes.draw do
     resources :categories
     resources :tags
     resources :transactions
+    resource :transaction_import, only: :new
+    resources :transaction_imports, only: :create do
+      collection do
+        post :preview
+      end
+    end
     resources :goals do
       member do
         get :update_progress
