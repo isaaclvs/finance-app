@@ -12,7 +12,7 @@ class GoalsController < ApplicationController
       @goals = @goals.where.not(status: "rolled_over")
     end
 
-    @goals = filter_goals(@goals) if filtering_params.values.any?(&:present?)
+    @goals = filter_goals(@goals) if params[:goal_type].present? || params[:search].present? || (!@showing_history && params[:status].present?)
 
     respond_to do |format|
       format.html
