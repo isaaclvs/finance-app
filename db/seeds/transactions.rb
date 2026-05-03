@@ -43,43 +43,43 @@ transactions_data = []
   transactions_data << {
     amount: 5500, type: "income", date: bom,
     description: "Monthly salary", category: salary_cat,
-    tags: [essential_tag, recurring_tag, work_tag]
+    tags: [ essential_tag, recurring_tag, work_tag ]
   }
 
   transactions_data << {
     amount: 350, type: "income", date: bom + 10.days,
     description: "Dividend income", category: investments_cat,
-    tags: [recurring_tag]
+    tags: [ recurring_tag ]
   }
 
   transactions_data << {
     amount: 1200, type: "expense", date: bom + 1.day,
     description: "Rent payment", category: housing_cat,
-    tags: [essential_tag, recurring_tag]
+    tags: [ essential_tag, recurring_tag ]
   }
 
   transactions_data << {
     amount: 89.90, type: "expense", date: bom + 2.days,
     description: "Internet & phone bill", category: bills_cat,
-    tags: [essential_tag, subscription_tag, recurring_tag]
+    tags: [ essential_tag, subscription_tag, recurring_tag ]
   }
 
   transactions_data << {
     amount: 45.00, type: "expense", date: bom + 3.days,
     description: "Streaming services", category: entertainment_cat,
-    tags: [subscription_tag, recurring_tag, leisure_tag]
+    tags: [ subscription_tag, recurring_tag, leisure_tag ]
   }
 
   transactions_data << {
     amount: rand(280..380).to_f, type: "expense", date: bom + 5.days,
     description: "Supermarket groceries", category: food_cat,
-    tags: [essential_tag, recurring_tag]
+    tags: [ essential_tag, recurring_tag ]
   }
 
   transactions_data << {
     amount: rand(60..120).to_f, type: "expense", date: bom + 8.days,
     description: "Fuel & transport", category: transport_cat,
-    tags: [essential_tag, recurring_tag]
+    tags: [ essential_tag, recurring_tag ]
   }
 end
 
@@ -90,91 +90,91 @@ bom   = today.beginning_of_month
 transactions_data << {
   amount: 5500, type: "income", date: bom,
   description: "Monthly salary", category: salary_cat,
-  tags: [essential_tag, recurring_tag, work_tag]
+  tags: [ essential_tag, recurring_tag, work_tag ]
 }
 
 transactions_data << {
   amount: 1200, type: "expense", date: bom + 1.day,
   description: "Rent payment", category: housing_cat,
-  tags: [essential_tag, recurring_tag]
+  tags: [ essential_tag, recurring_tag ]
 }
 
 transactions_data << {
   amount: 89.90, type: "expense", date: bom + 2.days,
   description: "Internet & phone bill", category: bills_cat,
-  tags: [essential_tag, subscription_tag, recurring_tag]
+  tags: [ essential_tag, subscription_tag, recurring_tag ]
 }
 
 transactions_data << {
   amount: 350, type: "income", date: bom + 3.days,
   description: "Dividend income", category: investments_cat,
-  tags: [recurring_tag]
+  tags: [ recurring_tag ]
 }
 
 transactions_data << {
   amount: 45.00, type: "expense", date: bom + 4.days,
   description: "Streaming services", category: entertainment_cat,
-  tags: [subscription_tag, recurring_tag, leisure_tag]
+  tags: [ subscription_tag, recurring_tag, leisure_tag ]
 }
 
 transactions_data << {
   amount: 800, type: "income", date: today - 5.days,
   description: "Freelance web project", category: freelance_cat,
-  tags: [work_tag, one_time_tag]
+  tags: [ work_tag, one_time_tag ]
 }
 
 transactions_data << {
   amount: 47.50, type: "expense", date: today - 4.days,
   description: "Lunch at restaurant", category: food_cat,
-  tags: [leisure_tag]
+  tags: [ leisure_tag ]
 }
 
 transactions_data << {
   amount: 120.00, type: "expense", date: today - 4.days,
   description: "Weekly groceries", category: food_cat,
-  tags: [essential_tag]
+  tags: [ essential_tag ]
 }
 
 transactions_data << {
   amount: 25.00, type: "expense", date: today - 3.days,
   description: "Bus & metro pass", category: transport_cat,
-  tags: [essential_tag, recurring_tag]
+  tags: [ essential_tag, recurring_tag ]
 }
 
 transactions_data << {
   amount: 199.99, type: "expense", date: today - 3.days,
   description: "New sneakers", category: shopping_cat,
-  tags: [one_time_tag, leisure_tag]
+  tags: [ one_time_tag, leisure_tag ]
 }
 
 transactions_data << {
   amount: 85.00, type: "expense", date: today - 2.days,
   description: "Doctor consultation", category: health_cat,
-  tags: [health_tag, essential_tag]
+  tags: [ health_tag, essential_tag ]
 }
 
 transactions_data << {
   amount: 149.00, type: "expense", date: today - 2.days,
   description: "Online course subscription", category: education_cat,
-  tags: [subscription_tag, work_tag]
+  tags: [ subscription_tag, work_tag ]
 }
 
 transactions_data << {
   amount: 320.00, type: "income", date: today - 1.day,
   description: "Freelance design work", category: freelance_cat,
-  tags: [work_tag]
+  tags: [ work_tag ]
 }
 
 transactions_data << {
   amount: 65.00, type: "expense", date: today - 1.day,
   description: "Family dinner", category: food_cat,
-  tags: [family_tag, leisure_tag]
+  tags: [ family_tag, leisure_tag ]
 }
 
 transactions_data << {
   amount: 50.00, type: "expense", date: today,
   description: "Gym membership", category: health_cat,
-  tags: [health_tag, subscription_tag, recurring_tag]
+  tags: [ health_tag, subscription_tag, recurring_tag ]
 }
 
 created = 0
