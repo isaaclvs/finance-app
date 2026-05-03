@@ -46,6 +46,35 @@ RSpec.describe Goal, type: :model do
         expect(goal.completed?).to be true
       end
     end
+
+    describe "rolled_over status" do
+      let(:goal) do
+        g = build(:goal, :rolled_over, user: user, current_amount: 3000, target_amount: 10000)
+        g.save!(validate: false)
+        g
+      end
+
+      it "#completed? returns false when amounts don't reach target" do
+        expect(goal.completed?).to be false
+      end
+
+      it "#overdue? returns false" do
+        expect(goal.overdue?).to be false
+      end
+
+      it "#due_soon? returns false" do
+        expect(goal.due_soon?).to be false
+      end
+
+      it "#rollover! returns false" do
+        expect(goal.rollover!).to be false
+      end
+
+      it "update_progress does not transition to completed" do
+        goal.update_progress(goal.target_amount)
+        expect(goal.reload.status).to eq("rolled_over")
+      end
+    end
   end
 
   describe "useful scopes" do
