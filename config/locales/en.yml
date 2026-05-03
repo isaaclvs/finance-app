@@ -261,6 +261,8 @@ en:
       title: "Goals"
       subtitle: "Track and manage your financial objectives"
       new_goal: "New goal"
+      view_history: "View history"
+      view_active: "← Active goals"
       filters:
         search_placeholder: "Search goals..."
         all_status: "All Status"
@@ -275,6 +277,7 @@ en:
       paused: "Paused"
       completed: "Completed"
       cancelled: "Cancelled"
+      rolled_over: "Rolled Over"
     form:
       errors:
         one: "There was 1 error with your submission"
@@ -288,6 +291,8 @@ en:
       current_amount_placeholder: "0.00"
       update_goal: "Update Goal"
       create_goal: "Create Goal"
+      recurring: "Monthly recurring goal"
+      recurring_hint: "A new cycle will be created automatically at the start of each month."
     modal:
       new_title: "New Goal"
       edit_title: "Edit Goal"
@@ -304,6 +309,9 @@ en:
         one: "1 day"
         other: "%{count} days"
       update_progress: "Update Progress"
+      recurring: "Recurring"
+      period: "Period"
+      cycle_history: "Cycle History"
     summary:
       overview: "Goals Overview"
       view_all: "View All Goals"

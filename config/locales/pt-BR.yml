@@ -237,6 +237,8 @@
       title: "Metas"
       subtitle: "Acompanhe e gerencie seus objetivos financeiros"
       new_goal: "Nova meta"
+      view_history: "Ver histórico"
+      view_active: "← Metas ativas"
       filters:
         search_placeholder: "Buscar metas..."
         all_status: "Todos os status"
@@ -251,6 +253,7 @@
       paused: "Pausada"
       completed: "Concluída"
       cancelled: "Cancelada"
+      rolled_over: "Encerrado (rollover)"
     form:
       errors:
         one: "Houve 1 erro no envio"
@@ -264,6 +267,8 @@
       current_amount_placeholder: "0,00"
       update_goal: "Atualizar meta"
       create_goal: "Criar meta"
+      recurring: "Meta recorrente mensal"
+      recurring_hint: "Um novo ciclo será criado automaticamente no início de cada mês."
     modal:
       new_title: "Nova meta"
       edit_title: "Editar meta"
@@ -280,6 +285,9 @@
         one: "1 dia"
         other: "%{count} dias"
       update_progress: "Atualizar progresso"
+      recurring: "Recorrente"
+      period: "Período"
+      cycle_history: "Histórico de ciclos"
     summary:
       overview: "Visão geral das metas"
       view_all: "Ver todas"
