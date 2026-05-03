@@ -13,7 +13,7 @@ RSpec.describe Import::TransactionsImporter do
             transaction_type: "income",
             category_name: "Salary",
             description: "May salary",
-            tag_names: ["work"],
+            tag_names: [ "work" ],
             importable: true
           },
           {
