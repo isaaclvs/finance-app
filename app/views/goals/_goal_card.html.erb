@@ -111,13 +111,15 @@
         <%= link_to t("common.actions.view"), goal_path(goal),
             class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium transition-colors",
             data: { turbo_frame: "_top" } %>
-        
-        <%= link_to t("common.actions.edit"), edit_goal_path(goal),
-            class: "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-sm font-medium transition-colors",
-            data: { turbo_frame: "goal_modal" } %>
+
+        <% unless goal.rolled_over? %>
+          <%= link_to t("common.actions.edit"), edit_goal_path(goal),
+              class: "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-sm font-medium transition-colors",
+              data: { turbo_frame: "goal_modal" } %>
+        <% end %>
       </div>
-      
-      <% unless goal.completed? %>
+
+      <% unless goal.completed? || goal.rolled_over? %>
         <%= link_to t("goals.card.update_progress"), update_progress_goal_path(goal),
             class: "text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 text-sm font-medium transition-colors",
             data: { 
