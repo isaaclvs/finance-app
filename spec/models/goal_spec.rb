@@ -67,6 +67,88 @@ RSpec.describe Goal, type: :model do
     end
   end
 
+  describe "recurring goals" do
+    describe "#rollover!" do
+      it "creates a new goal for the next month" do
+        goal = create(:goal, :recurring, user: user)
+        next_cycle = goal.rollover!
+
+        expect(next_cycle).to be_persisted
+        expect(next_cycle.period_start).to eq(goal.period_end.next_month.beginning_of_month)
+        expect(next_cycle.period_end).to eq(next_cycle.period_start.end_of_month)
+        expect(next_cycle.current_amount).to eq(0.0)
+        expect(next_cycle.recurring).to be true
+        expect(next_cycle.user_id).to eq(goal.user_id)
+      end
+
+      it "marks the current goal as rolled_over" do
+        goal = create(:goal, :recurring, user: user)
+        goal.rollover!
+
+        expect(goal.reload.status).to eq("rolled_over")
+      end
+
+      it "sets parent_goal_id pointing to the root ancestor" do
+        root = create(:goal, :recurring, user: user)
+        cycle1 = root.rollover!
+        cycle2 = cycle1.rollover!
+
+        expect(cycle1.parent_goal_id).to eq(root.id)
+        expect(cycle2.parent_goal_id).to eq(root.id)
+      end
+
+      it "returns false for non-recurring goals" do
+        goal = create(:goal, user: user, recurring: false)
+        expect(goal.rollover!).to be false
+      end
+
+      it "returns false when goal is not active" do
+        goal = create(:goal, :recurring, :paused, user: user)
+        expect(goal.rollover!).to be false
+      end
+    end
+
+    describe ".pending_rollover" do
+      it "returns recurring active goals with period_end in the past" do
+        past_goal = create(:goal, :recurring, user: user,
+                           period_end: 1.day.ago, status: "active")
+        create(:goal, :recurring, user: user, status: "active")
+        create(:goal, :recurring, user: user, period_end: 1.day.ago, status: "paused")
+
+        expect(Goal.pending_rollover).to contain_exactly(past_goal)
+      end
+    end
+
+    describe "before_create callback" do
+      it "sets period_start and period_end from target_date when recurring" do
+        target = Date.new(2026, 6, 15)
+        goal = create(:goal, user: user, recurring: true,
+                      target_date: target, period_start: nil, period_end: nil)
+
+        expect(goal.period_start).to eq(Date.new(2026, 6, 1))
+        expect(goal.period_end).to eq(Date.new(2026, 6, 30))
+      end
+
+      it "does not set period dates for non-recurring goals" do
+        goal = create(:goal, user: user, recurring: false,
+                      target_date: 1.year.from_now, period_start: nil, period_end: nil)
+
+        expect(goal.period_start).to be_nil
+        expect(goal.period_end).to be_nil
+      end
+    end
+
+    describe "associations" do
+      it "links child goals to parent" do
+        parent = create(:goal, :recurring, user: user)
+        child = create(:goal, :recurring, user: user, parent_goal_id: parent.id)
+
+        expect(parent.child_goals).to include(child)
+        expect(child.parent_goal).to eq(parent)
+      end
+    end
+  end
+
   describe "goal progress integration" do
     let(:category) { create(:category, user: user) }
     let(:goal) { create(:goal, user: user, category: category, target_amount: 1000, current_amount: 0) }
