@@ -1,0 +1,11 @@
+services:
+  db:
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: finance_app_issue74_development
+  web:
+    ports:
+      - "3001:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/finance_app_issue74_development
