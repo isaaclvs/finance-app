@@ -5,6 +5,8 @@ class Goal < ApplicationRecord
   # Associations
   belongs_to :user
   belongs_to :category, optional: true
+  belongs_to :parent_goal, class_name: "Goal", optional: true
+  has_many :child_goals, class_name: "Goal", foreign_key: :parent_goal_id, dependent: :nullify
 
   # Enums
   enum :goal_type, {
@@ -18,8 +20,12 @@ class Goal < ApplicationRecord
     active: "active",
     completed: "completed",
     paused: "paused",
-    cancelled: "cancelled"
+    cancelled: "cancelled",
+    rolled_over: "rolled_over"
   }
+
+  # Callbacks
+  before_create :set_period_dates_if_recurring
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
@@ -39,6 +45,9 @@ class Goal < ApplicationRecord
   scope :completed_goals, -> { where(status: "completed") }
   scope :overdue, -> { where("target_date < ? AND status = ?", Date.current, "active") }
   scope :due_soon, -> { where(target_date: Date.current..1.week.from_now, status: "active") }
+  scope :recurring_goals, -> { where(recurring: true) }
+  scope :history, -> { where(status: "rolled_over") }
+  scope :pending_rollover, -> { recurring_goals.active.where("period_end < ?", Date.current) }
 
   # Instance methods
 
@@ -67,6 +76,39 @@ class Goal < ApplicationRecord
     (target_date - Date.current).to_i
   end
 
+  def rollover!
+    return false unless recurring? && active?
+
+    next_month_start = (period_end || Date.current).next_month.beginning_of_month
+    next_month_end   = next_month_start.end_of_month
+    root_id = parent_goal_id || id
+
+    new_goal = self.class.create!(
+      title: title,
+      description: description,
+      target_amount: target_amount,
+      current_amount: 0.0,
+      goal_type: goal_type,
+      category_id: category_id,
+      user_id: user_id,
+      recurring: true,
+      parent_goal_id: root_id,
+      period_start: next_month_start,
+      period_end: next_month_end,
+      target_date: next_month_end,
+      status: "active"
+    )
+
+    update!(status: "rolled_over")
+    new_goal
+  end
+
+  def current_period_label
+    return nil unless period_start && period_end
+
+    period_start.strftime("%b/%Y")
+  end
+
   def goal_type_color
     {
       "savings" => "emerald",
@@ -81,11 +123,20 @@ class Goal < ApplicationRecord
       "active" => "blue",
       "completed" => "green",
       "paused" => "yellow",
-      "cancelled" => "gray"
+      "cancelled" => "gray",
+      "rolled_over" => "slate"
     }[status] || "gray"
   end
 
   private
+
+  def set_period_dates_if_recurring
+    return unless recurring? && period_start.nil?
+
+    ref = target_date || Date.current
+    self.period_start = ref.beginning_of_month
+    self.period_end   = ref.end_of_month
+  end
 
   def target_date_cannot_be_in_the_past
     return unless target_date.present? && target_date < Date.current
